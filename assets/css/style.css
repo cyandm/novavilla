@@ -1,0 +1,398 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*Peyda Font Family Persian Number Version*/
+@layer base {
+  @font-face {
+    font-family: "PeydaFaNumber";
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src:
+      url("../../font/peyda/woff2/PeydaWebFaNum-Thin.woff2") format("woff2"),
+      url("../../font/peyda/TTF/PeydaFaNum-Thin.ttf") format("TrueType"),
+      url("../../font/peyda/woff/PeydaWebFaNum-Thin.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "PeydaFaNumber";
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src:
+      url("../../font/peyda/woff2/PeydaWebFaNum-ExtraLight.woff2")
+        format("woff2"),
+      url("../../font/peyda/TTF/PeydaFaNum-ExtraLight.ttf") format("TrueType"),
+      url("../../font/peyda/woff/PeydaWebFaNum-ExtraLight.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "PeydaFaNumber";
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src:
+      url("../../font/peyda/woff2/PeydaWebFaNum-Light.woff2") format("woff2"),
+      url("../../font/peyda/TTF/PeydaFaNum-Light.ttf") format("TrueType"),
+      url("../../font/peyda/woff/PeydaWebFaNum-Light.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "PeydaFaNumber";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src:
+      url("../../font/peyda/woff2/PeydaWebFaNum-Regular.woff2") format("woff2"),
+      url("../../font/peyda/TTF/PeydaFaNum-Regular.ttf") format("TrueType"),
+      url("../../font/peyda/woff/PeydaWebFaNum-Regular.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "PeydaFaNumber";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src:
+      url("../../font/peyda/woff2/PeydaWebFaNum-Medium.woff2") format("woff2"),
+      url("../../font/peyda/TTF/PeydaFaNum-Medium.ttf") format("TrueType"),
+      url("../../font/peyda/woff/PeydaWebFaNum-Medium.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "PeydaFaNumber";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src:
+      url("../../font/peyda/woff2/PeydaWebFaNum-SemiBold.woff2") format("woff2"),
+      url("../../font/peyda/TTF/PeydaFaNum-SemiBold.ttf") format("TrueType"),
+      url("../../font/peyda/woff/PeydaWebFaNum-SemiBold.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "PeydaFaNumber";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src:
+      url("../../font/peyda/woff2/PeydaWebFaNum-Bold.woff2") format("woff2"),
+      url("../../font/peyda/TTF/PeydaFaNum-Bold.ttf") format("TrueType"),
+      url("../../font/peyda/woff/PeydaWebFaNum-Bold.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "PeydaFaNumber";
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src:
+      url("../../font/peyda/woff2/PeydaWebFaNum-ExtraBold.woff2")
+        format("woff2"),
+      url("../../font/peyda/TTF/PeydaFaNum-ExtraBold.ttf") format("TrueType"),
+      url("../../font/peyda/woff/PeydaWebFaNum-ExtraBold.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "PeydaFaNumber";
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src:
+      url("../../font/peyda/woff2/PeydaWebFaNum-Black.woff2") format("woff2"),
+      url("../../font/peyda/TTF/PeydaFaNum-Black.ttf") format("TrueType"),
+      url("../../font/peyda/woff/PeydaWebFaNum-Black.woff") format("woff");
+  }
+}
+
+@layer base {
+  body {
+    font-family: "PeydaFaNumber", sans-serif;
+    font-feature-settings: "ss01" 1;
+    font-variant-ligatures: discretionary-ligatures;
+    background-color: var(--color-cynBgBase);
+    color: var(--color-cynTextPrimary);
+  }
+
+  svg {
+    width: inherit;
+    height: inherit;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@theme {
+  --color-cynBgBase: #030503;
+  --color-cynTextPrimary: #ffffff;
+  --color-cynTextSecondary: #000000;
+  --color-cynTextPrimaryHover: #ff8f34;
+  --color-cynTextSecondaryHover: #ff8f34;
+  --color-cynBorder: #ff8f345e;
+  --color-cynBorderHover: #ff8f34;
+  --color-cynSvg: #ffffff78;
+  --color-cynSvgHover: #ff8f349c;
+  --color-cynBgButtonHover: #ffce47;
+  --color-cynBgItem: #ffffff14;
+  --color-cynWhite: #ffffff;
+  --color-cynBlack: #030503;
+  --color-cynRed: #ef1414;
+  --color-cynBlue: #2969ff;
+  --color-cynStars: #fecf00;
+}
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-cynBgBase: #030503;
+  --color-cynTextPrimary: #ffffff;
+  --color-cynTextSecondary: #000000;
+  --color-cynTextPrimaryHover: #ff8f34;
+  --color-cynTextSecondaryHover: #ff8f34;
+  --color-cynBorder: #ff8f345e;
+  --color-cynBorderHover: #ff8f34;
+  --color-cynSvg: #ffffff78;
+  --color-cynSvgHover: #ff8f349c;
+  --color-cynBgButtonHover: #ffce47;
+  --color-cynBgItem: #ffffff14;
+  --color-cynWhite: #ffffff;
+  --color-cynBlack: #030503;
+  --theme-x: 50vw;
+  --theme-y: 50vh;
+  --theme-r: 150vmax;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --color-cynBgBase: #fbfbfb;
+  --color-cynTextPrimary: #515151;
+  --color-cynTextSecondary: #ffffff;
+  --color-cynTextPrimaryHover: #ffffff;
+  --color-cynTextSecondaryHover: #ff8f34;
+  --color-cynBorder: #cccccc;
+  --color-cynBorderHover: #ff8f34;
+  --color-cynSvg: #ff5c0182;
+  --color-cynSvgHover: #ff5c01;
+  --color-cynBgButtonHover: #ff8f34;
+  --color-cynBgItem: #ffffff;
+  --color-cynWhite: #ffffff;
+  --color-cynBlack: #030503;
+}
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: theme-circle-reveal 0.5s ease-in-out;
+  transform-origin: var(--theme-x) var(--theme-y);
+}
+
+@keyframes theme-circle-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-x) var(--theme-y));
+  }
+
+  to {
+    clip-path: circle(var(--theme-r) at var(--theme-x) var(--theme-y));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+html.theme-transition,
+html.theme-transition * {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    fill 0.3s ease,
+    stroke 0.3s ease;
+}
+
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+.scrollbar {
+  scrollbar-width: none !important;
+}
+
+.scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  display: none !important;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  display: none !important;
+}
+
+#breadcrumb {
+  scrollbar-width: none !important;
+}
+
+#breadcrumb nav::-webkit-scrollbar {
+  display: none !important;
+}
+
+#breadcrumb nav::-webkit-scrollbar-track {
+  display: none !important;
+}
+
+#breadcrumb nav::-webkit-scrollbar-thumb {
+  display: none !important;
+}
+
+.mobile-menu-scroll {
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+/*-------mobile-menu---------*/
+#mobile-menu li {
+  position: relative;
+}
+
+#mobile-menu > li {
+  @apply w-full mx-auto;
+}
+
+#mobile-menu li a {
+  display: block;
+}
+
+#mobile-menu li ul {
+  display: none;
+  position: static;
+  width: 100%;
+  @apply gap-0.5 [&>li]:border-t [&>li]:border-cynBorder [&>li]:first:border-t-0 flex-col text-cynTextPrimary [&_li_a]:flex [&_li_a]:py-3 [&_li_a]:w-full text-base font-semibold;
+}
+
+#mobile-menu .sub-menu-toggle {
+  display: none;
+  cursor: pointer;
+}
+
+#mobile-menu i {
+  float: left;
+  width: 100%;
+  text-align: left;
+  left: 0;
+  position: absolute;
+  z-index: 0;
+  line-height: 0;
+  font-style: normal;
+}
+
+#mobile-menu .menu-item-has-children > .sub-menu-toggle {
+  display: block;
+}
+
+/*-------main-menu---------*/
+#main-menu li {
+  position: relative;
+}
+
+#main-menu li ul {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  list-style: none;
+  margin: 0;
+  padding: 1rem;
+  background: var(--color-cynBgItem);
+  border: 1px solid var(--color-cynBorderHover);
+  border-radius: 1.25rem;
+  transition: all 0.3s ease;
+  @apply [&>li]:border-t-2 [&>li]:border-cynBorder [&>li]:first:border-t-0;
+}
+
+#main-menu li ul li {
+  min-width: 12.5rem;
+}
+
+#main-menu li a {
+  display: block;
+  white-space: nowrap;
+}
+
+#main-menu li ul li a {
+  padding: 0.625rem;
+  display: block;
+}
+
+#main-menu li:hover > ul {
+  pointer-events: all;
+  opacity: 1;
+}
+
+#main-menu li ul li ul {
+  top: 0;
+  right: 100%;
+}
+
+#main-menu li ul li:hover > ul {
+  display: block;
+}
+
+#main-menu > li.menu-item-has-children a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#main-menu > li.menu-item-has-children > ul > li > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+#main-menu li.menu-item-has-children::after {
+  content: "";
+  position: absolute;
+  top: 90%;
+  left: 0;
+  right: -16px;
+  width: 16vw;
+  height: 40px;
+  z-index: 51;
+  pointer-events: none;
+  opacity: 0;
+}
+
+#main-menu li.menu-item-has-children:hover::after {
+  pointer-events: auto;
+}
+
+#main-menu li.menu-item-has-children:hover li {
+  color: var(--color-cynTextPrimary);
+}
+
+#main-menu li li:hover {
+  color: var(--color-cynTextPrimaryHover) !important;
+}
