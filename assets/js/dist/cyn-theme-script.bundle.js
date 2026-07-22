@@ -20415,11 +20415,11 @@
           `[data-accordion-content="${targetId}"]`
         );
         const icon = button.querySelector(".accordion-icon");
-        const isExpanded = button.getAttribute("aria-expanded") === "true";
+        const isExpanded2 = button.getAttribute("aria-expanded") === "true";
         if (!content) return;
-        button.setAttribute("aria-expanded", !isExpanded);
+        button.setAttribute("aria-expanded", !isExpanded2);
         const iconRotate = button.getAttribute("data-accordion-icon-rotate") || "45";
-        if (isExpanded) {
+        if (isExpanded2) {
           content.style.gridTemplateRows = "0fr";
           if (icon) {
             icon.style.transform = "rotate(0deg)";
@@ -20452,21 +20452,77 @@
   var STORAGE_KEY = "novavilla-theme";
   var TRANSITION_CLASS = "theme-transition";
   var TRANSITION_DURATION = 300;
+  var HOVER_MEDIA = "(hover: hover) and (pointer: fine)";
+  var pointerInsideDock = false;
+  var isThemeTransitioning = false;
+  var pendingPointerLeave = false;
   function getPreferredTheme() {
     return "dark";
   }
   function getTheme() {
     return document.documentElement.getAttribute("data-theme") || "dark";
   }
+  function getDock() {
+    return document.querySelector("[theme-toggle-dock]");
+  }
+  function getToggleButton() {
+    return document.querySelector("[theme-toggle]");
+  }
+  function hasHoverPointer() {
+    return window.matchMedia(HOVER_MEDIA).matches;
+  }
+  function isExpanded() {
+    return getDock()?.dataset.expanded === "true";
+  }
+  function setExpanded(expanded) {
+    if (!expanded && isThemeTransitioning && pointerInsideDock) {
+      return;
+    }
+    const dock = getDock();
+    const button = getToggleButton();
+    if (!dock || !button) {
+      return;
+    }
+    dock.dataset.expanded = String(expanded);
+    button.dataset.expanded = String(expanded);
+    button.setAttribute("aria-expanded", String(expanded));
+  }
+  function collapseDock() {
+    pointerInsideDock = false;
+    setExpanded(false);
+  }
+  function syncDesktopExpandedFromHover() {
+    const dock = getDock();
+    if (!dock || !hasHoverPointer()) {
+      return;
+    }
+    const hovered = dock.matches(":hover");
+    pointerInsideDock = hovered;
+    setExpanded(hovered);
+  }
+  function finishThemeTransition() {
+    isThemeTransitioning = false;
+    if (!hasHoverPointer()) {
+      return;
+    }
+    if (pendingPointerLeave) {
+      pendingPointerLeave = false;
+      collapseDock();
+      return;
+    }
+    requestAnimationFrame(syncDesktopExpandedFromHover);
+  }
   function updateToggleState(theme) {
     const isDark = theme === "dark";
-    document.querySelectorAll("[theme-toggle]").forEach((button) => {
-      button.setAttribute("aria-pressed", String(isDark));
-      button.setAttribute(
-        "aria-label",
-        isDark ? "\u0641\u0639\u0627\u0644 \u06A9\u0631\u062F\u0646 \u062A\u0645 \u0631\u0648\u0634\u0646" : "\u0641\u0639\u0627\u0644 \u06A9\u0631\u062F\u0646 \u062A\u0645 \u062A\u06CC\u0631\u0647"
-      );
-    });
+    const button = getToggleButton();
+    if (!button) {
+      return;
+    }
+    button.setAttribute("aria-pressed", String(isDark));
+    button.setAttribute(
+      "aria-label",
+      isDark ? "\u0641\u0639\u0627\u0644 \u06A9\u0631\u062F\u0646 \u062A\u0645 \u0631\u0648\u0634\u0646" : "\u0641\u0639\u0627\u0644 \u06A9\u0631\u062F\u0646 \u062A\u0645 \u062A\u06CC\u0631\u0647"
+    );
   }
   function setTransitionOrigin(event2) {
     const clickX = typeof event2?.clientX === "number" ? event2.clientX : window.innerWidth / 2;
@@ -20487,31 +20543,153 @@
   function fallbackTransition(theme) {
     document.documentElement.classList.add(TRANSITION_CLASS);
     applyTheme(theme);
-    window.setTimeout(() => {
-      document.documentElement.classList.remove(TRANSITION_CLASS);
-    }, TRANSITION_DURATION);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        document.documentElement.classList.remove(TRANSITION_CLASS);
+        resolve();
+      }, TRANSITION_DURATION);
+    });
   }
   function setTheme(theme, event2) {
     setTransitionOrigin(event2);
     if (document.startViewTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.startViewTransition(() => applyTheme(theme));
-      return;
+      return document.startViewTransition(() => applyTheme(theme)).finished;
     }
-    fallbackTransition(theme);
+    return fallbackTransition(theme);
   }
   function toggleTheme(event2) {
     const nextTheme = getTheme() === "dark" ? "light" : "dark";
-    setTheme(nextTheme, event2);
+    return setTheme(nextTheme, event2);
+  }
+  function handleScroll() {
+    const dock = getDock();
+    if (!dock) {
+      return;
+    }
+    if (hasHoverPointer()) {
+      syncDesktopExpandedFromHover();
+      return;
+    }
+    if (isExpanded()) {
+      setExpanded(false);
+    }
+  }
+  function handleTouchScroll(event2) {
+    if (hasHoverPointer() || !isExpanded()) {
+      return;
+    }
+    if (event2.target.closest("[theme-toggle-dock]")) {
+      return;
+    }
+    setExpanded(false);
   }
   function ThemeToggle() {
+    const dock = getDock();
+    const button = getToggleButton();
     const initialTheme = localStorage.getItem(STORAGE_KEY) || getPreferredTheme();
     updateToggleState(initialTheme);
-    document.addEventListener("click", (event2) => {
-      const button = event2.target.closest("[theme-toggle]");
-      if (!button) {
+    setExpanded(false);
+    if (!dock || !button) {
+      return;
+    }
+    dock.addEventListener("pointerenter", () => {
+      if (!hasHoverPointer()) {
         return;
       }
-      toggleTheme(event2);
+      pendingPointerLeave = false;
+      pointerInsideDock = true;
+      setExpanded(true);
+    });
+    dock.addEventListener("pointerleave", () => {
+      if (!hasHoverPointer()) {
+        return;
+      }
+      if (isThemeTransitioning) {
+        pendingPointerLeave = true;
+        return;
+      }
+      collapseDock();
+    });
+    button.addEventListener("pointerdown", (event2) => {
+      if (!hasHoverPointer() || event2.button !== 0) {
+        return;
+      }
+      pointerInsideDock = true;
+      isThemeTransitioning = true;
+      setExpanded(true);
+    });
+    document.addEventListener("click", (event2) => {
+      const clickedButton = event2.target.closest("[theme-toggle]");
+      if (clickedButton) {
+        if (hasHoverPointer()) {
+          toggleTheme(event2).finally(finishThemeTransition);
+          return;
+        }
+        if (!isExpanded()) {
+          setExpanded(true);
+          return;
+        }
+        toggleTheme(event2);
+        return;
+      }
+      if (!event2.target.closest("[theme-toggle-dock]")) {
+        setExpanded(false);
+      }
+    });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("touchmove", handleTouchScroll, { passive: true });
+  }
+
+  // assets/js/functions/primaryButton.js
+  var CLIP_SELECTOR = ".primary-button__clip";
+  var RIPPLE_SELECTOR = ".primary-button__ripple";
+  function getRippleDiameter(button, x, y) {
+    const rect = button.getBoundingClientRect();
+    const farthestCorner = Math.max(
+      Math.hypot(x, y),
+      Math.hypot(rect.width - x, y),
+      Math.hypot(x, rect.height - y),
+      Math.hypot(rect.width - x, rect.height - y)
+    );
+    return farthestCorner * 2 + 4;
+  }
+  function setRippleState(button, event2) {
+    const ripple = button.querySelector(RIPPLE_SELECTOR);
+    if (!ripple) {
+      return;
+    }
+    const rect = button.getBoundingClientRect();
+    const x = event2.clientX - rect.left;
+    const y = event2.clientY - rect.top;
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+    ripple.style.setProperty(
+      "--ripple-size",
+      `${getRippleDiameter(button, x, y)}px`
+    );
+  }
+  function ensureRipple(button) {
+    if (button.querySelector(CLIP_SELECTOR)) {
+      return;
+    }
+    button.querySelector(RIPPLE_SELECTOR)?.remove();
+    const clip = document.createElement("span");
+    clip.className = "primary-button__clip";
+    clip.setAttribute("aria-hidden", "true");
+    const ripple = document.createElement("span");
+    ripple.className = "primary-button__ripple";
+    clip.appendChild(ripple);
+    button.prepend(clip);
+  }
+  function PrimaryButton() {
+    document.querySelectorAll(".primary-button").forEach((button) => {
+      ensureRipple(button);
+      button.addEventListener("mouseenter", (event2) => {
+        setRippleState(button, event2);
+      });
+      button.addEventListener("mouseleave", (event2) => {
+        setRippleState(button, event2);
+      });
     });
   }
 
@@ -20529,4 +20707,5 @@
   Accordion();
   SearchPage();
   ThemeToggle();
+  PrimaryButton();
 })();

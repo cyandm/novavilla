@@ -15,6 +15,8 @@ $render_template = $args['render_template'] ?? true;
 	<footer>
 		<?php Templates::getPart( 'footer' ); ?>
 	</footer>
+
+	<?php Templates::getPart( 'theme-toggle' ); ?>
 <?php endif; ?>
 
 <div id="wp-footer">

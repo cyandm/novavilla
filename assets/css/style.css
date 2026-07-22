@@ -137,6 +137,8 @@
   --color-cynSvgHover: #ff8f349c;
   --color-cynBgButtonHover: #ffce47;
   --color-cynBgItem: #ffffff14;
+  --color-cynPrimaryGradientStart: #ffa600;
+  --color-cynPrimaryGradientEnd: #ff8000;
   --color-cynWhite: #ffffff;
   --color-cynBlack: #030503;
   --color-cynRed: #ef1414;
@@ -158,6 +160,8 @@
   --color-cynSvgHover: #ff8f349c;
   --color-cynBgButtonHover: #ffce47;
   --color-cynBgItem: #ffffff14;
+  --color-cynPrimaryGradientStart: #ffa600;
+  --color-cynPrimaryGradientEnd: #ff8000;
   --color-cynWhite: #ffffff;
   --color-cynBlack: #030503;
   --theme-x: 50vw;
@@ -178,6 +182,8 @@
   --color-cynSvgHover: #ff5c01;
   --color-cynBgButtonHover: #ff8f34;
   --color-cynBgItem: #ffffff;
+  --color-cynPrimaryGradientStart: #ffa600;
+  --color-cynPrimaryGradientEnd: #ff8000;
   --color-cynWhite: #ffffff;
   --color-cynBlack: #030503;
 }
@@ -229,6 +235,60 @@ html.theme-transition * {
 button,
 a {
   cursor: pointer;
+}
+
+.primary-button {
+  @apply relative inline-flex items-center rounded-xl px-2 py-2 text-xs font-semibold leading-none text-cynTextSecondary;
+  background: linear-gradient(
+    263.23deg,
+    var(--color-cynPrimaryGradientStart) -29.42%,
+    var(--color-cynPrimaryGradientEnd) 91.43%
+  );
+  transition: color 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.primary-button__clip {
+  @apply pointer-events-none absolute inset-0 z-0 overflow-hidden;
+  border-radius: inherit;
+  background: linear-gradient(
+    263.23deg,
+    var(--color-cynPrimaryGradientStart) -29.42%,
+    var(--color-cynPrimaryGradientEnd) 91.43%
+  );
+}
+
+.primary-button__ripple {
+  position: absolute;
+  display: block;
+  width: var(--ripple-size, 0px);
+  height: var(--ripple-size, 0px);
+  border-radius: 50%;
+  background-color: var(--color-cynBgButtonHover);
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.primary-button:hover {
+  @apply text-cynBlack;
+}
+
+.primary-button:hover .primary-button__ripple {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.primary-button > :not(.primary-button__clip) {
+  @apply relative z-[1] inline-flex items-center;
+}
+
+.primary-button:hover svg path {
+  fill: var(--color-cynBlack);
+  transition: fill 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.secondary-button {
+  @apply rounded-xl bg-[#272727] px-2.5 py-2 text-xs font-semibold text-cynWhite transition-all duration-300 hover:bg-cynBgButtonHover hover:text-cynBlack;
 }
 
 .scrollbar {
@@ -368,7 +428,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 0.25rem;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 

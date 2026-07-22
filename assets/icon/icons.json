@@ -9977,7 +9977,7 @@
     },
     {
       "name": "Play",
-      "content": "<svg viewBox=\"0 0 24 25\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"none\" class=\"nc-icon-wrapper\"><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M21 12.061V12.061C21 17.032 16.971 21.061 12 21.061V21.061C7.029 21.061 3 17.032 3 12.061V12.061C3 7.09003 7.029 3.06104 12 3.06104V3.06104C16.971 3.06104 21 7.09003 21 12.061Z\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M10.9411 9.11886L14.8231 11.4149C15.3141 11.7049 15.3141 12.4159 14.8231 12.7059L10.9411 15.0019C10.4411 15.2979 9.80908 14.9369 9.80908 14.3559V9.76486C9.80908 9.18386 10.4411 8.82286 10.9411 9.11886V9.11886Z\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></g></svg>",
+      "content": "<svg viewBox=\"0 0 25 25\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"none\" class=\"nc-icon-wrapper\"><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M21 12.061V12.061C21 17.032 16.971 21.061 12 21.061V21.061C7.029 21.061 3 17.032 3 12.061V12.061C3 7.09003 7.029 3.06104 12 3.06104V3.06104C16.971 3.06104 21 7.09003 21 12.061Z\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M10.9411 9.11886L14.8231 11.4149C15.3141 11.7049 15.3141 12.4159 14.8231 12.7059L10.9411 15.0019C10.4411 15.2979 9.80908 14.9369 9.80908 14.3559V9.76486C9.80908 9.18386 10.4411 8.82286 10.9411 9.11886V9.11886Z\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></g></svg>",
       "set_id": 56
     },
     {
@@ -37728,6 +37728,16 @@
     {
       "name": "24-support-circle-checkmark",
       "content": "<svg viewBox=\"0 0 24 25\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"none\" class=\"nc-icon-wrapper\"><path d=\"M20.5857 10.2942C20.8588 11.1506 20.9998 12.0435 21.0038 12.9423C21.0038 17.915 16.9727 21.9461 12.0001 21.9461C7.02745 21.9461 2.99634 17.915 2.99634 12.9423C2.99634 7.96971 7.02745 3.9386 12.0001 3.9386C12.8989 3.94266 13.7919 4.08367 14.6482 4.35677\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M21.0039 5.21313L19.015 7.20196L17.7395 5.92643\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M7.63135 11.6679C7.63135 10.8534 8.29155 10.1932 9.10596 10.1932C9.92037 10.1932 10.5806 10.8534 10.5806 11.6679C10.5806 13.5106 7.63135 13.5106 7.63135 15.6935H10.5806\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M15.5335 15.6935V10.7034C15.5346 10.476 15.3846 10.2755 15.1661 10.2122C14.9476 10.149 14.7137 10.2384 14.5931 10.4313C13.9659 11.4457 13.2816 12.5972 12.6903 13.6146C12.5919 13.7849 12.5922 13.9948 12.6909 14.1648C12.7897 14.3349 12.9719 14.4391 13.1685 14.438H16.3689\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></g></svg>",
+      "set_id": 1
+    },
+    {
+      "name": "minus",
+      "content": "<svg viewBox=\"0 0 18 18\" xmlns=\"http://www.w3.org/2000/svg\"><g class=\"nc-icon-wrapper\" fill=\"#212121\"><line x1=\"3.25\" y1=\"9\" x2=\"14.75\" y2=\"9\" fill=\"none\" stroke=\"#212121\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></line></g></svg>",
+      "set_id": 1
+    },
+    {
+      "name": "plus",
+      "content": "<svg viewBox=\"0 0 18 18\" xmlns=\"http://www.w3.org/2000/svg\"><g class=\"nc-icon-wrapper\" fill=\"#212121\"><line x1=\"9\" y1=\"3.25\" x2=\"9\" y2=\"14.75\" fill=\"none\" stroke=\"#212121\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" data-color=\"color-2\"></line><line x1=\"3.25\" y1=\"9\" x2=\"14.75\" y2=\"9\" fill=\"none\" stroke=\"#212121\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></line></g></svg>",
       "set_id": 1
     }
   ],

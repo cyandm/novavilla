@@ -13,7 +13,7 @@ use Cyan\Theme\Helpers\Icon;
 	<div class="container flex justify-between items-center max-lg:[&>div]:flex-1 py-4 lg:py-8">
 
 		<div class="mobile-menu flex lg:hidden">
-			<div class="p-2.5 rounded-xl text-cynTextPrimary border border-cynBorderHover cursor-pointer" modal-opener data-modal-name="menu-modal">
+			<div class="p-2 rounded-xl text-cynTextPrimary border border-cynBorderHover cursor-pointer" modal-opener data-modal-name="menu-modal">
 				<i class="size-6 [&_svg]:scale-x-[-1] [&_svg]:transform [&_svg]:stroke-[1.5] text-cynBorderHover">
 					<?php Icon::print('menu-burger-square-6') ?>
 				</i>
@@ -38,13 +38,20 @@ use Cyan\Theme\Helpers\Icon;
 
 		</div>
 
-		<div class="flex justify-end items-center gap-3">
+		<div class="flex justify-end items-stretch gap-3">
 			<?php Templates::getPart('searchbox', [
 				'id' => 'desktop-header-search',
 				'class' => 'hidden lg:flex items-center w-full max-w-[28rem]',
 			]); ?>
 
-			<?php Templates::getPart('theme-toggle'); ?>
+			<a href="tel:<?php echo get_option('phone'); ?>" class="primary-button !py-2.5 !ps-2.5 !pe-3.5">
+				<span class="flex items-center gap-0.5 whitespace-nowrap">
+					<i class="size-5 flex items-center justify-center [&_svg]:stroke-[1.5] [&_svg_g_path]:fill-cynTextSecondary">
+						<?php Icon::print('Phone,-Call-11'); ?>
+					</i>
+					<?php _e('تماس بگیرید', 'novavilla'); ?>
+				</span>
+			</a>
 		</div>
 	</div>
 </section>

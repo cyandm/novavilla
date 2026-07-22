@@ -31,14 +31,17 @@ $instagram_accounts = array_values(array_filter($instagram_accounts, function ($
 
 	<div class="flex justify-between items-center">
 
-		<div class="size-8 flex justify-center items-center text-cynTextPrimary" modal-closer data-modal-name="menu-modal">
-			<?php Icon::print('Arrow,-Forward'); ?>
+		<div class="flex justify-center items-center text-cynTextPrimaryHover" modal-closer data-modal-name="menu-modal">
+			<i class="size-8 flex items-center justify-center [&_svg]:stroke-[1.5]">
+				<?php Icon::print('Arrow,-Forward'); ?>
+			</i>
+			<span class="text-sm font-medium"><?php _e('بستن', 'novavilla'); ?></span>
 		</div>
 
 		<?php if ($logo_mobile_menu) : ?>
-			<div><img src="<?php echo $logo_mobile_menu ?>" alt="logo" class="w-full h-full object-contain"></div>
+			<div class="logo flex justify-center items-center [&_img]:w-12 lg:[&_img]:w-8 [&_img]:h-auto"><img src="<?php echo $logo_mobile_menu ?>" alt="logo" class="w-full h-full object-contain"></div>
 		<?php else : ?>
-			<div><?php the_custom_logo() ?></div>
+			<div class="logo flex justify-center items-center [&_img]:w-12 lg:[&_img]:w-8 [&_img]:h-auto"><?php the_custom_logo() ?></div>
 		<?php endif; ?>
 
 	</div>

@@ -15,6 +15,7 @@ import { shareBtn } from "./functions/shareBtn";
 import { Accordion } from "./functions/accordion";
 import { SearchPage } from "./functions/search";
 import { ThemeToggle } from "./functions/themeToggle";
+import { PrimaryButton } from "./functions/primaryButton";
 
 Modals();
 register();
@@ -29,3 +30,4 @@ shareBtn();
 Accordion();
 SearchPage();
 ThemeToggle();
+PrimaryButton();
