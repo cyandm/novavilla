@@ -9,7 +9,7 @@ use Cyan\Theme\Helpers\Templates;
 use Cyan\Theme\Helpers\Icon;
 ?>
 
-<section id="desktop-header" class="z-50">
+<section id="site-header" class="z-50">
 	<div class="container flex justify-between items-center max-lg:[&>div]:flex-1 py-4 lg:py-8">
 
 		<div class="mobile-menu flex lg:hidden">
@@ -29,7 +29,7 @@ use Cyan\Theme\Helpers\Icon;
 			<div class="desktop-menu hidden lg:flex">
 				<?php wp_nav_menu([
 					'menu_id' => 'main-menu',
-					'menu_class' => 'gap-8 text-sm font-semibold flex text-cynTextPrimary [&>li:hover]:text-cynTextPrimaryHover [&>li>ul>li:hover]:text-cynTextPrimaryHover [&_li]:flex [&_li]:items-center [&_li]:duration-200 [&_li]:transition-all [&_li_a_svg]:transition-all [&_li_a_svg]:duration-300 [&_li:hover_svg]:rotate-180',
+					'menu_class' => 'gap-5 text-sm font-semibold flex items-center text-cynTextPrimary [&>li]:px-2 [&>li]:py-1.5 [&>li]:transition-all [&>li]:duration-300 [&>li>a]:transition-all [&>li>a]:duration-300 [&>li:hover>a]:text-cynTextPrimaryHover [&>li[aria-current=page]>a]:text-cynTextPrimaryHover [&>li>ul>li:hover]:text-cynTextPrimaryHover [&>li>ul>li>a]:transition-all [&>li>ul>li>a]:duration-300 [&_li_a_svg]:transition-transform [&_li_a_svg]:duration-300 [&>li:hover>a_svg]:rotate-180 [&>li>ul>li:hover>a_svg]:rotate-90',
 					'depth' => '3',
 					'theme_location' => 'header-menu',
 					'container' => 'ul'
