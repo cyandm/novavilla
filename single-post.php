@@ -108,7 +108,7 @@ get_header(); ?>
             <section class="flex flex-col gap-3 my-14">
 
                 <div class="container">
-                    <p class="text-2xl text-cynTextPrimary leading-11 font-[Dinar]"><?php _e('شاید بپسندید', 'taghechian'); ?></p>
+                    <p class="text-2xl text-cynTextPrimary leading-11 font-[Dinar]"><?php _e('شاید بپسندید', 'novavilla'); ?></p>
                 </div>
 
                 <?php if ($related_posts_query->have_posts()) : ?>

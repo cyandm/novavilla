@@ -52,7 +52,7 @@ $instagram_text = get_option('instagram_text');
 
 		<?php if ($whatsapp_number || $twitter_link || $telegram_link || $bale_link || $instagram_accounts || $pinterest_link) : ?>
 
-			<p class="text-sm font-semibold"><?php _e('شبکه های اجتماعی', 'taghechian'); ?></p>
+			<p class="text-sm font-semibold"><?php _e('شبکه های اجتماعی', 'novavilla'); ?></p>
 
 			<div class="flex gap-3">
 

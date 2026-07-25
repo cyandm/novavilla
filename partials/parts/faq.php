@@ -57,7 +57,7 @@ if (!$has_faqs) {
 
 
         <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-btn text-base font-medium hidden md:block">
-            <?php _e('تماس با ما', 'taghechian'); ?>
+            <?php _e('تماس با ما', 'novavilla'); ?>
         </a>
 
     </div>
@@ -106,7 +106,7 @@ if (!$has_faqs) {
     <div class="container flex justify-center items-center md:hidden mt-3">
 
         <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="shadow-item primary-btn text-base font-medium w-full text-center">
-            <?php _e('تماس با ما', 'taghechian'); ?>
+            <?php _e('تماس با ما', 'novavilla'); ?>
         </a>
 
     </div>

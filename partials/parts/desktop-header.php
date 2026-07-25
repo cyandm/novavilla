@@ -9,7 +9,7 @@ use Cyan\Theme\Helpers\Templates;
 use Cyan\Theme\Helpers\Icon;
 ?>
 
-<section id="site-header" class="z-50">
+<section id="site-header" class="relative z-50">
 	<div class="container flex justify-between items-center max-lg:[&>div]:flex-1 py-4 lg:py-8">
 
 		<div class="mobile-menu flex lg:hidden">
@@ -44,9 +44,9 @@ use Cyan\Theme\Helpers\Icon;
 				'class' => 'hidden lg:flex items-center w-full max-w-[28rem]',
 			]); ?>
 
-			<a href="tel:<?php echo get_option('phone'); ?>" class="primary-button !py-2.5 !ps-2.5 !pe-3.5">
+			<a href="tel:<?php echo get_option('phone'); ?>" class="primary-button !py-2.5 !ps-2.5 !pe-3.5 group">
 				<span class="flex items-center gap-0.5 whitespace-nowrap">
-					<i class="size-5 flex items-center justify-center [&_svg]:stroke-[1.5] [&_svg_g_path]:fill-cynTextSecondary">
+					<i class="size-5 flex items-center justify-center [&_svg]:stroke-[1.5] [&_svg_g_path]:fill-cynTextSecondary group-hover:[&_svg_g_path]:fill-cynBlack">
 						<?php Icon::print('Phone,-Call-11'); ?>
 					</i>
 					<?php _e('تماس بگیرید', 'novavilla'); ?>

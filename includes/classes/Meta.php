@@ -102,12 +102,12 @@ class Meta
         if ($post->post_type !== 'order_form') {
             return;
         }
-        add_meta_box('order_form_information', __('اطلاعات فرم سفارش', 'taghechian'), function () {
+        add_meta_box('order_form_information', __('اطلاعات فرم سفارش', 'novavilla'), function () {
             $meta_group = [
-                ['name' => '_organization_name', 'label' => __('نام سازمان', 'taghechian')],
-                ['name' => '_product_type', 'label' => __('نوع کالا', 'taghechian')],
-                ['name' => '_quantity', 'label' => __('تعداد مورد نیاز', 'taghechian')],
-                ['name' => '_phone', 'label' => __('شماره تماس', 'taghechian')],
+                ['name' => '_organization_name', 'label' => __('نام سازمان', 'novavilla')],
+                ['name' => '_product_type', 'label' => __('نوع کالا', 'novavilla')],
+                ['name' => '_quantity', 'label' => __('تعداد مورد نیاز', 'novavilla')],
+                ['name' => '_phone', 'label' => __('شماره تماس', 'novavilla')],
             ];
             include get_template_directory() . '/partials/parts/metabox.php';
         }, null, 'advanced', 'high');
@@ -115,10 +115,10 @@ class Meta
 
     public static function order_form_table_head($columns)
     {
-        $columns['organization_name'] = __('نام سازمان', 'taghechian');
-        $columns['product_type'] = __('نوع کالا', 'taghechian');
-        $columns['quantity'] = __('تعداد', 'taghechian');
-        $columns['phone'] = __('شماره تماس', 'taghechian');
+        $columns['organization_name'] = __('نام سازمان', 'novavilla');
+        $columns['product_type'] = __('نوع کالا', 'novavilla');
+        $columns['quantity'] = __('تعداد', 'novavilla');
+        $columns['phone'] = __('شماره تماس', 'novavilla');
         return $columns;
     }
 
@@ -144,11 +144,11 @@ class Meta
         if ($post->post_type !== 'support_form') {
             return;
         }
-        add_meta_box('support_form_information', __('اطلاعات فرم پشتیبانی', 'taghechian'), function () {
+        add_meta_box('support_form_information', __('اطلاعات فرم پشتیبانی', 'novavilla'), function () {
             $meta_group = [
-                ['name' => '_name', 'label' => __('نام', 'taghechian')],
-                ['name' => '_phone', 'label' => __('شماره تماس', 'taghechian')],
-                ['name' => '_message', 'label' => __('پیام', 'taghechian')],
+                ['name' => '_name', 'label' => __('نام', 'novavilla')],
+                ['name' => '_phone', 'label' => __('شماره تماس', 'novavilla')],
+                ['name' => '_message', 'label' => __('پیام', 'novavilla')],
             ];
             include get_template_directory() . '/partials/parts/metabox.php';
         }, null, 'advanced', 'high');
@@ -156,9 +156,9 @@ class Meta
 
     public static function support_form_table_head($columns)
     {
-        $columns['name'] = __('نام', 'taghechian');
-        $columns['phone'] = __('شماره تماس', 'taghechian');
-        $columns['message'] = __('پیام', 'taghechian');
+        $columns['name'] = __('نام', 'novavilla');
+        $columns['phone'] = __('شماره تماس', 'novavilla');
+        $columns['message'] = __('پیام', 'novavilla');
         return $columns;
     }
 

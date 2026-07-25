@@ -139,6 +139,11 @@
   --color-cynBgItem: #ffffff14;
   --color-cynPrimaryGradientStart: #ffa600;
   --color-cynPrimaryGradientEnd: #ff8000;
+  --color-cynBgSocial: #292929;
+  --color-cynBgSocialHover: #292929;
+  --color-cynBgSocialBorder: #ffffff;
+  --color-cynBgSocialText: #ffffff;
+  --color-cynBgSocialTextHover: #ffffff;
   --color-cynWhite: #ffffff;
   --color-cynBlack: #030503;
   --color-cynRed: #ef1414;
@@ -162,6 +167,11 @@
   --color-cynBgItem: #ffffff14;
   --color-cynPrimaryGradientStart: #ffa600;
   --color-cynPrimaryGradientEnd: #ff8000;
+  --color-cynBgSocial: #292929;
+  --color-cynBgSocialHover: #292929;
+  --color-cynBgSocialBorder: #ffffff;
+  --color-cynBgSocialText: #ffffff;
+  --color-cynBgSocialTextHover: #ffffff;
   --color-cynWhite: #ffffff;
   --color-cynBlack: #030503;
   --theme-x: 50vw;
@@ -184,6 +194,11 @@
   --color-cynBgItem: #ffffff;
   --color-cynPrimaryGradientStart: #ffa600;
   --color-cynPrimaryGradientEnd: #ff8000;
+  --color-cynBgSocial: #ff8f34;
+  --color-cynBgSocialHover: #ffffff;
+  --color-cynBgSocialBorder: #515151;
+  --color-cynBgSocialText: #ffffff;
+  --color-cynBgSocialTextHover: #515151;
   --color-cynWhite: #ffffff;
   --color-cynBlack: #030503;
 }
@@ -238,7 +253,7 @@ a {
 }
 
 .primary-button {
-  @apply relative inline-flex items-center rounded-xl px-2 py-2 text-xs font-semibold leading-none text-cynTextSecondary;
+  @apply relative inline-flex items-center rounded-xl px-5 py-3 text-xs font-semibold leading-none text-cynTextSecondary;
   background: linear-gradient(
     263.23deg,
     var(--color-cynPrimaryGradientStart) -29.42%,
@@ -282,13 +297,30 @@ a {
   @apply relative z-[1] inline-flex items-center;
 }
 
-.primary-button:hover svg path {
+/* .primary-button:hover svg path {
   fill: var(--color-cynBlack);
   transition: fill 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
+} */
 
 .secondary-button {
   @apply rounded-xl bg-[#272727] px-2.5 py-2 text-xs font-semibold text-cynWhite transition-all duration-300 hover:bg-cynBgButtonHover hover:text-cynBlack;
+}
+
+.submit-contact-btn.is-loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.submit-contact-btn .submit-contact-btn__loading {
+  display: none;
+}
+
+.submit-contact-btn.is-loading .submit-contact-btn__idle {
+  display: none;
+}
+
+.submit-contact-btn.is-loading .submit-contact-btn__loading {
+  display: inline-flex;
 }
 
 .scrollbar {
