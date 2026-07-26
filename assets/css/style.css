@@ -303,7 +303,34 @@ a {
 } */
 
 .secondary-button {
-  @apply rounded-xl bg-[#272727] px-2.5 py-2 text-xs font-semibold text-cynWhite transition-all duration-300 hover:bg-cynBgButtonHover hover:text-cynBlack;
+  @apply rounded-xl bg-[#272727] px-5 py-2.5 text-xs font-medium md:text-sm md:font-semibold text-cynWhite transition-all duration-300 hover:bg-cynBgButtonHover hover:text-cynBlack;
+}
+
+.btn-have-icon {
+  @apply inline-flex items-center gap-1 !pe-3;
+}
+
+.video-player > .plyr {
+  @apply absolute inset-0 h-full w-full max-h-full;
+}
+
+.video-player .plyr__video-wrapper {
+  @apply absolute inset-0 h-full w-full;
+  aspect-ratio: auto !important;
+  padding-bottom: 0 !important;
+}
+
+.video-player .plyr__video-wrapper video,
+.video-player > video {
+  @apply absolute inset-0 h-full w-full object-cover;
+}
+
+.video-player .plyr__poster {
+  background-size: cover;
+}
+
+.video-player:has(.video-cover) .plyr__control--overlaid {
+  display: none;
 }
 
 .submit-contact-btn.is-loading {

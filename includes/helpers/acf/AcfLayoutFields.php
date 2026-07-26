@@ -87,31 +87,4 @@ class AcfLayoutFields extends AcfField
 			'new_lines' => $additionalAttributes['new_lines'] ?? 'wpautop',
 		], $additionalAttributes), $id);
 	}
-
-	/**
-	 * Add a Repeater field
-	 * @param string $name The name of the field
-	 * @param string $label The label of the field
-	 * @param array $additionalAttributes Additional attributes for the field
-	 * [
-	 *		'layout' => 'block',
-	 *		'button_label' => 'افزودن',
-	 *		'sub_fields' => [],
-	 *		'min' => 0,
-	 *		'max' => 0,
-	 *		'conditional_logic' => 0,
-	 * ]
-	 * @param string $id The ID of the field
-	 * @return void
-	 */
-	public function addRepeater($name, $label, $additionalAttributes = [], $id = '')
-	{
-		parent::addField('repeater', $name, $label, $this->withPassthroughAttributes([
-			'layout' => $additionalAttributes['layout'] ?? 'block',
-			'button_label' => $additionalAttributes['button_label'] ?? 'افزودن',
-			'sub_fields' => $additionalAttributes['sub_fields'] ?? [],
-			'min' => $additionalAttributes['min'] ?? 0,
-			'max' => $additionalAttributes['max'] ?? 0,
-		], $additionalAttributes), $id);
-	}
 }

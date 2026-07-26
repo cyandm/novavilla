@@ -61,6 +61,36 @@ class Register
 	{
 		self::makePostType('contact_form', 'فرم تماس با ما', 'فرم تماس با ما', 'dashicons-phone', ['title']);
 		self::makePostType('faq', 'سوالات متداول', 'سوالات متداول', 'dashicons-editor-help', ['title', 'editor']);
+		self::makePostType(
+			'activity',
+			'حوزه فعالیت',
+			'حوزه‌های فعالیت',
+			'dashicons-building',
+			['title', 'thumbnail', 'page-attributes'],
+			false,
+			false,
+			false
+		);
+		self::makePostType(
+			'certificate',
+			'گواهینامه',
+			'گواهینامه‌ها',
+			'dashicons-awards',
+			['title', 'thumbnail', 'page-attributes'],
+			false,
+			false,
+			false
+		);
+		self::makePostType(
+			'personnels',
+			'عضو تیم',
+			'تیم ما',
+			'dashicons-groups',
+			['title', 'editor', 'thumbnail', 'page-attributes'],
+			false,
+			false,
+			false
+		);
 	}
 
 	public static function registerTaxonomy()

@@ -59,29 +59,23 @@ export function FaqCard() {
   function activateFaq(faq, expert) {
     expert.classList.replace("grid-rows-[0fr]", "grid-rows-[1fr]");
     const svg = faq.querySelector("svg");
-    const faqToggle = faq.querySelector(".faq-toggle");
-    faqToggle.classList.replace(
-      "[&_span]:text-cynTextPrimary/60",
-      "[&_span]:text-cynTextPrimary",
-    );
-    if (svg) {
-      svg.classList.add("rotate-45");
-      svg.classList.add("text-cynTextPrimaryHover");
-    }
+    const q = faq.querySelector(".faq-q");
+    const icon = faq.querySelector(".icon");
+    q?.classList.remove("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
+    q?.classList.add("text-cynTextPrimary");
+    icon?.classList.replace("text-cynTextPrimary", "text-cynTextPrimaryHover");
+    if (svg) svg.classList.add("rotate-45");
   }
 
   function deActivateFaq(faq, expert) {
     expert.classList.replace("grid-rows-[1fr]", "grid-rows-[0fr]");
     const svg = faq.querySelector("svg");
-    const faqToggle = faq.querySelector(".faq-toggle");
-    faqToggle.classList.replace(
-      "[&_span]:text-cynTextPrimary",
-      "[&_span]:text-cynTextPrimary/60",
-    );
-    if (svg) {
-      svg.classList.remove("rotate-45");
-      svg.classList.remove("text-cynTextPrimaryHover");
-    }
+    const q = faq.querySelector(".faq-q");
+    const icon = faq.querySelector(".icon");
+    q?.classList.remove("text-cynTextPrimary");
+    q?.classList.add("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
+    icon?.classList.replace("text-cynTextPrimaryHover", "text-cynTextPrimary");
+    if (svg) svg.classList.remove("rotate-45");
   }
 
   faqCards.forEach((faq) => {

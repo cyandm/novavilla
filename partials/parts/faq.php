@@ -39,37 +39,36 @@ if (!$has_faqs) {
 }
 ?>
 
-<section class="my-14 flex flex-col" id="faq">
+<section class="my-14 flex flex-col gap-3" id="faq">
 
-    <div class="container flex justify-between items-center">
+    <div class="container flex justify-between items-center gap-3">
 
-        <div class="flex flex-col gap-2 max-md:text-center max-md:w-full">
+        <div class="flex flex-col gap-2 max-md:w-full">
 
-            <p class="text-3xl md:text-[40px] font-normal text-cynTextPrimary max-md:text-center max-md:w-full">
-                <?php echo $faq_title; ?>
-            </p>
+            <h2 class="text-xl font-medium md:text-4xl md:font-bold text-cynTextPrimary">
+                <?php echo $faq_title ? esc_html($faq_title) : esc_html__('سوالات متداول', 'novavilla'); ?>
+            </h2>
 
-            <p class="text-cynTextPrimary/50 text-base md:text-xl font-medium">
-                <?php echo $faq_under_title; ?>
-            </p>
+            <?php if (!empty($faq_under_title)) : ?>
+                <p class="text-cynTextPrimary/50 text-sm md:text-base font-medium"><?php echo esc_html($faq_under_title); ?></p>
+            <?php endif; ?>
 
         </div>
 
-
-        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-btn text-base font-medium hidden md:block">
-            <?php _e('تماس با ما', 'novavilla'); ?>
+        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button text-xs md:text-sm font-semibold hidden md:inline-flex">
+            <span class="flex items-center justify-center whitespace-nowrap">
+                <?php _e('تماس با ما', 'novavilla'); ?>
+            </span>
         </a>
 
     </div>
 
-    <div class="flex flex-col <?php echo $has_cats ? '' : 'mt-5'; ?>">
+    <div class="flex flex-col">
         <?php if ($has_cats) : ?>
             <div class="flex xl:justify-center items-center gap-2 overflow-x-scroll scrollbar py-5 max-lg:px-2 max-lg:ms-6 max-md:ms-2.5">
                 <?php foreach ($faq_cats as $index => $category) : ?>
-                    <div class="fade-in-down"
-                        anim-delay="<?php echo $index * 0.3 ?>">
-                        <div id="<?php echo "faq-cat-" . $category->term_id ?>"
-                            class="faq-handler | bg-cynBgItem text-cynTextPrimary cursor-pointer hover:bg-cynTextPrimaryHover hover:text-cynBlack text-base font-medium duration-300 rounded-2xl py-3 px-4 max-md:px-2 w-full flex justify-center items-center whitespace-nowrap shadow-item">
+                    <div class="fade-in-down" anim-delay="<?php echo $index * 0.3 ?>">
+                        <div id="<?php echo "faq-cat-" . $category->term_id ?>" class="faq-handler | bg-cynBgItem text-cynTextPrimary cursor-pointer hover:bg-cynTextPrimaryHover hover:text-cynBlack text-sm md:text-base font-medium duration-300 rounded-2xl py-3 px-4 max-md:px-2 w-full flex justify-center items-center whitespace-nowrap shadow-item">
                             <?php echo $category->name ?>
                         </div>
                     </div>
@@ -78,7 +77,7 @@ if (!$has_faqs) {
         <?php endif; ?>
 
         <div class="container">
-            <div class="col-span-5 max-md:col-span-6 bg-cynBgItem rounded-4xl border border-cynBorder overflow-hidden">
+            <div class="col-span-5 max-md:col-span-6 bg-cynBgItem rounded-[20px] border border-cynBorder overflow-hidden backdrop-blur-xl">
                 <div class="fade-in-down"
                     anim-delay="0.8">
                     <?php if ($has_cats) : ?>
@@ -105,7 +104,7 @@ if (!$has_faqs) {
 
     <div class="container flex justify-center items-center md:hidden mt-3">
 
-        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="shadow-item primary-btn text-base font-medium w-full text-center">
+        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button text-xs font-semibold w-full justify-center !rounded-[30px]">
             <?php _e('تماس با ما', 'novavilla'); ?>
         </a>
 

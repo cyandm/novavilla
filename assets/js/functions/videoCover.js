@@ -1,34 +1,33 @@
 export default function videoCover() {
   const videoCovers = document.querySelectorAll(".video-cover");
-  const videoElements = document.querySelectorAll(".video");
+  if (!videoCovers.length) return;
 
-  if (!videoCovers || videoCovers.length === 0) {
-    return;
-  }
-
-  videoCovers.forEach((videoCover) => {
-    videoCover.addEventListener("click", function (event) {
+  videoCovers.forEach((cover) => {
+    cover.addEventListener("click", (event) => {
       event.preventDefault();
 
-      const currentCover = this;
-      const videoElement = currentCover.parentElement.querySelector(".video");
+      const wrap = cover.closest(".video-player") || cover.parentElement;
+      const videoElement = wrap?.querySelector("video");
+      if (!videoElement) return;
 
-      if (videoElement && videoElement.tagName === "VIDEO") {
-        videoElements.forEach((video) => {
-          if (video !== videoElement) {
-            video.pause();
-          }
-        });
+      document.querySelectorAll(".video-player video, video.video").forEach((video) => {
+        if (video === videoElement) return;
+        if (video.plyr) video.plyr.pause();
+        else video.pause();
+      });
 
-        videoElement.play().catch((error) => {
+      const player = videoElement.plyr;
+      const playPromise = player ? player.play() : videoElement.play();
+
+      Promise.resolve(playPromise)
+        .then(() => {
+          cover.classList.replace("opacity-100", "opacity-0");
+          cover.classList.replace("pointer-events-auto", "pointer-events-none");
+          cover.setAttribute("aria-hidden", "true");
+        })
+        .catch((error) => {
           console.error("Error playing video:", error);
         });
-
-        currentCover.classList.replace("opacity-100", "opacity-0");
-        currentCover.classList.replace("pointer-events-auto", "pointer-events-none");
-      } else {
-        console.warn("No corresponding video element found for this cover");
-      }
     });
   });
 }

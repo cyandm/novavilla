@@ -9,46 +9,64 @@ $about_subtitle = get_field('about_subtitle');
 $about_description = get_field('about_description');
 $certificates_btn = get_field('certificates_btn');
 $products_btn = get_field('products_btn');
+$about_story_title = get_field('about_story_title');
+$about_story_description = get_field('about_story_description');
+$about_video_file = get_field('about_video_file');
+$about_video_file_url = is_array($about_video_file) ? ($about_video_file['url'] ?? '') : $about_video_file;
+$about_video_mime = is_array($about_video_file) ? ($about_video_file['mime_type'] ?? '') : '';
+$about_video_cover = get_field('about_video_cover');
+$about_video_cover_url = is_array($about_video_cover) ? ($about_video_cover['url'] ?? '') : $about_video_cover;
+if (empty($about_video_cover_url) && has_post_thumbnail()) {
+    $about_video_cover_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+}
+
+$activities_title = get_field('activities_title');
+$activities = get_posts([
+    'post_type' => 'activity',
+    'posts_per_page' => 4,
+    'orderby' => 'menu_order date',
+    'order' => 'ASC',
+    'fields' => 'ids',
+]);
+
+$about_certificates_title = get_field('about_certificates_title');
+$about_certificates_desc = get_field('about_certificates_desc');
+$about_certificates_image = get_field('about_certificates_image');
+$about_certificates_image_url = is_array($about_certificates_image) ? ($about_certificates_image['url'] ?? '') : $about_certificates_image;
+$about_cert_stat_value_1 = get_field('about_cert_stat_value_1');
+$about_cert_stat_label_1 = get_field('about_cert_stat_label_1');
+$about_cert_stat_value_2 = get_field('about_cert_stat_value_2');
+$about_cert_stat_label_2 = get_field('about_cert_stat_label_2');
+$about_certificates = get_posts([
+    'post_type' => 'certificate',
+    'posts_per_page' => -1,
+    'orderby' => 'menu_order date',
+    'order' => 'ASC',
+]);
+
+$personnels = get_posts([
+    'post_type' => 'personnels',
+    'posts_per_page' => 4,
+    'orderby' => 'menu_order date',
+    'order' => 'ASC',
+    'fields' => 'ids',
+]);
 
 $why_title = get_field('why_title');
-$why_defaults = [
-    [
-        'title' => __('طراحی قابل سفارشی سازی', 'novavilla'),
-        'desc' => __('ابعاد، پلان، نما، متریال و امکانات داخلی هر سازه بر اساس نیاز و بودجه مشتری قابل تغییر است.', 'novavilla'),
-    ],
-    [
-        'title' => __('تولید با کنترل کیفیت', 'novavilla'),
-        'desc' => __('متریال، اتصالات، تأسیسات و جزئیات اجرایی در مراحل مختلف تولید بررسی و کنترل می‌شوند.', 'novavilla'),
-    ],
-    [
-        'title' => __('تحویل شفاف و برنامه‌ریزی‌شده', 'novavilla'),
-        'desc' => __('زمان تولید، هزینه‌ها، امکانات و شرایط حمل پیش از شروع پروژه به‌صورت شفاف مشخص می‌شوند.', 'novavilla'),
-    ],
-    [
-        'title' => __('پشتیبانی از طراحی تا نصب', 'novavilla'),
-        'desc' => __('تیم مجموعه از انتخاب محصول و طراحی اولیه تا حمل، نصب و تحویل نهایی در کنار مشتری خواهد بود.', 'novavilla'),
-    ],
-    [
-        'title' => __('مناسب برای اقلیم‌های مختلف', 'novavilla'),
-        'desc' => __('نوع سازه و عایق‌بندی بر اساس شرایط آب‌وهوایی محل اجرای پروژه انتخاب می‌شود.', 'novavilla'),
-    ],
-    [
-        'title' => __('امکان حمل و نقل و جا به جایی', 'novavilla'),
-        'desc' => __('بخش زیادی از محصولات با توجه به طراحی سازه، قابلیت حمل، نصب مجدد یا توسعه در آینده را دارند.', 'novavilla'),
-    ],
-];
 
 $why_items = [];
-foreach ($why_defaults as $index => $default) {
-    $i = $index + 1;
-    $icon = get_field("why_icon_{$i}");
+for ($i = 1; $i <= 6; $i++) {
     $title = get_field("why_item_title_{$i}");
     $desc = get_field("why_item_desc_{$i}");
 
+    if (empty($title) && empty($desc)) {
+        continue;
+    }
+
     $why_items[] = [
-        'icon' => $icon,
-        'title' => $title ?: $default['title'],
-        'desc' => $desc ?: $default['desc'],
+        'icon' => get_field("why_icon_{$i}"),
+        'title' => $title,
+        'desc' => $desc,
     ];
 }
 
@@ -57,119 +75,211 @@ get_header();
 
 <?php Templates::getPart('breadcrumb'); ?>
 
-<main class="container pb-10 md:pb-14 flex flex-col gap-8 lg:gap-12">
+<main class="about-us-page container space-y-11 md:space-y-16">
 
     <section class="flex flex-col lg:flex-row lg:items-center gap-3">
 
         <div class="w-full lg:w-1/2">
             <?php if (has_post_thumbnail()) : ?>
-                <?php the_post_thumbnail('full', [
-                    'class' => 'w-full h-auto object-cover rounded-[20px]',
-                    'alt' => esc_attr(get_the_title()),
-                ]); ?>
+                <?php the_post_thumbnail('full', ['class' => 'w-full h-auto object-cover rounded-3xl', 'alt' => esc_attr(get_the_title())]); ?>
+            <?php else : ?>
+                <div class="w-full h-[285px] md:h-[432px] bg-cynBgItem/40 rounded-3xl"></div>
             <?php endif; ?>
         </div>
 
-        <div class="w-full lg:w-1/2 flex flex-col gap-3 justify-center">
-
-            <div class="flex flex-col gap-2 lg:gap-3">
-                <h1 class="text-2xl lg:text-5xl font-bold text-cynTextPrimary">
+        <div class="w-full lg:w-1/2 flex flex-col justify-center gap-3">
+            <div class="flex flex-col gap-2">
+                <h1 class="text-2xl md:text-4xl font-bold text-cynTextPrimary">
                     <?php echo $about_title ? esc_html($about_title) : __('درباره‌ی ما', 'novavilla'); ?>
                 </h1>
 
-                <div class="flex flex-col gap-1 lg:gap-2">
-                    <p class="text-xs lg:text-xl font-semibold text-cynBorderHover">
-                        <?php echo $about_subtitle
-                            ? esc_html($about_subtitle)
-                            : __('کیفیت، تعهد و تخصص در ساخت سازه های پیش ساخته شده', 'novavilla'); ?>
-                    </p>
+                <p class="text-xs font-medium md:text-base md:font-normal text-cynBorderHover mt-1">
+                    <?php echo $about_subtitle ? esc_html($about_subtitle) : __('کیفیت، تعهد و تخصص در ساخت سازه های پیش ساخته شده', 'novavilla'); ?>
+                </p>
 
-                    <p class="text-xs lg:text-base font-medium text-cynTextPrimary leading-5 lg:leading-7">
-                        <?php echo $about_description
-                            ? esc_html($about_description)
-                            : __('ما مجموعه‌ای تخصصی در زمینه طراحی، تولید و اجرای انواع ویلای پیش‌ساخته، کانکس، کانتینرهای تجهیزشده و کلبه‌های چوبی هستیم. هدف ما ساخت سازه‌هایی است که علاوه بر سرعت اجرا، از نظر کیفیت، ایمنی، زیبایی و کارایی نیز پاسخ‌گوی نیاز واقعی مشتریان باشند.', 'novavilla'); ?>
-                    </p>
-                </div>
+                <p class="text-xs md:text-base font-light text-cynTextPrimary leading-5 md:leading-7">
+                    <?php echo $about_description ? esc_html($about_description) : __('ما مجموعه‌ای تخصصی در زمینه طراحی، تولید و اجرای انواع ویلای پیش‌ساخته، کانکس، کانتینرهای تجهیزشده و کلبه‌های چوبی هستیم. هدف ما ساخت سازه‌هایی است که علاوه بر سرعت اجرا، از نظر کیفیت، ایمنی، زیبایی و کارایی نیز پاسخ‌گوی نیاز واقعی مشتریان باشند.', 'novavilla'); ?>
+                </p>
             </div>
 
-            <div class="flex flex-wrap items-center gap-2">
-                <?php if (!empty($certificates_btn['url'])) : ?>
-                    <a href="<?php echo esc_url($certificates_btn['url']); ?>"
-                        <?php echo !empty($certificates_btn['target']) ? 'target="' . esc_attr($certificates_btn['target']) . '"' : ''; ?>
-                        class="primary-button !py-2.5 !ps-2.5 !pe-3.5 group">
-                        <span class="flex items-center gap-1 whitespace-nowrap">
-                            <i class="size-5 flex items-center justify-center [&_svg]:stroke-[1.5]">
-                                <?php Icon::print('Certificate'); ?>
-                            </i>
-                            <?php echo esc_html($certificates_btn['title'] ?: __('گواهینامه ها', 'novavilla')); ?>
-                        </span>
-                    </a>
-                <?php else : ?>
-                    <a href="<?php echo esc_url(home_url('/')); ?>" class="primary-button !py-2.5 !ps-2.5 !pe-3.5 group">
-                        <span class="flex items-center gap-1 whitespace-nowrap">
-                            <i class="size-5 flex items-center justify-center [&_svg]:stroke-[1.5]">
-                                <?php Icon::print('Certificate'); ?>
-                            </i>
-                            <?php _e('گواهینامه ها', 'novavilla'); ?>
-                        </span>
-                    </a>
-                <?php endif; ?>
+            <div class="flex flex-wrap items-stretch gap-2">
 
                 <?php if (!empty($products_btn['url'])) : ?>
-                    <a href="<?php echo esc_url($products_btn['url']); ?>"
-                        <?php echo !empty($products_btn['target']) ? 'target="' . esc_attr($products_btn['target']) . '"' : ''; ?>
-                        class="primary-button !py-2.5 !px-5">
+                    <a href="<?php echo esc_url($products_btn['url']); ?>" <?php echo !empty($products_btn['target']) ? 'target="' . esc_attr($products_btn['target']) . '"' : ''; ?> class="primary-button">
                         <span class="whitespace-nowrap">
                             <?php echo esc_html($products_btn['title'] ?: __('محصولات ما', 'novavilla')); ?>
                         </span>
                     </a>
-                <?php else : ?>
-                    <a href="<?php echo esc_url(home_url('/')); ?>" class="primary-button !py-2.5 !px-5">
-                        <span class="whitespace-nowrap">
-                            <?php _e('محصولات ما', 'novavilla'); ?>
+                <?php endif; ?>
+
+                <?php if (!empty($certificates_btn['url'])) : ?>
+                    <a href="<?php echo esc_url($certificates_btn['url']); ?>" <?php echo !empty($certificates_btn['target']) ? 'target="' . esc_attr($certificates_btn['target']) . '"' : ''; ?> class="primary-button btn-have-icon">
+                        <span class="flex items-center gap-1 whitespace-nowrap">
+                            <?php echo esc_html($certificates_btn['title'] ?: __('گواهینامه ها', 'novavilla')); ?>
+                            <i class="size-5 flex items-center justify-center [&_svg]:stroke-[2]">
+                                <?php Icon::print('Arrow-27'); ?>
+                            </i>
                         </span>
                     </a>
                 <?php endif; ?>
-            </div>
 
+            </div>
         </div>
 
     </section>
 
+    <section class="flex flex-col gap-3 md:gap-6">
+        <?php if ($about_story_title && $about_story_description) : ?>
+            <div class="flex flex-col gap-2">
+                <?php if ($about_story_title) : ?>
+                    <h2 class="text-xl font-medium md:text-4xl md:font-bold text-cynTextPrimary">
+                        <?php echo esc_html($about_story_title); ?>
+                    </h2>
+                <?php endif; ?>
+
+                <?php if ($about_story_description) : ?>
+                    <p class="text-xs md:text-base font-light text-cynTextPrimary leading-5 md:leading-7">
+                        <?php echo esc_html($about_story_description); ?>
+                    </p>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($about_video_file_url) && !empty($about_video_cover_url)) : ?>
+            <div class="video-player relative w-full h-[280px] md:h-[576px] rounded-3xl overflow-hidden bg-cynBgItem">
+                <video class="video video-plyr h-full w-full object-cover" playsinline preload="metadata" data-poster="<?php echo esc_url($about_video_cover_url); ?>">
+                    <source src="<?php echo esc_url($about_video_file_url); ?>" <?php echo $about_video_mime ? 'type="' . esc_attr($about_video_mime) . '"' : ''; ?>>
+                </video>
+                <div class="video-cover absolute inset-0 z-10 cursor-pointer opacity-100 pointer-events-auto transition-opacity duration-300 bg-cover bg-center bg-no-repeat" style="background-image: url(<?php echo esc_url($about_video_cover_url); ?>);">
+                    <div class="flex items-center justify-center w-full h-full bg-black/35">
+                        <i class="size-11 md:size-16 flex items-center justify-center rounded-full overflow-hidden border border-cynWhite bg-cynWhite/10 backdrop-blur-xl [&_svg]:size-full"><?php echo file_get_contents(THEME_DIR . '/assets/icon/play.svg'); ?></i>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+    </section>
+
+    <?php if (!empty($about_certificates_title) || !empty($about_certificates_image_url) || !empty($about_certificates)) : ?>
+        <section class="flex flex-col gap-3 lg:gap-3">
+            <div class="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-3">
+                <?php if (!empty($about_certificates_image_url)) : ?>
+                    <div class="relative w-full lg:w-[60%] shrink-0 overflow-hidden">
+                        <span class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[152px] lg:size-[252px] rounded-full bg-[#fbb963] blur-[48px] lg:blur-[148px] opacity-90" aria-hidden="true"></span>
+                        <img src="<?php echo esc_url($about_certificates_image_url); ?>" alt="<?php echo esc_attr($about_certificates_title ?: __('گواهینامه‌ها', 'novavilla')); ?>" class="relative z-10 w-full h-[327px] lg:h-[525px] object-cover" loading="lazy" decoding="async" />
+                    </div>
+                <?php endif; ?>
+
+                <div class="flex flex-col gap-3 w-full lg:w-[40%]">
+                    <div class="flex flex-col gap-2 lg:gap-3">
+                        <?php if (!empty($about_certificates_title)) : ?>
+                            <h2 class="text-xl font-medium lg:text-4xl lg:font-bold text-cynTextPrimary lg:leading-16 whitespace-pre-line"><?php echo esc_html($about_certificates_title); ?></h2>
+                        <?php endif; ?>
+
+                        <?php if (!empty($about_certificates_desc)) : ?>
+                            <p class="text-xs lg:text-base font-light text-cynTextPrimary leading-[15px] lg:leading-7"><?php echo esc_html($about_certificates_desc); ?></p>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if (!empty($about_cert_stat_value_1) || !empty($about_cert_stat_value_2)) : ?>
+                        <div class="grid grid-cols-2 gap-2 lg:gap-3">
+                            <?php if (!empty($about_cert_stat_value_1) || !empty($about_cert_stat_label_1)) : ?>
+                                <div class="flex items-center justify-center gap-3 lg:gap-5 rounded-[20px] border border-cynBorder bg-cynBgItem backdrop-blur-xl px-3 py-4 lg:px-6 lg:py-[26px]">
+                                    <i class="size-[30px] lg:size-[50px] flex items-center justify-center shrink-0 [&_svg]:size-full [&_svg]:stroke-cynBorderHover"><?php Icon::print('Certificate'); ?></i>
+                                    <div class="flex flex-col gap-1">
+                                        <?php if (!empty($about_cert_stat_value_1)) : ?><span class="text-sm lg:text-[28px] font-bold text-cynBorderHover leading-[18px] lg:leading-[38px]"><?php echo esc_html($about_cert_stat_value_1); ?></span><?php endif; ?>
+                                        <?php if (!empty($about_cert_stat_label_1)) : ?><span class="text-[10px] lg:text-base font-medium text-cynTextPrimary leading-[14px] lg:leading-[25px]"><?php echo esc_html($about_cert_stat_label_1); ?></span><?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($about_cert_stat_value_2) || !empty($about_cert_stat_label_2)) : ?>
+                                <div class="flex items-center justify-center gap-3 lg:gap-5 rounded-[20px] border border-cynBorder bg-cynBgItem backdrop-blur-xl px-3 py-4 lg:px-6 lg:py-[26px]">
+                                    <i class="size-[30px] lg:size-[50px] flex items-center justify-center shrink-0 [&_svg]:size-full [&_svg]:stroke-cynBorderHover"><?php Icon::print('Shield,-Protected,-Checkmark'); ?></i>
+                                    <div class="flex flex-col gap-1">
+                                        <?php if (!empty($about_cert_stat_value_2)) : ?><span class="text-sm lg:text-[28px] font-bold text-cynBorderHover leading-[18px] lg:leading-[38px]"><?php echo esc_html($about_cert_stat_value_2); ?></span><?php endif; ?>
+                                        <?php if (!empty($about_cert_stat_label_2)) : ?><span class="text-[10px] lg:text-base font-medium text-cynTextPrimary leading-[14px] lg:leading-[25px]"><?php echo esc_html($about_cert_stat_label_2); ?></span><?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <?php if (!empty($about_certificates)) : ?>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    <?php foreach ($about_certificates as $certificate_id) : ?>
+                        <?php Templates::getCard('certificate', ['post-id' => $certificate_id]); ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </section>
+    <?php endif; ?>
+
+    <?php if (!empty($personnels)) : ?>
+        <section class="flex flex-col gap-3">
+            <h2 class="text-xl font-medium md:text-4xl md:font-bold text-cynTextPrimary md:leading-12"><?php esc_html_e('تیم ما', 'novavilla'); ?></h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <?php foreach ($personnels as $personnel_id) : ?>
+                    <?php Templates::getCard('personnel', ['post-id' => $personnel_id]); ?>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <?php if (!empty($activities)) : ?>
+        <section class="flex flex-col gap-3">
+            <div class="flex items-center justify-between gap-3">
+                <h2 class="text-xl font-medium md:text-4xl md:font-bold text-cynTextPrimary md:leading-12">
+                    <?php echo $activities_title ? esc_html($activities_title) : __('حوزه‌های فعالیت ما', 'novavilla'); ?>
+                </h2>
+
+                <div class="flex items-center gap-2 lg:hidden">
+                    <button type="button" id="activitiesPrev" class="size-10 md:size-11 flex items-center justify-center rounded-full bg-cynBorderHover text-cynTextSecondary cursor-pointer shrink-0" aria-label="<?php esc_attr_e('قبلی', 'novavilla'); ?>">
+                        <i class="size-7 flex items-center justify-center [&_svg]:fill-current [&_svg]:stroke-[1.5]">
+                            <?php Icon::print('Arrow-19'); ?>
+                        </i>
+                    </button>
+                    <button type="button" id="activitiesNext" class="size-10 md:size-11 flex items-center justify-center rounded-full bg-cynBorderHover text-cynTextSecondary cursor-pointer shrink-0" aria-label="<?php esc_attr_e('بعدی', 'novavilla'); ?>">
+                        <i class="size-7 flex items-center justify-center [&_svg]:fill-current [&_svg]:stroke-[1.5]">
+                            <?php Icon::print('Arrow-27'); ?>
+                        </i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="hidden lg:grid lg:grid-cols-4 gap-3">
+                <?php foreach ($activities as $activity_id) : ?>
+                    <?php Templates::getCard('activity', ['post-id' => $activity_id]); ?>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="lg:hidden">
+                <swiper-container class="w-full" slides-per-view="auto" space-between="12" loop="true" pagination="false" navigation="true" navigation-next-el="#activitiesNext" navigation-prev-el="#activitiesPrev" breakpoints='{"768": {"slidesPerView": 2}}'>
+                    <?php foreach ($activities as $activity_id) : ?>
+                        <swiper-slide>
+                            <?php Templates::getCard('activity', ['post-id' => $activity_id]); ?>
+                        </swiper-slide>
+                    <?php endforeach; ?>
+                </swiper-container>
+            </div>
+        </section>
+    <?php endif; ?>
+
     <section class="flex flex-col gap-3">
-        <h2 class="text-xl lg:text-5xl font-bold text-cynTextPrimary">
-            <?php echo $why_title
-                ? esc_html($why_title)
-                : __('چرا مشتریان ما را انتخاب می‌کنند؟', 'novavilla'); ?>
+        <h2 class="text-xl font-medium md:text-4xl md:font-bold text-cynTextPrimary md:leading-12">
+            <?php echo $why_title ? esc_html($why_title) : __('چرا مشتریان ما را انتخاب می‌کنند؟', 'novavilla'); ?>
         </h2>
 
         <div class="grid grid-cols-2 lg:grid-cols-6 gap-3">
             <?php foreach ($why_items as $item) : ?>
-                <article class="flex flex-col rounded-[20px] border border-cynBorder bg-cynBgItem backdrop-blur-xl overflow-hidden min-h-[218px]">
-                    <div class="relative flex items-center justify-center h-[110px] mt-4 mx-[13px]">
-                        <span class="pointer-events-none absolute size-[78px] rounded-full bg-[#fbb963] blur-[50px] opacity-80" aria-hidden="true"></span>
-                        <?php if (!empty($item['icon']['url'])) : ?>
-                            <img
-                                src="<?php echo esc_url($item['icon']['url']); ?>"
-                                alt="<?php echo esc_attr($item['icon']['alt'] ?: $item['title']); ?>"
-                                class="relative z-10 w-[100px] h-auto object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.35)]"
-                                loading="lazy"
-                                decoding="async" />
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="flex flex-col gap-1 px-4 pb-4 pt-0">
-                        <h3 class="text-base font-semibold text-cynTextPrimary text-center leading-6">
-                            <?php echo esc_html($item['title']); ?>
-                        </h3>
-                        <p class="text-xs font-normal text-cynTextPrimary/90 text-center leading-4">
-                            <?php echo esc_html($item['desc']); ?>
-                        </p>
-                    </div>
-                </article>
+                <?php Templates::getCard('feature', $item); ?>
             <?php endforeach; ?>
         </div>
     </section>
+
+    <?php Templates::getPart('faq', ['faq_place' => 'about-us']); ?>
 
 </main>
 

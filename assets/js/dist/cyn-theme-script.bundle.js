@@ -13999,28 +13999,22 @@
     function activateFaq(faq, expert) {
       expert.classList.replace("grid-rows-[0fr]", "grid-rows-[1fr]");
       const svg = faq.querySelector("svg");
-      const faqToggle = faq.querySelector(".faq-toggle");
-      faqToggle.classList.replace(
-        "[&_span]:text-cynTextPrimary/60",
-        "[&_span]:text-cynTextPrimary"
-      );
-      if (svg) {
-        svg.classList.add("rotate-45");
-        svg.classList.add("text-cynTextPrimaryHover");
-      }
+      const q = faq.querySelector(".faq-q");
+      const icon = faq.querySelector(".icon");
+      q?.classList.remove("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
+      q?.classList.add("text-cynTextPrimary");
+      icon?.classList.replace("text-cynTextPrimary", "text-cynTextPrimaryHover");
+      if (svg) svg.classList.add("rotate-45");
     }
     function deActivateFaq(faq, expert) {
       expert.classList.replace("grid-rows-[1fr]", "grid-rows-[0fr]");
       const svg = faq.querySelector("svg");
-      const faqToggle = faq.querySelector(".faq-toggle");
-      faqToggle.classList.replace(
-        "[&_span]:text-cynTextPrimary",
-        "[&_span]:text-cynTextPrimary/60"
-      );
-      if (svg) {
-        svg.classList.remove("rotate-45");
-        svg.classList.remove("text-cynTextPrimaryHover");
-      }
+      const q = faq.querySelector(".faq-q");
+      const icon = faq.querySelector(".icon");
+      q?.classList.remove("text-cynTextPrimary");
+      q?.classList.add("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
+      icon?.classList.replace("text-cynTextPrimaryHover", "text-cynTextPrimary");
+      if (svg) svg.classList.remove("rotate-45");
     }
     faqCards.forEach((faq) => {
       const faqToggle = faq.querySelector(".faq-toggle");
@@ -14040,29 +14034,27 @@
   // assets/js/functions/videoCover.js
   function videoCover() {
     const videoCovers = document.querySelectorAll(".video-cover");
-    const videoElements = document.querySelectorAll(".video");
-    if (!videoCovers || videoCovers.length === 0) {
-      return;
-    }
-    videoCovers.forEach((videoCover2) => {
-      videoCover2.addEventListener("click", function(event2) {
+    if (!videoCovers.length) return;
+    videoCovers.forEach((cover) => {
+      cover.addEventListener("click", (event2) => {
         event2.preventDefault();
-        const currentCover = this;
-        const videoElement = currentCover.parentElement.querySelector(".video");
-        if (videoElement && videoElement.tagName === "VIDEO") {
-          videoElements.forEach((video) => {
-            if (video !== videoElement) {
-              video.pause();
-            }
-          });
-          videoElement.play().catch((error) => {
-            console.error("Error playing video:", error);
-          });
-          currentCover.classList.replace("opacity-100", "opacity-0");
-          currentCover.classList.replace("pointer-events-auto", "pointer-events-none");
-        } else {
-          console.warn("No corresponding video element found for this cover");
-        }
+        const wrap2 = cover.closest(".video-player") || cover.parentElement;
+        const videoElement = wrap2?.querySelector("video");
+        if (!videoElement) return;
+        document.querySelectorAll(".video-player video, video.video").forEach((video) => {
+          if (video === videoElement) return;
+          if (video.plyr) video.plyr.pause();
+          else video.pause();
+        });
+        const player = videoElement.plyr;
+        const playPromise = player ? player.play() : videoElement.play();
+        Promise.resolve(playPromise).then(() => {
+          cover.classList.replace("opacity-100", "opacity-0");
+          cover.classList.replace("pointer-events-auto", "pointer-events-none");
+          cover.setAttribute("aria-hidden", "true");
+        }).catch((error) => {
+          console.error("Error playing video:", error);
+        });
       });
     });
   }
@@ -20386,9 +20378,20 @@
 
   // assets/js/functions/plyr.js
   function VideoPlyr() {
-    const plyrs = document.querySelectorAll(".video-plyr");
-    plyrs.forEach((plyr) => {
-      const player = new Plyr(plyr);
+    document.querySelectorAll(".video-plyr").forEach((el) => {
+      const wrap2 = el.closest(".video-player");
+      const hasCustomCover = Boolean(wrap2?.querySelector(".video-cover"));
+      const player = new Plyr(el, {
+        controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"],
+        hideControls: true,
+        ratio: null
+      });
+      if (hasCustomCover) {
+        player.on("ready", () => {
+          const overlaid = wrap2.querySelector(".plyr__control--overlaid");
+          if (overlaid) overlaid.style.display = "none";
+        });
+      }
     });
   }
 
