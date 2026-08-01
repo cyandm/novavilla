@@ -49,16 +49,23 @@ function ensureRipple(button) {
   button.prepend(clip);
 }
 
+export function removePrimaryButton(button) {
+  button.classList.remove("primary-button");
+  button.querySelector(CLIP_SELECTOR)?.remove();
+  delete button.dataset.primaryButtonInit;
+}
+
+export function initPrimaryButton(button) {
+  button.classList.add("primary-button");
+  ensureRipple(button);
+
+  if (button.dataset.primaryButtonInit === "true") return;
+
+  button.dataset.primaryButtonInit = "true";
+  button.addEventListener("mouseenter", (event) => setRippleState(button, event));
+  button.addEventListener("mouseleave", (event) => setRippleState(button, event));
+}
+
 export function PrimaryButton() {
-  document.querySelectorAll(".primary-button").forEach((button) => {
-    ensureRipple(button);
-
-    button.addEventListener("mouseenter", (event) => {
-      setRippleState(button, event);
-    });
-
-    button.addEventListener("mouseleave", (event) => {
-      setRippleState(button, event);
-    });
-  });
+  document.querySelectorAll(".primary-button").forEach(initPrimaryButton);
 }

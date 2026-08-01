@@ -538,3 +538,105 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.blog-archive-tab {
+  @apply relative inline-flex items-center justify-center shrink-0 whitespace-nowrap rounded-xl px-3 py-2 text-xs font-semibold leading-none md:py-2.5 md:text-sm;
+}
+
+.blog-archive-tab:not(.is-active) {
+  @apply bg-transparent text-cynTextPrimary;
+}
+
+.blog-archive-tab.primary-button {
+  @apply px-3 py-2 text-sm font-medium md:font-semibold leading-none opacity-100 md:py-2.5 md:text-sm;
+}
+
+.blog-archive-tab > :not(.primary-button__clip) {
+  @apply relative z-[1] inline-flex items-center justify-center;
+}
+
+.blog-archive-contents {
+  @apply relative w-full overflow-hidden transition-[min-height] duration-300 ease-out;
+}
+
+.blog-archive-content {
+  @apply absolute inset-x-0 top-0 flex w-full flex-col gap-3 pointer-events-none opacity-0;
+  transform: translateY(18px) scale(0.985);
+  visibility: hidden;
+  transition:
+    opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.38s;
+}
+
+.blog-archive-content.is-active,
+.blog-archive-content.is-entering {
+  @apply pointer-events-auto opacity-100;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+}
+
+.blog-archive-content.is-active {
+  @apply relative z-[2];
+}
+
+.blog-archive-content.is-leaving {
+  @apply absolute z-[1] opacity-0;
+  transform: translateY(-12px) scale(0.99);
+  visibility: visible;
+}
+
+.blog-archive-content.is-active .blog-card {
+  animation: blog-archive-card-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.blog-archive-content.is-active .blog-card:nth-child(1) {
+  animation-delay: 0.04s;
+}
+.blog-archive-content.is-active .blog-card:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.blog-archive-content.is-active .blog-card:nth-child(3) {
+  animation-delay: 0.12s;
+}
+.blog-archive-content.is-active .blog-card:nth-child(4) {
+  animation-delay: 0.16s;
+}
+.blog-archive-content.is-active .blog-card:nth-child(5) {
+  animation-delay: 0.2s;
+}
+.blog-archive-content.is-active .blog-card:nth-child(6) {
+  animation-delay: 0.24s;
+}
+.blog-archive-content.is-active .blog-card:nth-child(7) {
+  animation-delay: 0.28s;
+}
+.blog-archive-content.is-active .blog-card:nth-child(8) {
+  animation-delay: 0.32s;
+}
+.blog-archive-content.is-active .blog-card:nth-child(9) {
+  animation-delay: 0.36s;
+}
+
+@keyframes blog-archive-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-archive-content,
+  .blog-archive-contents {
+    transition: none;
+  }
+
+  .blog-archive-content.is-active .blog-card {
+    animation: none;
+  }
+}

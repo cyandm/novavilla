@@ -164,13 +164,12 @@ get_header();
         <section class="flex flex-col gap-3 lg:gap-3">
             <div class="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-3">
                 <?php if (!empty($about_certificates_image_url)) : ?>
-                    <div class="relative w-full lg:w-[60%] shrink-0 overflow-hidden">
-                        <span class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[152px] lg:size-[252px] rounded-full bg-[#fbb963] blur-[48px] lg:blur-[148px] opacity-90" aria-hidden="true"></span>
-                        <img src="<?php echo esc_url($about_certificates_image_url); ?>" alt="<?php echo esc_attr($about_certificates_title ?: __('گواهینامه‌ها', 'novavilla')); ?>" class="relative z-10 w-full h-[327px] lg:h-[525px] object-cover" loading="lazy" decoding="async" />
+                    <div class="w-full lg:w-[55%] shrink-0">
+                        <img src="<?php echo esc_url($about_certificates_image_url); ?>" alt="<?php echo esc_attr($about_certificates_title ?: __('گواهینامه‌ها', 'novavilla')); ?>" class="relative z-10 w-full object-cover" loading="lazy" decoding="async" />
                     </div>
                 <?php endif; ?>
 
-                <div class="flex flex-col gap-3 w-full lg:w-[40%]">
+                <div class="flex flex-col gap-3 w-full lg:w-[45%]">
                     <div class="flex flex-col gap-2 lg:gap-3">
                         <?php if (!empty($about_certificates_title)) : ?>
                             <h2 class="text-xl font-medium lg:text-4xl lg:font-bold text-cynTextPrimary lg:leading-16 whitespace-pre-line"><?php echo esc_html($about_certificates_title); ?></h2>

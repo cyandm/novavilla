@@ -40,9 +40,9 @@ get_header(); ?>
 
                 <div class="text-cynTextPrimary/50 text-xs font-medium flex gap-2 items-center"><?php the_category('|'); ?></div>
 
-                <h1 class="text-3xl text-cynTextPrimary leading-11 font-[Dinar]"><?php the_title(); ?></h1>
+                <h1 class="text-3xl text-cynTextPrimary leading-11"><?php the_title(); ?></h1>
 
-                <img src="<?= get_template_directory_uri(); ?>/assets/image/zigzag.svg" alt="zigzag" class="w-32">
+                <img src="<?= get_template_directory_uri(); ?>/assets/icon/zigzag.svg" alt="zigzag" class="w-32">
 
                 <div class="flex gap-4 items-center mt-2">
 
@@ -91,7 +91,7 @@ get_header(); ?>
                     <?php the_post_thumbnail('full', ['class' => 'w-full h-[320px] md:h-[460px] lg:h-[770px] object-cover object-center']) ?>
                 </div>
 
-                <div class="text-cynTextPrimary [&_a]:text-cynBlue [&_a]:font-normal [&_h2]:text-2xl [&_h2]:my-4 [&_h3]:text-xl [&_h3]:my-4 [&_h4]:text-xl [&_h4]:my-4 [&_p]:text-base [&_p]:font-light [&_p]:leading-8 [&_p]:my-4 [&_img]:w-full [&_img]:max-h-96 [&_img]:object-cover [&_blockquote]:bg-cynBgItem [&_blockquote]:px-2 [&_blockquote]:my-4 [&_blockquote]:text-base [&_blockquote]:font-medium [&_h2]:font-[Dinar] [&_h3]:font-[Dinar] [&_h4]:font-[Dinar]">
+                <div class="text-cynTextPrimary [&_a]:text-cynBlue [&_a]:font-normal [&_h2]:text-2xl [&_h2]:my-4 [&_h3]:text-xl [&_h3]:my-4 [&_h4]:text-xl [&_h4]:my-4 [&_p]:text-base [&_p]:font-light [&_p]:leading-8 [&_p]:my-4 [&_img]:w-full [&_img]:max-h-96 [&_img]:object-cover [&_blockquote]:bg-cynBgItem [&_blockquote]:px-2 [&_blockquote]:my-4 [&_blockquote]:text-base [&_blockquote]:font-medium [&_h2] [&_h3] [&_h4]">
                     <?php the_content(); ?>
                 </div>
 
@@ -108,7 +108,7 @@ get_header(); ?>
             <section class="flex flex-col gap-3 my-14">
 
                 <div class="container">
-                    <p class="text-2xl text-cynTextPrimary leading-11 font-[Dinar]"><?php _e('شاید بپسندید', 'novavilla'); ?></p>
+                    <p class="text-2xl text-cynTextPrimary leading-11"><?php _e('شاید بپسندید', 'novavilla'); ?></p>
                 </div>
 
                 <?php if ($related_posts_query->have_posts()) : ?>

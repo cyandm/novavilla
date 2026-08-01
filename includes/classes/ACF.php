@@ -42,6 +42,7 @@ class ACF
 		//Page Templates
 		self::forContactUs();
 		self::forAboutUs();
+		self::forBlogs();
 
 		//Menu Items
 
@@ -167,5 +168,16 @@ class ACF
 		$acfGroup->setLocation('page_template', '==', 'templates/about-us.php');
 
 		$acfGroup->register('About-Us');
+	}
+
+	private static function forBlogs()
+	{
+		$acfGroup = new AcfGroup();
+
+		$acfGroup->basicFields->addText('blogs_title', 'عنوان بخش', ['default_value' => __('جدیدترین مقالات', 'novavilla')]);
+
+		$acfGroup->setLocation('page_template', '==', 'templates/blogs.php');
+
+		$acfGroup->register('Blogs');
 	}
 }

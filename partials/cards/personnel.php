@@ -23,11 +23,11 @@ $role = wp_strip_all_tags(get_post_field('post_content', $post_id));
 
 	<div class="flex flex-col gap-1 text-center">
 		<?php if (!empty($title)) : ?>
-			<h3 class="text-base font-medium text-cynTextPrimary leading-6"><?php echo esc_html($title); ?></h3>
+			<h3 class="text-sm font-medium text-cynTextPrimary leading-6"><?php echo esc_html($title); ?></h3>
 		<?php endif; ?>
 
 		<?php if (!empty($role)) : ?>
-			<p class="text-xs font-light text-cynTextPrimary leading-4"><?php echo esc_html($role); ?></p>
+			<p class="text-xs font-normal text-cynTextPrimary leading-4"><?php echo esc_html($role); ?></p>
 		<?php endif; ?>
 	</div>
 </article>

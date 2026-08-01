@@ -16,6 +16,7 @@ import { Accordion } from "./functions/accordion";
 import { SearchPage } from "./functions/search";
 import { ThemeToggle } from "./functions/themeToggle";
 import { PrimaryButton } from "./functions/primaryButton";
+import { BlogArchive } from "./functions/blogArchive";
 
 Modals();
 register();
@@ -31,3 +32,4 @@ Accordion();
 SearchPage();
 ThemeToggle();
 PrimaryButton();
+BlogArchive();
