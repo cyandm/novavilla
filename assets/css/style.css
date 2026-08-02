@@ -555,6 +555,17 @@ input[type="number"] {
   @apply relative z-[1] inline-flex items-center justify-center;
 }
 
+.structure-session-steps > article:not(:last-child) {
+  @apply relative;
+}
+
+.structure-session-steps > article:not(:last-child)::before {
+  content: "";
+  @apply absolute top-[60px] end-0 h-px bg-cynBorderHover/40 pointer-events-none;
+  width: calc(50% + 6px);
+  transform: translateX(50%);
+}
+
 .blog-archive-contents {
   @apply relative w-full overflow-hidden transition-[min-height] duration-300 ease-out;
 }

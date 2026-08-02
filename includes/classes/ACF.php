@@ -43,6 +43,7 @@ class ACF
 		self::forContactUs();
 		self::forAboutUs();
 		self::forBlogs();
+		self::for3dStructure();
 
 		//Menu Items
 
@@ -179,5 +180,66 @@ class ACF
 		$acfGroup->setLocation('page_template', '==', 'templates/blogs.php');
 
 		$acfGroup->register('Blogs');
+	}
+
+	private static function for3dStructure()
+	{
+		$acfGroup = new AcfGroup();
+
+		$acfGroup->layoutFields->addTab('structure_hero_tab', 'هیرو');
+		$acfGroup->basicFields->addText('structure_hero_title', 'عنوان', ['default_value' => __('قبل از ساخت،', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('structure_hero_subtitle', 'زیرعنوان (رنگی)', ['default_value' => __('سازه‌تان را ببینید', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addTextarea('structure_hero_description', 'توضیحات', ['rows' => 5, 'default_value' => __('یکی از خدمات ویژه مجموعه، طراحی سه‌بعدی سازه هم‌زمان با جلسه حضوری فروش است. در این جلسه، کارشناسان ما نیازها، سلیقه، متراژ و نوع کاربری پروژه شما را بررسی کرده و طرح اولیه سازه را در همان لحظه آماده می‌کنند. مدل سه‌بعدی از طریق ویدئوپروژکتور روی پرده نمایش داده می‌شود تا بتوانید تغییرات طرح را واضح‌تر مشاهده کنید، درباره جزئیات نظر بدهید و نتیجه هر تصمیم را پیش از شروع تولید ببینید.', 'novavilla')]);
+		$acfGroup->contentFields->addImage('structure_hero_image', 'تصویر هیرو', ['return_format' => 'url', 'width' => '50']);
+		$acfGroup->relationshipFields->addLink('structure_booking_btn', 'دکمه رزرو جلسه', ['width' => '50']);
+		$acfGroup->relationshipFields->addLink('structure_consultation_btn', 'دکمه مشاوره', ['width' => '50']);
+
+		$acfGroup->layoutFields->addTab('structure_session_tab', 'مراحل جلسه');
+		$acfGroup->basicFields->addText('structure_session_title', 'عنوان بخش', ['default_value' => __('این جلسه چگونه برگزار می‌شود؟', 'novavilla')]);
+
+		$session_defaults = [
+			1 => ['number' => '۲', 'title' => __('بررسی نیازهای پروژه', 'novavilla'), 'desc' => __('در ابتدای جلسه درباره نوع سازه، کاربری، متراژ زمین، تعداد فضاها، بودجه و سبک طراحی موردنظر شما گفت‌وگو می‌کنیم.', 'novavilla')],
+			2 => ['number' => '۳', 'title' => __('شکل‌گیری طرح اولیه', 'novavilla'), 'desc' => __('بر اساس اطلاعات اولیه، فرم کلی سازه، جانمایی فضاها و ابعاد تقریبی پروژه در نرم‌افزار طراحی ایجاد می‌شود.', 'novavilla')],
+			3 => ['number' => '۴', 'title' => __('نمایش سه‌بعدی روی پرده', 'novavilla'), 'desc' => __('طرح سه‌بعدی روی پرده نمایش داده می‌شود تا بتوانید نمای بیرونی، فرم سازه و ارتباط فضاها را بررسی کنید.', 'novavilla')],
+			4 => ['number' => '۵', 'title' => __('اعمال تغییرات در لحظه', 'novavilla'), 'desc' => __('تغییراتی مثل جابه‌جایی فضاها، نوع نما، فرم پنجره‌ها، رنگ‌ها و برخی امکانات، بر اساس نظر شما در همان جلسه روی طرح اعمال می‌شوند.', 'novavilla')],
+			5 => ['number' => '۶', 'title' => __('جمع‌بندی و ادامه طراحی', 'novavilla'), 'desc' => __('پس از تأیید مسیر کلی پروژه، اطلاعات طرح برای بررسی فنی، تکمیل جزئیات و آماده‌سازی پیش‌فاکتور در اختیار تیم طراحی و تولید قرار می‌گیرد.', 'novavilla')],
+		];
+
+		foreach ($session_defaults as $i => $item) {
+			$acfGroup->contentFields->addImage("structure_step_image_{$i}", "تصویر مرحله {$i}", ['return_format' => 'url', 'width' => '25']);
+			$acfGroup->basicFields->addText("structure_step_number_{$i}", "شماره {$i}", ['default_value' => $item['number'], 'width' => '15']);
+			$acfGroup->basicFields->addText("structure_step_title_{$i}", "عنوان {$i}", ['default_value' => $item['title'], 'width' => '30']);
+			$acfGroup->basicFields->addTextarea("structure_step_desc_{$i}", "توضیح {$i}", ['default_value' => $item['desc'], 'rows' => 3, 'width' => '30']);
+		}
+
+		$acfGroup->layoutFields->addTab('structure_review_tab', 'موارد قابل بررسی');
+		$acfGroup->basicFields->addText('structure_review_title', 'عنوان بخش', ['default_value' => __('چه مواردی در جلسه قابل بررسی هست؟', 'novavilla')]);
+
+		$review_defaults = [
+			1 => ['title' => __('فرم و نمای کلی سازه', 'novavilla'), 'desc' => __('بررسی سبک مدرن، کلاسیک، مینیمال یا چوبی و انتخاب فرم کلی سازه.', 'novavilla')],
+			2 => ['title' => __('جانمایی فضاها', 'novavilla'), 'desc' => __('بررسی محل اتاق‌ها، آشپزخانه، نشیمن، سرویس‌ها، تراس و مسیرهای رفت‌وآمد.', 'novavilla')],
+			3 => ['title' => __('در و پنجره‌ها', 'novavilla'), 'desc' => __('انتخاب موقعیت، ابعاد و فرم پنجره‌ها برای نورگیری و دید بهتر.', 'novavilla')],
+			4 => ['title' => __('نمای خارجی', 'novavilla'), 'desc' => __('بررسی ترکیب متریال‌هایی مانند ترموود، فایبرسمنت، شیشه و پوشش‌های فلزی.', 'novavilla')],
+			5 => ['title' => __('رنگ و متریال', 'novavilla'), 'desc' => __('مشاهده ترکیب رنگ‌ها و متریال‌های مختلف روی مدل سه‌بعدی سازه.', 'novavilla')],
+			6 => ['title' => __('امکانات سفارشی', 'novavilla'), 'desc' => __('بررسی امکان اضافه‌کردن تراس، پارکینگ، انباری، پنجره پانوراما یا فضای اختصاصی.', 'novavilla')],
+		];
+
+		foreach ($review_defaults as $i => $item) {
+			$acfGroup->contentFields->addImage("structure_review_image_{$i}", "تصویر {$i}", ['return_format' => 'url', 'width' => '25']);
+			$acfGroup->basicFields->addText("structure_review_title_{$i}", "عنوان {$i}", ['default_value' => $item['title'], 'width' => '35']);
+			$acfGroup->basicFields->addTextarea("structure_review_desc_{$i}", "توضیح {$i}", ['default_value' => $item['desc'], 'rows' => 2, 'width' => '40']);
+		}
+
+		$acfGroup->layoutFields->addTab('structure_cta_tab', 'بنر پایانی');
+		$acfGroup->basicFields->addText('structure_cta_title', 'عنوان', ['default_value' => __('سازه‌ای که در ذهن دارید با هم به تصویر بکشیم', 'novavilla')]);
+		$acfGroup->basicFields->addTextarea('structure_cta_description', 'توضیحات', ['rows' => 4, 'default_value' => __('جلسات طراحی و مشاوره در فضای اختصاصی مجموعه برگزار می‌شوند. نمایش طرح روی پرده ویدئوپروژکتور این امکان را فراهم می‌کند که تمام افراد حاضر در جلسه، جزئیات پروژه را هم‌زمان مشاهده کرده و درباره تغییرات تصمیم‌گیری کنند.', 'novavilla')]);
+		$acfGroup->contentFields->addImage('structure_cta_image', 'تصویر بنر', ['return_format' => 'url']);
+		$acfGroup->relationshipFields->addLink('structure_cta_booking_btn', 'دکمه درخواست جلسه', ['width' => '50']);
+		$acfGroup->relationshipFields->addLink('structure_cta_contact_btn', 'لینک فرم تماس', ['width' => '50']);
+		$acfGroup->basicFields->addText('structure_cta_input_placeholder', 'متن placeholder ورودی', ['default_value' => __('ایمیل یا شماره همراه خود را وارد کنید', 'novavilla')]);
+
+		$acfGroup->setLocation('page_template', '==', 'templates/3d-structure.php');
+
+		$acfGroup->register('3D-Structure');
 	}
 }
