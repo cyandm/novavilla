@@ -39,10 +39,12 @@ use Cyan\Theme\Helpers\Icon;
 		</div>
 
 		<div class="flex justify-end items-stretch gap-3">
-			<?php Templates::getPart('searchbox', [
-				'id' => 'desktop-header-search',
-				'class' => 'hidden lg:flex items-center w-full max-w-[28rem]',
-			]); ?>
+			<?php if (!is_search()) : ?>
+				<?php Templates::getPart('searchbox', [
+					'id' => 'desktop-header-search',
+					'class' => 'hidden lg:flex items-center w-full max-w-[28rem]',
+				]); ?>
+			<?php endif; ?>
 
 			<a href="tel:<?php echo get_option('phone'); ?>" class="primary-button !py-2.5 !ps-2.5 !pe-3.5 group">
 				<span class="flex items-center gap-0.5 whitespace-nowrap">
