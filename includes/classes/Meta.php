@@ -14,15 +14,19 @@ class Meta
      */
     protected static $unread_badge_config = [
         'contact_form' => ['read_meta' => '_read'],
+        'session_request' => ['read_meta' => '_read'],
         'order_form' => ['read_meta' => '_read'],
     ];
 
     public static function init()
     {
         add_action('add_meta_boxes', [__CLASS__, 'add_form_meta_box']);
+        add_action('add_meta_boxes', [__CLASS__, 'add_session_request_meta_box']);
         add_action('add_meta_boxes', [__CLASS__, 'add_order_form_meta_box']);
         add_filter('manage_contact_form_posts_columns', [__CLASS__, 'form_table_head']);
         add_action('manage_contact_form_posts_custom_column', [__CLASS__, 'form_table_column'], 10, 2);
+        add_filter('manage_session_request_posts_columns', [__CLASS__, 'session_request_table_head']);
+        add_action('manage_session_request_posts_custom_column', [__CLASS__, 'session_request_table_column'], 10, 2);
         add_filter('manage_order_form_posts_columns', [__CLASS__, 'order_form_table_head']);
         add_action('manage_order_form_posts_custom_column', [__CLASS__, 'order_form_table_column'], 10, 2);
         add_action('add_meta_boxes', [__CLASS__, 'add_support_form_meta_box']);
@@ -93,6 +97,71 @@ class Meta
 
         if ($column_name == 'message') {
             echo get_post_meta($post_id, '_message', true);
+        }
+    }
+
+    public static function add_session_request_meta_box()
+    {
+        global $post;
+        if ($post->post_type !== 'session_request') {
+            return;
+        }
+
+        add_meta_box('session_request_information', __('اطلاعات درخواست', 'novavilla'), function () {
+            $meta_group = [
+                ['name' => '_request_type', 'label' => __('نوع درخواست:', 'novavilla')],
+                ['name' => '_source_page_title', 'label' => __('صفحه:', 'novavilla')],
+                ['name' => '_source_url', 'label' => __('آدرس صفحه:', 'novavilla')],
+                ['name' => '_contact', 'label' => __('ایمیل / شماره همراه:', 'novavilla')],
+                ['name' => '_contact_type', 'label' => __('نوع تماس:', 'novavilla')],
+            ];
+            include get_template_directory() . '/partials/parts/metabox.php';
+        }, null, 'advanced', 'high');
+    }
+
+    public static function formatSessionRequestType($request_type)
+    {
+        if ($request_type === 'session') {
+            return __('درخواست جلسه', 'novavilla');
+        }
+        if ($request_type === 'consultation') {
+            return __('درخواست مشاوره', 'novavilla');
+        }
+        return $request_type;
+    }
+
+    public static function session_request_table_head($columns)
+    {
+        $columns['request_type'] = __('نوع درخواست', 'novavilla');
+        $columns['source_page'] = __('صفحه', 'novavilla');
+        $columns['contact'] = __('ایمیل / شماره', 'novavilla');
+        $columns['contact_type'] = __('نوع تماس', 'novavilla');
+        return $columns;
+    }
+
+    public static function session_request_table_column($column_name, $post_id)
+    {
+        if ($column_name === 'request_type') {
+            echo esc_html(self::formatSessionRequestType(get_post_meta($post_id, '_request_type', true)));
+        }
+        if ($column_name === 'source_page') {
+            $page_id = (int) get_post_meta($post_id, '_source_page_id', true);
+            $title = get_post_meta($post_id, '_source_page_title', true);
+            $url = get_post_meta($post_id, '_source_url', true);
+            if ($page_id && get_post($page_id)) {
+                echo '<a href="' . esc_url(get_edit_post_link($page_id)) . '">' . esc_html($title) . '</a>';
+            } elseif ($url && $title) {
+                echo '<a href="' . esc_url($url) . '" target="_blank" rel="noopener noreferrer">' . esc_html($title) . '</a>';
+            } elseif ($title) {
+                echo esc_html($title);
+            }
+        }
+        if ($column_name === 'contact') {
+            echo esc_html(get_post_meta($post_id, '_contact', true));
+        }
+        if ($column_name === 'contact_type') {
+            $type = get_post_meta($post_id, '_contact_type', true);
+            echo $type === 'email' ? esc_html__('ایمیل', 'novavilla') : esc_html__('موبایل', 'novavilla');
         }
     }
 

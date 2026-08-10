@@ -555,15 +555,42 @@ input[type="number"] {
   @apply relative z-[1] inline-flex items-center justify-center;
 }
 
-.structure-session-steps > article:not(:last-child) {
+.structure-session-steps {
+  --step-connector-gap: 0.125rem;
+}
+
+@media (max-width: 376px) {
+  .structure-session-steps {
+    --step-connector-gap: 0.25rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .structure-session-steps {
+    --step-connector-gap: 0.75rem;
+  }
+}
+
+.structure-session-steps > div:not(:last-child) {
   @apply relative;
 }
 
-.structure-session-steps > article:not(:last-child)::before {
+.structure-session-steps > div:not(:last-child)::after {
   content: "";
-  @apply absolute top-[60px] end-0 h-px bg-cynBorderHover/40 pointer-events-none;
-  width: calc(50% + 6px);
-  transform: translateX(50%);
+  @apply absolute z-0 start-1/2 top-[33px] h-px -translate-y-1/2 pointer-events-none bg-cynBorderHover/40;
+  width: calc(100% + var(--step-connector-gap));
+}
+
+@media (max-width: 376px) {
+  .structure-session-steps > div:not(:last-child)::after {
+    @apply top-[24px];
+  }
+}
+
+@media (min-width: 48rem) {
+  .structure-session-steps > div:not(:last-child)::after {
+    @apply top-[64px];
+  }
 }
 
 .blog-archive-contents {

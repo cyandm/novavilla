@@ -189,8 +189,8 @@ class ACF
 		$acfGroup->layoutFields->addTab('structure_hero_tab', 'هیرو');
 		$acfGroup->basicFields->addText('structure_hero_title', 'عنوان', ['default_value' => __('قبل از ساخت،', 'novavilla'), 'width' => '50']);
 		$acfGroup->basicFields->addText('structure_hero_subtitle', 'زیرعنوان (رنگی)', ['default_value' => __('سازه‌تان را ببینید', 'novavilla'), 'width' => '50']);
-		$acfGroup->basicFields->addTextarea('structure_hero_description', 'توضیحات', ['rows' => 5, 'default_value' => __('یکی از خدمات ویژه مجموعه، طراحی سه‌بعدی سازه هم‌زمان با جلسه حضوری فروش است. در این جلسه، کارشناسان ما نیازها، سلیقه، متراژ و نوع کاربری پروژه شما را بررسی کرده و طرح اولیه سازه را در همان لحظه آماده می‌کنند. مدل سه‌بعدی از طریق ویدئوپروژکتور روی پرده نمایش داده می‌شود تا بتوانید تغییرات طرح را واضح‌تر مشاهده کنید، درباره جزئیات نظر بدهید و نتیجه هر تصمیم را پیش از شروع تولید ببینید.', 'novavilla')]);
-		$acfGroup->contentFields->addImage('structure_hero_image', 'تصویر هیرو', ['return_format' => 'url', 'width' => '50']);
+		$acfGroup->contentFields->addTextEditor('structure_hero_description', 'توضیحات', ['rows' => 5, 'default_value' => __('یکی از خدمات ویژه مجموعه، طراحی سه‌بعدی سازه هم‌زمان با جلسه حضوری فروش است. در این جلسه، کارشناسان ما نیازها، سلیقه، متراژ و نوع کاربری پروژه شما را بررسی کرده و طرح اولیه سازه را در همان لحظه آماده می‌کنند. مدل سه‌بعدی از طریق ویدئوپروژکتور روی پرده نمایش داده می‌شود تا بتوانید تغییرات طرح را واضح‌تر مشاهده کنید، درباره جزئیات نظر بدهید و نتیجه هر تصمیم را پیش از شروع تولید ببینید.', 'novavilla')]);
+		$acfGroup->contentFields->addImage('structure_hero_image', 'تصویر هیرو (میتوانید عکس را اینجا و یا در تصویر شاخص انتخاب کنید)', ['return_format' => 'url', 'width' => '50']);
 		$acfGroup->relationshipFields->addLink('structure_booking_btn', 'دکمه رزرو جلسه', ['width' => '50']);
 		$acfGroup->relationshipFields->addLink('structure_consultation_btn', 'دکمه مشاوره', ['width' => '50']);
 
@@ -233,10 +233,10 @@ class ACF
 		$acfGroup->layoutFields->addTab('structure_cta_tab', 'بنر پایانی');
 		$acfGroup->basicFields->addText('structure_cta_title', 'عنوان', ['default_value' => __('سازه‌ای که در ذهن دارید با هم به تصویر بکشیم', 'novavilla')]);
 		$acfGroup->basicFields->addTextarea('structure_cta_description', 'توضیحات', ['rows' => 4, 'default_value' => __('جلسات طراحی و مشاوره در فضای اختصاصی مجموعه برگزار می‌شوند. نمایش طرح روی پرده ویدئوپروژکتور این امکان را فراهم می‌کند که تمام افراد حاضر در جلسه، جزئیات پروژه را هم‌زمان مشاهده کرده و درباره تغییرات تصمیم‌گیری کنند.', 'novavilla')]);
-		$acfGroup->contentFields->addImage('structure_cta_image', 'تصویر بنر', ['return_format' => 'url']);
-		$acfGroup->relationshipFields->addLink('structure_cta_booking_btn', 'دکمه درخواست جلسه', ['width' => '50']);
-		$acfGroup->relationshipFields->addLink('structure_cta_contact_btn', 'لینک فرم تماس', ['width' => '50']);
-		$acfGroup->basicFields->addText('structure_cta_input_placeholder', 'متن placeholder ورودی', ['default_value' => __('ایمیل یا شماره همراه خود را وارد کنید', 'novavilla')]);
+		$acfGroup->contentFields->addImage('structure_cta_image', 'تصویر بنر (دارک)', ['return_format' => 'url', 'width' => '50']);
+		$acfGroup->contentFields->addImage('structure_cta_image_light', 'تصویر بنر (لایت)', ['return_format' => 'url', 'width' => '50']);
+		$acfGroup->basicFields->addText('structure_cta_button_text', 'متن دکمه ارسال', ['default_value' => __('درخواست جلسه حضوری', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('structure_cta_input_placeholder', 'متن placeholder ورودی', ['default_value' => __('ایمیل یا شماره همراه خود را وارد کنید', 'novavilla'), 'width' => '50']);
 
 		$acfGroup->setLocation('page_template', '==', 'templates/3d-structure.php');
 

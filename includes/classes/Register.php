@@ -60,6 +60,7 @@ class Register
 	public static function registerPostType()
 	{
 		self::makePostType('contact_form', 'فرم تماس با ما', 'فرم تماس با ما', 'dashicons-phone', ['title']);
+		self::makePostType('session_request', 'درخواست جلسه و مشاوره', 'درخواست‌های جلسه و مشاوره', 'dashicons-calendar-alt', ['title']);
 		self::makePostType('faq', 'سوالات متداول', 'سوالات متداول', 'dashicons-editor-help', ['title', 'editor']);
 		self::makePostType(
 			'activity',

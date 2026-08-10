@@ -114,7 +114,7 @@ get_header();
 
                 <?php if (!empty($certificates_btn['url'])) : ?>
                     <a href="<?php echo esc_url($certificates_btn['url']); ?>" <?php echo !empty($certificates_btn['target']) ? 'target="' . esc_attr($certificates_btn['target']) . '"' : ''; ?> class="primary-button btn-have-icon">
-                        <span class="flex items-center gap-1 whitespace-nowrap">
+                        <span class="flex items-center gap-1 whitespace-nowrap text-xs md:text-sm font-semibold">
                             <?php echo esc_html($certificates_btn['title'] ?: __('گواهینامه ها', 'novavilla')); ?>
                             <i class="size-5 flex items-center justify-center [&_svg]:stroke-[2]">
                                 <?php Icon::print('Arrow-27'); ?>

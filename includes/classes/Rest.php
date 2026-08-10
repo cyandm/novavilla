@@ -24,6 +24,7 @@ class Rest
 	public static function registerRoutes()
 	{
 		self::makeRoute('/contact_form', 'POST', [__CLASS__, 'createForm']);
+		self::makeRoute('/session_request', 'POST', [__CLASS__, 'createSessionRequest']);
 	}
 
 	public static function createForm(WP_REST_Request $request)
@@ -105,6 +106,97 @@ class Rest
 
 		return new WP_REST_Response([
 			'message' => __('فرم با موفقیت ارسال شد.', 'novavilla'),
+		], 200);
+	}
+
+	public static function createSessionRequest(WP_REST_Request $request)
+	{
+		$ip = self::getClientIp();
+		$min_interval = 120;
+		$rate_key = 'cyn_session_last_' . md5($ip);
+		$last_time = get_transient($rate_key);
+		if ($last_time !== false && (time() - $last_time) < $min_interval) {
+			$wait = $min_interval - (time() - $last_time);
+			return new WP_REST_Response([
+				'error' => sprintf(__('لطفاً %d ثانیه صبر کنید و دوباره تلاش کنید.', 'novavilla'), $wait),
+			], 429);
+		}
+
+		$max_per_hour = 2;
+		$count_key = 'cyn_session_count_' . md5($ip);
+		$count_data = get_transient($count_key);
+		if ($count_data === false) {
+			$count_data = ['count' => 0, 'start' => time()];
+		}
+		if ($count_data['count'] >= $max_per_hour) {
+			return new WP_REST_Response([
+				'error' => __('تعداد ارسال‌های شما در این ساعت به حد مجاز رسیده. لطفاً بعداً تلاش کنید.', 'novavilla'),
+			], 429);
+		}
+
+		$body = $request->get_body_params();
+		$contact_raw = isset($body['contact']) ? trim($body['contact']) : '';
+		$contact = sanitize_text_field($contact_raw);
+
+		if ($contact === '') {
+			return new WP_REST_Response([
+				'error' => __('ایمیل یا شماره همراه الزامی است.', 'novavilla'),
+			], 400);
+		}
+
+		$contact_type = '';
+		if (is_email($contact)) {
+			$contact_type = 'email';
+		} elseif (preg_match('/^[0-9]{11}$/', $contact)) {
+			$contact_type = 'phone';
+		} else {
+			return new WP_REST_Response([
+				'error' => __('ایمیل یا شماره همراه معتبر نیست.', 'novavilla'),
+			], 400);
+		}
+
+		$request_type = isset($body['request_type']) ? sanitize_key($body['request_type']) : '';
+		if (!in_array($request_type, ['session', 'consultation'], true)) {
+			return new WP_REST_Response([
+				'error' => __('نوع درخواست معتبر نیست.', 'novavilla'),
+			], 400);
+		}
+
+		$source_page_id = isset($body['source_page_id']) ? absint($body['source_page_id']) : 0;
+		$source_page_title = '';
+		$source_url = '';
+		if ($source_page_id && get_post($source_page_id)) {
+			$source_page_title = get_the_title($source_page_id);
+			$source_url = get_permalink($source_page_id);
+		}
+
+		$new_post = wp_insert_post([
+			'post_type' => 'session_request',
+			'post_title' => $contact,
+			'post_status' => 'private',
+			'meta_input' => [
+				'_contact' => $contact,
+				'_contact_type' => $contact_type,
+				'_request_type' => $request_type,
+				'_source_page_id' => $source_page_id,
+				'_source_page_title' => $source_page_title,
+				'_source_url' => $source_url,
+				'_read' => '0',
+			],
+		], true);
+
+		if (is_wp_error($new_post)) {
+			return new WP_REST_Response([
+				'error' => __('خطا در ثبت فرم، لطفاً دوباره تلاش کنید.', 'novavilla'),
+			], 500);
+		}
+
+		set_transient($rate_key, time(), $min_interval);
+		$count_data['count']++;
+		set_transient($count_key, $count_data, HOUR_IN_SECONDS);
+
+		return new WP_REST_Response([
+			'message' => __('درخواست شما با موفقیت ثبت شد.', 'novavilla'),
 		], 200);
 	}
 

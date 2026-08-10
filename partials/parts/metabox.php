@@ -7,6 +7,8 @@
  * @package CyanTheme
  */
 
+use Cyan\Theme\Classes\Meta;
+
 defined('ABSPATH') || exit;
 
 global $post;
@@ -24,6 +26,12 @@ if (!isset($meta_group) || !is_array($meta_group)) {
                 $meta_name = isset($meta['name']) ? $meta['name'] : '';
                 $meta_label = isset($meta['label']) ? $meta['label'] : '';
                 $meta_value = get_post_meta($post->ID, $meta_name, true);
+                if ($meta_name === '_request_type') {
+                    $meta_value = Meta::formatSessionRequestType($meta_value);
+                }
+                if ($meta_name === '_contact_type') {
+                    $meta_value = $meta_value === 'email' ? __('ایمیل', 'novavilla') : __('موبایل', 'novavilla');
+                }
                 ?>
                 <tr>
                     <th scope="row">
@@ -36,6 +44,8 @@ if (!isset($meta_group) || !is_array($meta_group)) {
                             <div style="background: #f9f9f9; padding: 12px; border-radius: 4px; border: 1px solid #ddd; word-wrap: break-word; max-width: 600px;">
                                 <?php echo esc_html($meta_value); ?>
                             </div>
+                        <?php elseif ($meta_name === '_source_url' && $meta_value) : ?>
+                            <a href="<?php echo esc_url($meta_value); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($meta_value); ?></a>
                         <?php else : ?>
                             <div style="padding: 8px 12px; background: #f9f9f9; border-radius: 4px; border: 1px solid #ddd; display: inline-block; min-width: 250px;">
                                 <?php echo esc_html($meta_value); ?>
