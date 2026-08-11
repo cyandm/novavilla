@@ -28,7 +28,7 @@ if (!empty($issue_date)) $meta_lines[] = __('تاریخ صدور:', 'novavilla')
 if (!empty($expiry_date)) $meta_lines[] = __('تاریخ اعتبار:', 'novavilla') . ' ' . $expiry_date;
 ?>
 
-<article class="flex flex-col rounded-[20px] border border-cynBorder hover:border-cynBorderHover transition-all duration-300 bg-cynBgItem backdrop-blur-xl overflow-hidden h-full">
+<article class="flex flex-col rounded-3xl border border-cynBorder hover:border-cynBorderHover transition-all duration-300 bg-cynBgItem backdrop-blur-xl overflow-hidden h-full">
 	<div class="px-4 pt-4 lg:px-5 lg:pt-4">
 		<?php if (has_post_thumbnail($post_id)) : ?>
 			<?php echo get_the_post_thumbnail($post_id, 'medium', ['class' => 'w-full h-[95px] lg:h-[171px] object-contain', 'alt' => esc_attr($title), 'loading' => 'lazy', 'decoding' => 'async']); ?>
@@ -52,14 +52,14 @@ if (!empty($expiry_date)) $meta_lines[] = __('تاریخ اعتبار:', 'novavi
 			<div class="flex items-center gap-2 mt-auto">
 
 				<?php if (!empty($view_url)) : ?>
-					<a href="<?php echo esc_url($view_url); ?>" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-2 rounded-[20px] border border-cynBorder bg-cynBgItem text-cynTextPrimary text-xs font-medium hover:border-cynBorderHover transition-all duration-300" aria-label="<?php esc_attr_e('مشاهده', 'novavilla'); ?>">
+					<a href="<?php echo esc_url($view_url); ?>" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-2 rounded-3xl border border-cynBorder bg-cynBgItem text-cynTextPrimary text-xs font-medium hover:border-cynBorderHover transition-all duration-300" aria-label="<?php esc_attr_e('مشاهده', 'novavilla'); ?>">
 						<i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-cynBorderHover"><?php Icon::print('eye-2'); ?></i>
 						<span class="hidden lg:inline"><?php esc_html_e('مشاهده', 'novavilla'); ?></span>
 					</a>
 				<?php endif; ?>
 
 				<?php if (!empty($file_url)) : ?>
-					<a href="<?php echo esc_url($file_url); ?>" download class="flex-1 inline-flex items-center justify-center gap-2 rounded-[20px] border border-cynBorder bg-cynBgItem text-cynTextPrimary text-xs font-medium hover:border-cynBorderHover transition-all duration-300" aria-label="<?php esc_attr_e('دانلود', 'novavilla'); ?>">
+					<a href="<?php echo esc_url($file_url); ?>" download class="flex-1 inline-flex items-center justify-center gap-2 rounded-3xl border border-cynBorder bg-cynBgItem text-cynTextPrimary text-xs font-medium hover:border-cynBorderHover transition-all duration-300" aria-label="<?php esc_attr_e('دانلود', 'novavilla'); ?>">
 						<i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-cynBorderHover"><?php Icon::print('Download,-Save,-Upload-2'); ?></i>
 						<span class="hidden lg:inline"><?php esc_html_e('دانلود', 'novavilla'); ?></span>
 					</a>

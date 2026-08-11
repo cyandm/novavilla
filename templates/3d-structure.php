@@ -73,9 +73,9 @@ get_header();
 
 		<div class="w-full lg:flex-1">
 			<?php if (!empty($structure_hero_image_url)) : ?>
-				<img src="<?php echo esc_url($structure_hero_image_url); ?>" alt="<?php echo esc_attr(trim($structure_hero_title . ' ' . $structure_hero_subtitle)); ?>" class="w-full h-[252px] md:h-[360px] lg:h-[430px] object-cover rounded-[20px]" loading="eager" decoding="async" />
+				<img src="<?php echo esc_url($structure_hero_image_url); ?>" alt="<?php echo esc_attr(trim($structure_hero_title . ' ' . $structure_hero_subtitle)); ?>" class="w-full h-[252px] md:h-[360px] lg:h-[430px] object-cover rounded-3xl" loading="eager" decoding="async" />
 			<?php else : ?>
-				<div class="w-full h-[252px] md:h-[360px] lg:h-[430px] rounded-[20px] bg-cynBgItem/40" aria-hidden="true"></div>
+				<div class="w-full h-[252px] md:h-[360px] lg:h-[430px] rounded-3xl bg-cynBgItem/40" aria-hidden="true"></div>
 			<?php endif; ?>
 		</div>
 
@@ -139,7 +139,7 @@ get_header();
 
 			<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
 				<?php foreach ($structure_review_items as $item) : ?>
-					<div class="flex flex-col gap-3 rounded-[20px] border border-cynBorderHover/40 hover:border-cynBorderHover transition-all duration-300 bg-cynBgItem/80 backdrop-blur-xl p-4 h-full">
+					<div class="flex flex-col gap-3 rounded-3xl border border-cynBorderHover/40 hover:border-cynBorderHover transition-all duration-300 bg-cynBgItem/80 backdrop-blur-xl p-4 h-full">
 						<?php if (!empty($item['image'])) : ?>
 							<img src="<?php echo esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="w-full h-28 object-cover rounded-xl" loading="lazy" decoding="async" />
 						<?php else : ?>
@@ -155,7 +155,7 @@ get_header();
 		</section>
 	<?php endif; ?>
 
-	<section class="relative overflow-hidden rounded-[20px] border border-cynBorderHover/40 dark:bg-[#151516] min-h-[480px] lg:min-h-[353px]">
+	<section class="relative overflow-hidden rounded-3xl border border-cynBorderHover/40 dark:bg-[#151516] min-h-[480px] lg:min-h-[353px]">
 		<?php if (!empty($structure_cta_image_url) || !empty($structure_cta_image_light_url)) : ?>
 			<div class="absolute end-0 -top-[6px] lg:-top-[19px] w-full h-[217px] lg:h-[calc(100%+19px)] lg:w-[60%] lg:max-w-[694px]">
 				<?php if (!empty($structure_cta_image_light_url)) : ?>

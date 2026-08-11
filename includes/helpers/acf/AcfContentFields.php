@@ -104,4 +104,20 @@ class AcfContentFields extends AcfField
 			'return_format' => $additionalAttributes['return_format'] ?? 'id',
 		], $additionalAttributes), $id);
 	}
+
+	/**
+	 * Add a free-ACF gallery as numbered image fields (ACF Gallery field is Pro-only)
+	 * @param string $name Base name (fields become {$name}_1 … {$name}_{$count})
+	 * @param string $label Base label
+	 * @param array $additionalAttributes Passed to each image field (return_format, width, …)
+	 * @param int $count Number of image slots
+	 * @param string $id Base field ID
+	 * @return void
+	 */
+	public function addGallery($name, $label, $additionalAttributes = [], $count = 6, $id = '')
+	{
+		for ($i = 1; $i <= $count; $i++) {
+			$this->addImage($name . '_' . $i, $label . ' ' . $i, $additionalAttributes, $id ? $id . '_' . $i : '');
+		}
+	}
 }

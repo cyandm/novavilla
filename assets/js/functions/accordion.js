@@ -21,19 +21,11 @@ export function Accordion() {
 
       // Toggle grid-template-rows for animation
       if (isExpanded) {
-        // Close
         content.style.gridTemplateRows = "0fr";
-        if (icon) {
-          icon.style.transform = "rotate(0deg)";
-        }
-        content.classList.remove("mt-3");
+        if (icon) icon.style.transform = "rotate(0deg)";
       } else {
-        // Open
         content.style.gridTemplateRows = "1fr";
-        if (icon) {
-          icon.style.transform = `rotate(${iconRotate}deg)`;
-        }
-        content.classList.add("mt-3");
+        if (icon) icon.style.transform = `rotate(${iconRotate}deg)`;
       }
     });
   });

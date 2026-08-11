@@ -17,6 +17,7 @@ import { SearchPage } from "./functions/search";
 import { ThemeToggle } from "./functions/themeToggle";
 import { PrimaryButton } from "./functions/primaryButton";
 import { BlogArchive } from "./functions/blogArchive";
+import { ProductArchive } from "./functions/productArchive";
 
 Modals();
 register();
@@ -33,3 +34,4 @@ SearchPage();
 ThemeToggle();
 PrimaryButton();
 BlogArchive();
+ProductArchive();

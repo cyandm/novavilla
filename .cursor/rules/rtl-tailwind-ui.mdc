@@ -1,0 +1,77 @@
+---
+description: RTL Persian UI — height, alignment, transitions, Tailwind text scale
+alwaysApply: true
+---
+
+# RTL + Tailwind UI conventions (novavilla)
+
+## Height
+
+Do not set `h-*`, `min-h-*`, or fixed height on blocks that already have padding + text/content. Content defines height naturally.
+
+Use explicit height only when the element has no text flow (e.g. image wrapper: `w-full h-64 sm:h-72` + `object-cover` on the img — no `aspect-*` or arbitrary ratio px).
+
+```html
+<!-- ❌ BAD — fixed height on a padded text row -->
+<div class="flex items-center justify-between h-8 rounded-lg px-3 py-1">...</div>
+
+<!-- ✅ GOOD -->
+<div class="flex items-center justify-between rounded-lg px-3 py-1">...</div>
+```
+
+## RTL alignment
+
+Site is Persian (RTL). Do **not** add `justify-end`, `self-end`, `text-end`, or similar end-alignment utilities unless Figma clearly requires it for that node. In RTL they often flip alignment and break right-to-left layout.
+
+Default block/inline flow and `justify-between` are enough for most cards.
+
+## Transitions
+
+Prefer `transition-all duration-300` — not `transition-colors` alone.
+
+```html
+<a class="group ... transition-all duration-300">
+```
+
+## Text size — Tailwind scale, not arbitrary px
+
+Map Figma px to nearest Tailwind utility:
+
+| Figma (approx.) | Use |
+|-----------------|-----|
+| ~11px | `text-xs` |
+| ~13–14px | `text-sm` |
+| ~16px | `text-base` |
+
+Avoid `text-[13px]` etc. unless no close match or a one-off design exception.
+
+```html
+<!-- ❌ -->
+<span class="text-[13px] leading-[13px]">...</span>
+
+<!-- ✅ -->
+<span class="text-sm">...</span>
+```
+
+## Border radius — Tailwind scale, not arbitrary px
+
+Pick the **nearest Tailwind step upward** (round up), same logic as font sizes.
+
+| Figma (approx.) | Use |
+|-----------------|-----|
+| ~4px | `rounded-sm` |
+| ~8px | `rounded-lg` |
+| ~12px | `rounded-xl` |
+| ~16px | `rounded-2xl` |
+| ~20–24px | `rounded-3xl` |
+| ~28–32px | `rounded-4xl` |
+
+Avoid `rounded-[20px]` etc. unless no close match or a one-off exception.
+
+```html
+<!-- ❌ -->
+<div class="rounded-[20px] ...">
+
+<!-- ✅ -->
+<div class="rounded-3xl ...">
+```

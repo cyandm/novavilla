@@ -1,11 +1,13 @@
 ---
-description: Compact single-line coding style for novavilla theme PHP/HTML
+description: Compact single-line coding style — mandatory for all novavilla theme PHP/HTML
 alwaysApply: true
 ---
 
-# Compact coding style
+# Compact coding style (mandatory)
 
-Prefer single-line statements over multi-line splits for short calls, arrays of few keys, ternaries, and HTML tags with several attributes.
+این قانون همیشه باید رعایت شود. کد کوتاه را چندخطی ننویس.
+
+Prefer single-line statements over multi-line splits for short calls, arrays of few keys, ternaries, HTML tags with several attributes, and helper/register calls.
 
 ## Do
 
@@ -13,6 +15,8 @@ Prefer single-line statements over multi-line splits for short calls, arrays of 
 <?php the_post_thumbnail('full', ['class' => 'w-full h-auto object-cover rounded-3xl', 'alt' => esc_attr(get_the_title())]); ?>
 <?php echo $title ? esc_html($title) : __('Fallback', 'novavilla'); ?>
 $acfGroup->basicFields->addText('field', 'Label', ['default_value' => $x, 'width' => '40']);
+self::makePostType('product', 'محصول', 'محصولات', 'dashicons-cart', ['title', 'editor', 'thumbnail']);
+self::makePostType('activity', 'حوزه فعالیت', 'حوزه‌های فعالیت', 'dashicons-building', ['title', 'thumbnail', 'page-attributes'], false, false, false);
 ```
 
 ```html
@@ -22,8 +26,19 @@ $acfGroup->basicFields->addText('field', 'Label', ['default_value' => $x, 'width
 
 ## Don't
 
+```php
+// ❌ BAD — short call split across lines
+self::makePostType(
+	'product',
+	'محصول',
+	'محصولات',
+	'dashicons-cart',
+	['title', 'editor', 'thumbnail']
+);
+```
+
 - Split short attribute lists across lines
 - Break ternaries across lines when they fit on one line
-- Break ACF helper args or small associative arrays across lines when they have only a few keys
+- Break ACF helper args, `makePostType`, or small associative arrays across lines when they have only a few keys
 
 Long content strings or large data arrays may stay multi-line when readability clearly requires it.

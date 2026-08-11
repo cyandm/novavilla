@@ -183,7 +183,7 @@ get_header();
                     <?php if (!empty($about_cert_stat_value_1) || !empty($about_cert_stat_value_2)) : ?>
                         <div class="grid grid-cols-2 gap-2 lg:gap-3">
                             <?php if (!empty($about_cert_stat_value_1) || !empty($about_cert_stat_label_1)) : ?>
-                                <div class="flex items-center justify-center gap-3 lg:gap-5 rounded-[20px] border border-cynBorder bg-cynBgItem backdrop-blur-xl px-3 py-4 lg:px-6 lg:py-[26px]">
+                                <div class="flex items-center justify-center gap-3 lg:gap-5 rounded-3xl border border-cynBorder bg-cynBgItem backdrop-blur-xl px-3 py-4 lg:px-6 lg:py-[26px]">
                                     <i class="size-[30px] lg:size-[50px] flex items-center justify-center shrink-0 [&_svg]:size-full [&_svg]:stroke-cynBorderHover"><?php Icon::print('Certificate'); ?></i>
                                     <div class="flex flex-col gap-1">
                                         <?php if (!empty($about_cert_stat_value_1)) : ?><span class="text-sm lg:text-[28px] font-bold text-cynBorderHover leading-[18px] lg:leading-[38px]"><?php echo esc_html($about_cert_stat_value_1); ?></span><?php endif; ?>
@@ -193,7 +193,7 @@ get_header();
                             <?php endif; ?>
 
                             <?php if (!empty($about_cert_stat_value_2) || !empty($about_cert_stat_label_2)) : ?>
-                                <div class="flex items-center justify-center gap-3 lg:gap-5 rounded-[20px] border border-cynBorder bg-cynBgItem backdrop-blur-xl px-3 py-4 lg:px-6 lg:py-[26px]">
+                                <div class="flex items-center justify-center gap-3 lg:gap-5 rounded-3xl border border-cynBorder bg-cynBgItem backdrop-blur-xl px-3 py-4 lg:px-6 lg:py-[26px]">
                                     <i class="size-[30px] lg:size-[50px] flex items-center justify-center shrink-0 [&_svg]:size-full [&_svg]:stroke-cynBorderHover"><?php Icon::print('Shield,-Protected,-Checkmark'); ?></i>
                                     <div class="flex flex-col gap-1">
                                         <?php if (!empty($about_cert_stat_value_2)) : ?><span class="text-sm lg:text-[28px] font-bold text-cynBorderHover leading-[18px] lg:leading-[38px]"><?php echo esc_html($about_cert_stat_value_2); ?></span><?php endif; ?>

@@ -77,7 +77,7 @@ if (!$has_faqs) {
         <?php endif; ?>
 
         <div class="container">
-            <div class="col-span-5 max-md:col-span-6 bg-cynBgItem rounded-[20px] border border-cynBorder overflow-hidden backdrop-blur-xl">
+            <div class="col-span-5 max-md:col-span-6 bg-cynBgItem rounded-3xl border border-cynBorder overflow-hidden backdrop-blur-xl">
                 <div class="fade-in-down"
                     anim-delay="0.8">
                     <?php if ($has_cats) : ?>
@@ -104,7 +104,7 @@ if (!$has_faqs) {
 
     <div class="container flex justify-center items-center md:hidden mt-3">
 
-        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button text-xs font-semibold w-full justify-center !rounded-[30px]">
+        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button text-xs font-semibold w-full justify-center">
             <?php _e('تماس با ما', 'novavilla'); ?>
         </a>
 

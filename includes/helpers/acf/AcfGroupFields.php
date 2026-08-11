@@ -13,10 +13,8 @@ class AcfGroupFields extends AcfGroup {
 	 * @param string $id The ID of the field
 	 * @return void
 	 */
-	public function addGallery( $name, $label, $additionalAttributes = [], $count = 1, $id = '' ) {
-		for ( $i = 1; $i < $count + 1; $i++ ) {
-			parent::addImage( $name . '_' . $i, $label . ' ' . $i, $additionalAttributes, $id . '_' . $i );
-		}
+	public function addGallery( $name, $label, $additionalAttributes = [], $count = 6, $id = '' ) {
+		$this->contentFields->addGallery( $name, $label, $additionalAttributes, $count, $id );
 	}
 
 }

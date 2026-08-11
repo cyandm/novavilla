@@ -36,6 +36,7 @@ class ACF
 		//PostTypes
 		self::forActivity();
 		self::forCertificate();
+		self::forProduct();
 
 		//Taxonomies
 
@@ -43,6 +44,7 @@ class ACF
 		self::forContactUs();
 		self::forAboutUs();
 		self::forBlogs();
+		self::forHome();
 		self::for3dStructure();
 
 		//Menu Items
@@ -75,6 +77,72 @@ class ACF
 		$acfGroup->setLocation('post_type', '==', 'certificate');
 
 		$acfGroup->register('Certificate');
+	}
+
+	private static function forProduct()
+	{
+		$acfGroup = new AcfGroup();
+
+		$acfGroup->layoutFields->addTab('product_info_tab', 'اطلاعات محصول');
+		$acfGroup->basicFields->addNumber('product_price', 'قیمت (تومان)', ['placeholder' => '450000000', 'width' => '33']);
+		$acfGroup->basicFields->addNumber('product_area', 'متراژ (متر مربع)', ['placeholder' => '60', 'width' => '33']);
+		$acfGroup->basicFields->addText('product_dimensions', 'ابعاد', ['placeholder' => '۶ × ۱۰ متر', 'width' => '33']);
+		$acfGroup->basicFields->addNumber('product_rooms', 'تعداد اتاق', ['placeholder' => '2', 'min' => 0, 'width' => '33']);
+		$acfGroup->basicFields->addText('product_structure_type', 'نوع سازه', ['placeholder' => 'سازه فلزی سبک', 'width' => '33']);
+		$acfGroup->basicFields->addText('product_build_time', 'زمان ساخت', ['placeholder' => '۳۰ تا ۴۵ روز کاری', 'width' => '33']);
+		$acfGroup->basicFields->addText('product_status', 'وضعیت محصول', ['placeholder' => 'اماده تحویل', 'width' => '33']);
+		$acfGroup->contentFields->addTextEditor('product_description', 'توضیحات', ['rows' => 12]);
+
+		$acfGroup->layoutFields->addTab('product_gallery_tab', 'گالری');
+		$acfGroup->contentFields->addGallery('product_gallery', 'تصویر', ['return_format' => 'url', 'width' => '25'], 20);
+
+		$acfGroup->layoutFields->addTab('product_features_tab', 'امکانات قابل انتخاب');
+		$acfGroup->basicFields->addText('product_features_title', 'عنوان بخش', ['default_value' => 'امکانات قابل انتخاب', 'width' => '50']);
+		$acfGroup->basicFields->addTextarea('product_features_desc', 'توضیحات', ['rows' => 2, 'placeholder' => 'این مدل بر اساس نیاز شما قابل شخصی سازی است. امکانات موردنظر را انتخاب کنید', 'width' => '50']);
+		$acfGroup->basicFields->addText('product_features_inquiry_text', 'متن دکمه استعلام', ['placeholder' => 'استعلام قیمت با امکانات انتخابی']);
+		$feature_placeholders = [
+			1 => ['title' => 'تراس', 'desc' => 'اضافه شدن تراس چوبی یا کامپوزیت'],
+			2 => ['title' => 'پنجره پانوراما', 'desc' => 'پنجره های قدی با دید گسترده'],
+			3 => ['title' => 'پارکینگ', 'desc' => 'پارکینگ سرپوشیده یا روباز'],
+			4 => ['title' => 'سیستم هوشمندسازی', 'desc' => 'کنترل هوشمند لوازم روشنایی و تجهیزات'],
+			5 => ['title' => 'نمای ترموود', 'desc' => 'استفاده از ترموود در نمای بیرونی'],
+			6 => ['title' => 'گرمایش از کف', 'desc' => 'سیستم گرمایش از کف برقی'],
+			7 => ['title' => 'دوربین مداربسته', 'desc' => 'نصب سیستم امنیتی و DVR'],
+			8 => ['title' => 'کابینت MDF ارتقایی', 'desc' => 'کابینت اشپزخانه MDF طرح سفارشی'],
+			9 => ['title' => 'انباری', 'desc' => 'افزودن فضای انباری مجزا'],
+		];
+		foreach ($feature_placeholders as $i => $item) {
+			$acfGroup->basicFields->addText("product_feature_title_{$i}", "عنوان امکان {$i}", ['default_value' => $item['title'], 'width' => '40']);
+			$acfGroup->basicFields->addTextarea("product_feature_desc_{$i}", "توضیح امکان {$i}", ['placeholder' => $item['desc'], 'rows' => 2, 'width' => '60']);
+		}
+
+		$acfGroup->layoutFields->addTab('product_installment_tab', 'اقساط');
+		$acfGroup->basicFields->addText('product_installment_title', 'عنوان بخش', ['default_value' => 'شرایط پیش پرداخت و اقساط', 'width' => '50']);
+		$acfGroup->basicFields->addText('product_installment_subtitle', 'زیرعنوان', ['placeholder' => 'یکی از دو حالت زیر را انتخاب کنید', 'width' => '50']);
+		$acfGroup->basicFields->addText('product_prepay_section_title', 'عنوان بخش پیش پرداخت', ['default_value' => 'پیش پرداخت']);
+		$prepay_placeholders = [
+			1 => ['title' => 'پیش پرداخت 30%', 'percent' => '30', 'desc' => 'مناسب شروع آسان‌تر با پیش پرداخت کمتر'],
+			2 => ['title' => 'پیش پرداخت 50 %', 'percent' => '50', 'desc' => 'مناسب پرداخت اولیه بیشتر و اقساط سبک‌تر'],
+		];
+		foreach ($prepay_placeholders as $i => $item) {
+			$acfGroup->basicFields->addText("product_prepay_title_{$i}", "عنوان پیش‌پرداخت {$i}", ['default_value' => $item['title'], 'width' => '40']);
+			$acfGroup->basicFields->addNumber("product_prepay_percent_{$i}", "درصد {$i}", ['placeholder' => $item['percent'], 'width' => '20']);
+			$acfGroup->basicFields->addTextarea("product_prepay_desc_{$i}", "توضیح {$i}", ['placeholder' => $item['desc'], 'rows' => 2, 'width' => '40']);
+		}
+		$acfGroup->basicFields->addText('product_period_section_title', 'عنوان بخش مدت بازپرداخت', ['default_value' => 'مدت بازپرداخت (تعداد اقساط)']);
+		$period_placeholders = [1 => '3 ماه', 2 => '6 ماه', 3 => '12 ماه'];
+		foreach ($period_placeholders as $i => $label) {
+			$acfGroup->basicFields->addText("product_period_label_{$i}", "مدت {$i}", ['placeholder' => $label, 'width' => '33']);
+		}
+		$acfGroup->basicFields->addNumber('product_interest_rate', 'سود ماهانه (%)', ['placeholder' => '3', 'width' => '50']);
+		$acfGroup->basicFields->addTextarea('product_installment_note', 'توضیح پایین محاسبه', ['rows' => 2, 'placeholder' => 'مبلغ نهایی با توجه به مبلغ سفارش و تعداد اقساط محاسبه می‌شود.', 'width' => '50']);
+
+		$acfGroup->layoutFields->addTab('product_related_tab', 'محصولات مرتبط');
+		$acfGroup->relationshipFields->addPostObject('product_similar', 'محصولات مشابه', ['post_type' => ['product'], 'multiple' => 1, 'return_format' => 'id']);
+		$acfGroup->relationshipFields->addPostObject('product_suggested', 'شاید بپسندید', ['post_type' => ['product'], 'multiple' => 1, 'return_format' => 'id']);
+
+		$acfGroup->setLocation('post_type', '==', 'product');
+		$acfGroup->register('Product');
 	}
 
 	private static function forContactUs()
@@ -180,6 +248,21 @@ class ACF
 		$acfGroup->setLocation('page_template', '==', 'templates/blogs.php');
 
 		$acfGroup->register('Blogs');
+	}
+
+	private static function forHome()
+	{
+		$acfGroup = new AcfGroup();
+
+		$acfGroup->layoutFields->addTab('product_archive_hero_tab', 'آرشیو محصولات');
+		$acfGroup->contentFields->addImage('product_archive_hero_image', 'تصویر هیرو', ['return_format' => 'url', 'width' => '50']);
+		$acfGroup->basicFields->addText('product_archive_hero_title', 'عنوان', ['default_value' => __('ویلایــــــــــــــی مـــــــدرن سریع‌تر از آنچه تصور می‌کنید', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addTextarea('product_archive_hero_description', 'توضیحات', ['rows' => 5, 'default_value' => __('در مجموعه نوا ویلا، ویلاهای پیش‌ساخته با طراحی مدرن و کیفیت بالا تولید می‌شوند. با استفاده از تکنولوژی‌های نوین ساخت، زمان تحویل پروژه به‌طور چشمگیری کاهش می‌یابد و شما می‌توانید ویلای مدرن خود را سریع‌تر از آنچه تصور می‌کنید داشته باشید.', 'novavilla')]);
+		$acfGroup->relationshipFields->addLink('product_archive_hero_button', 'دکمه', ['width' => '50']);
+
+		$acfGroup->setLocation('page_template', '==', 'templates/home.php');
+
+		$acfGroup->register('Home');
 	}
 
 	private static function for3dStructure()

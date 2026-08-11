@@ -17,7 +17,7 @@ $instagram_link = get_option('instagram_link');
 $instagram_text = get_option('instagram_text');
 ?>
 
-<section class="mobile-menu-scroll h-screen bg-cynBgBase p-5 w-0 fixed inset-0 z-50 opacity-0 pointer-events-none overflow-y-auto data-[active='true']:w-full data-[active='true']:opacity-100 data-[active='true']:pointer-events-auto duration-500" modal data-modal-name="menu-modal" data-modal-layer="drawer" data-active="false">
+<section class="mobile-menu-scroll h-screen bg-cynBgBase p-5 w-0 fixed inset-0 z-[60] opacity-0 pointer-events-none overflow-y-auto data-[active='true']:w-full data-[active='true']:opacity-100 data-[active='true']:pointer-events-auto duration-500" modal data-modal-name="menu-modal" data-modal-layer="drawer" data-active="false">
 
 	<div class="flex justify-between items-center">
 

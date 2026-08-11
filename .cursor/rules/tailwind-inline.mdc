@@ -10,8 +10,16 @@ Put styles on the element with Tailwind utility classes in PHP/HTML templates. D
 ## Do
 
 ```html
-<div class="flex flex-col gap-3 rounded-[20px] border border-cynBorderHover/40 bg-cynBgItem p-4">...</div>
-<p class="text-xs lg:text-base font-light text-cynTextPrimary leading-5 lg:leading-7">...</p>
+<div
+  class="flex flex-col gap-3 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem p-4"
+>
+  ...
+</div>
+<p
+  class="text-xs lg:text-base font-light text-cynTextPrimary leading-5 lg:leading-7"
+>
+  ...
+</p>
 ```
 
 ```php

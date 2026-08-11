@@ -59,45 +59,21 @@ class Register
 
 	public static function registerPostType()
 	{
-		self::makePostType('contact_form', 'فرم تماس با ما', 'فرم تماس با ما', 'dashicons-phone', ['title']);
-		self::makePostType('session_request', 'درخواست جلسه و مشاوره', 'درخواست‌های جلسه و مشاوره', 'dashicons-calendar-alt', ['title']);
-		self::makePostType('faq', 'سوالات متداول', 'سوالات متداول', 'dashicons-editor-help', ['title', 'editor']);
-		self::makePostType(
-			'activity',
-			'حوزه فعالیت',
-			'حوزه‌های فعالیت',
-			'dashicons-building',
-			['title', 'thumbnail', 'page-attributes'],
-			false,
-			false,
-			false
-		);
-		self::makePostType(
-			'certificate',
-			'گواهینامه',
-			'گواهینامه‌ها',
-			'dashicons-awards',
-			['title', 'thumbnail', 'page-attributes'],
-			false,
-			false,
-			false
-		);
-		self::makePostType(
-			'personnels',
-			'عضو تیم',
-			'تیم ما',
-			'dashicons-groups',
-			['title', 'editor', 'thumbnail', 'page-attributes'],
-			false,
-			false,
-			false
-		);
+		self::makePostType('contact_form', 'فرم تماس با ما', 'فرم تماس با ما', 'dashicons-phone', ['title'], false, false, false);
+		self::makePostType('session_request', 'درخواست جلسه و مشاوره', 'درخواست‌های جلسه و مشاوره', 'dashicons-calendar-alt', ['title'], false, false, false);
+		self::makePostType('faq', 'سوالات متداول', 'سوالات متداول', 'dashicons-editor-help', ['title', 'editor'], false, false, false);
+		self::makePostType('activity', 'حوزه فعالیت', 'حوزه‌های فعالیت', 'dashicons-building', ['title', 'thumbnail', 'page-attributes'], false, false, false);
+		self::makePostType('certificate', 'گواهینامه', 'گواهینامه‌ها', 'dashicons-awards', ['title', 'thumbnail', 'page-attributes'], false, false, false);
+		self::makePostType('personnels', 'عضو تیم', 'تیم ما', 'dashicons-groups', ['title', 'editor', 'thumbnail', 'page-attributes'], false, false, false);
+		self::makePostType('product', 'محصول', 'محصولات', 'dashicons-cart', ['title', 'thumbnail']);
 	}
 
 	public static function registerTaxonomy()
 	{
 		self::makeTaxonomy('faq_cat', 'دسته سوالات ', 'دسته ها', ['faq']);
 		self::makeTaxonomy('faq_place', 'مکان نمایش ', 'مکان ها', ['faq']);
+		self::makeTaxonomy('product_cat', 'دسته بندی محصولات', 'دسته بندی ها', ['product']);
+		self::makeTaxonomy('product_tag', 'برچسب محصولات', 'برچسب ها', ['product']);
 	}
 
 	/**

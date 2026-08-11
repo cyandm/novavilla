@@ -9,7 +9,7 @@ use Cyan\Theme\Helpers\Templates;
 use Cyan\Theme\Helpers\Icon;
 ?>
 
-<section id="site-header" class="relative z-50">
+<section id="site-header" class="relative z-30">
 	<div class="container flex justify-between items-center max-lg:[&>div]:flex-1 py-4 lg:py-8">
 
 		<div class="mobile-menu flex lg:hidden">

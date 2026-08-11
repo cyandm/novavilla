@@ -19,10 +19,14 @@ Everywhere else, use `<div>`. If the block is clickable or navigates somewhere, 
 <article class="single-post-content">...</article>
 
 <!-- Non-blog card (no link) -->
-<div class="flex flex-col rounded-[20px] border ...">...</div>
+<div class="flex flex-col rounded-3xl border ...">...</div>
 
 <!-- Clickable card -->
-<a href="<?php echo esc_url($url); ?>" class="flex flex-col rounded-[20px] border ... no-underline">...</a>
+<a
+  href="<?php echo esc_url($url); ?>"
+  class="flex flex-col rounded-3xl border ..."
+  >...</a
+>
 ```
 
 ## Don't
