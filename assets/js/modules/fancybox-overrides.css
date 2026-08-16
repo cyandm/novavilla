@@ -1,0 +1,37 @@
+/* Loaded after fancybox.css in JS bundle — overrides default iframe sizing */
+
+.fancybox__container .fancybox__slide.has-iframe {
+  padding: 0 !important;
+}
+
+.fancybox__container .fancybox__slide.has-iframe .f-html {
+  --f-html-padding: 0;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 !important;
+  width: min(92vw, calc((min(92svh, 92vh) - 88px) * 16 / 9)) !important;
+  max-width: 92vw !important;
+  max-height: calc(min(92svh, 92vh) - 88px) !important;
+  aspect-ratio: 16 / 9;
+  height: auto !important;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.fancybox__container .fancybox__slide.has-iframe .f-iframe {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0;
+}
+
+@media (max-width: 767px) {
+  .fancybox__container .fancybox__slide.has-iframe .f-html {
+    width: min(96vw, calc((min(92svh, 92vh) - 72px) * 16 / 9)) !important;
+    max-width: 96vw !important;
+    max-height: calc(min(92svh, 92vh) - 72px) !important;
+  }
+}

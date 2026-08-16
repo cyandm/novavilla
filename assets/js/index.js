@@ -18,6 +18,9 @@ import { ThemeToggle } from "./functions/themeToggle";
 import { PrimaryButton } from "./functions/primaryButton";
 import { BlogArchive } from "./functions/blogArchive";
 import { ProductArchive } from "./functions/productArchive";
+import { ProductSingle } from "./functions/productSingle";
+import fancybox from "./modules/fancybox";
+import { ProductGallery } from "./functions/productGallery";
 
 Modals();
 register();
@@ -35,3 +38,6 @@ ThemeToggle();
 PrimaryButton();
 BlogArchive();
 ProductArchive();
+ProductSingle();
+ProductGallery();
+fancybox();

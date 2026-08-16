@@ -146,6 +146,8 @@
   --color-cynBgSocialTextHover: #ffffff;
   --color-cynWhite: #ffffff;
   --color-cynBlack: #030503;
+  --color-cynTextMuted: #d4d1d1;
+  --color-cynBgElevated: #272727;
   --color-cynRed: #ef1414;
   --color-cynBlue: #2969ff;
   --color-cynStars: #fecf00;
@@ -174,6 +176,8 @@
   --color-cynBgSocialTextHover: #ffffff;
   --color-cynWhite: #ffffff;
   --color-cynBlack: #030503;
+  --color-cynTextMuted: #d4d1d1;
+  --color-cynBgElevated: #272727;
   --theme-x: 50vw;
   --theme-y: 50vh;
   --theme-r: 150vmax;
@@ -201,6 +205,8 @@
   --color-cynBgSocialTextHover: #515151;
   --color-cynWhite: #ffffff;
   --color-cynBlack: #030503;
+  --color-cynTextMuted: #8a8787;
+  --color-cynBgElevated: #ededed;
 }
 
 ::view-transition-old(root) {
@@ -333,6 +339,44 @@ a {
   display: none;
 }
 
+.product-gallery-main {
+  height: 100%;
+  display: block;
+}
+
+.product-gallery-main swiper-slide {
+  height: 100%;
+}
+
+.product-gallery-main swiper-slide img,
+.product-gallery-thumbs swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-gallery-thumbs {
+  display: block;
+  overflow: hidden;
+}
+
+.product-gallery-thumbs swiper-slide {
+  width: 120px;
+  height: 123px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .product-gallery-thumbs swiper-slide {
+    width: 140px;
+    height: 192px;
+  }
+}
+
+.product-gallery-thumbs swiper-slide.swiper-slide-thumb-active .thumb-dim {
+  opacity: 0;
+}
+
 .submit-contact-btn.is-loading {
   pointer-events: none;
   opacity: 0.8;
@@ -444,7 +488,14 @@ a {
   border: 1px solid var(--color-cynBorderHover);
   border-radius: 1.25rem;
   transition: all 0.3s ease;
-  @apply [&>li]:border-t-2 [&>li]:border-cynBorder [&>li]:first:border-t-0 bg-cynBgItem/40 backdrop-blur-2xl;
+  background-color: color-mix(
+    in oklab,
+    var(--color-cynBgBase) 75%,
+    transparent
+  );
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
+  @apply [&>li]:border-t-2 [&>li]:border-cynBorder [&>li]:first:border-t-0;
 }
 
 #main-menu li ul li {
@@ -683,15 +734,23 @@ input[type="number"] {
 }
 
 .product-price-range__input::-webkit-slider-thumb {
-  @apply pointer-events-auto relative z-10 size-4 appearance-none rounded-full bg-cynWhite cursor-pointer touch-manipulation;
+  @apply pointer-events-auto relative z-10 size-4 appearance-none rounded-full bg-cynTextPrimary cursor-pointer touch-manipulation;
   -webkit-appearance: none;
   margin-top: -2px;
 }
 
 .product-price-range__input::-moz-range-thumb {
-  @apply pointer-events-auto relative z-10 size-4 rounded-full border-0 bg-cynWhite cursor-pointer touch-manipulation;
+  @apply pointer-events-auto relative z-10 size-4 rounded-full border-0 bg-cynTextPrimary cursor-pointer touch-manipulation;
 }
 
 .product-price-range__fill {
   @apply pointer-events-none;
+}
+
+.product-filter-price-input::placeholder {
+  color: color-mix(in oklab, var(--color-cynWhite) 80%, transparent);
+}
+
+[data-theme="dark"] .product-filter-price-input::placeholder {
+  color: color-mix(in oklab, var(--color-cynWhite) 50%, transparent);
 }

@@ -152,7 +152,7 @@ get_header();
                 </video>
                 <div class="video-cover absolute inset-0 z-10 cursor-pointer opacity-100 pointer-events-auto transition-opacity duration-300 bg-cover bg-center bg-no-repeat" style="background-image: url(<?php echo esc_url($about_video_cover_url); ?>);">
                     <div class="flex items-center justify-center w-full h-full bg-black/35">
-                        <i class="size-11 md:size-16 flex items-center justify-center rounded-full overflow-hidden border border-cynWhite bg-cynWhite/10 backdrop-blur-xl [&_svg]:size-full"><?php echo file_get_contents(THEME_DIR . '/assets/icon/play.svg'); ?></i>
+                        <i class="size-11 md:size-16 flex items-center justify-center rounded-full overflow-hidden text-cynWhite backdrop-blur-xl [&_svg]:size-full"><?php echo file_get_contents(THEME_DIR . '/assets/icon/play.svg'); ?></i>
                     </div>
                 </div>
             </div>

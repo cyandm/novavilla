@@ -37732,12 +37732,12 @@
     },
     {
       "name": "minus",
-      "content": "<svg viewBox=\"0 0 18 18\" xmlns=\"http://www.w3.org/2000/svg\"><g class=\"nc-icon-wrapper\" fill=\"#212121\"><line x1=\"3.25\" y1=\"9\" x2=\"14.75\" y2=\"9\" fill=\"none\" stroke=\"#212121\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></line></g></svg>",
+      "content": "<svg viewBox=\"0 0 18 18\" xmlns=\"http://www.w3.org/2000/svg\"><g class=\"nc-icon-wrapper\" fill=\"none\"><line x1=\"3.25\" y1=\"9\" x2=\"14.75\" y2=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></line></g></svg>",
       "set_id": 1
     },
     {
       "name": "plus",
-      "content": "<svg viewBox=\"0 0 18 18\" xmlns=\"http://www.w3.org/2000/svg\"><g class=\"nc-icon-wrapper\" fill=\"#212121\"><line x1=\"9\" y1=\"3.25\" x2=\"9\" y2=\"14.75\" fill=\"none\" stroke=\"#212121\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" data-color=\"color-2\"></line><line x1=\"3.25\" y1=\"9\" x2=\"14.75\" y2=\"9\" fill=\"none\" stroke=\"#212121\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></line></g></svg>",
+      "content": "<svg viewBox=\"0 0 18 18\" xmlns=\"http://www.w3.org/2000/svg\"><g class=\"nc-icon-wrapper\" fill=\"none\"><line x1=\"9\" y1=\"3.25\" x2=\"9\" y2=\"14.75\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" data-color=\"color-2\"></line><line x1=\"3.25\" y1=\"9\" x2=\"14.75\" y2=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"></line></g></svg>",
       "set_id": 1
     }
   ],

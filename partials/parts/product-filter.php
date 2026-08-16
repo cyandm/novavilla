@@ -61,9 +61,10 @@ $rooms_filters = [
 	['value' => '4plus', 'id' => 'product-rooms-4plus', 'label' => '4+'],
 ];
 
-$accordion_panel_class = 'rounded-3xl border border-cynBorderHover/40 bg-cynBgItem/80 backdrop-blur-2xl p-4 flex flex-col';
+$accordion_panel_class = 'rounded-3xl border border-cynBorderHover/40 bg-cynBgItem/80 backdrop-blur-2xl p-4 flex flex-col hover:border-cynBorderHover transition-all duration-300';
 $accordion_content_class = 'grid transition-[grid-template-rows] duration-300 ease-out !mt-0';
-$chip_class = 'flex h-10 w-full items-center rounded-xl px-3 text-sm font-medium transition-colors duration-300 cursor-pointer has-[:checked]:bg-cynBorderHover has-[:checked]:text-cynBlack bg-cynBlack text-cynWhite';
+$chip_class = 'flex h-10 w-full items-center rounded-xl px-3 text-sm font-medium transition-colors duration-300 cursor-pointer has-[:checked]:bg-cynBorderHover has-[:checked]:text-cynBlack dark:bg-cynBlack bg-[#515151] text-cynWhite';
+$price_input_class = 'product-filter-price-input flex-1 min-w-0 h-[37px] rounded-lg border border-cynTextPrimary/10 dark:bg-cynBlack bg-[#515151] px-1.5 text-xs font-light text-cynWhite outline-none transition-all duration-300 focus:border-cynBorderHover';
 ?>
 
 <form id="product-filter-form" method="get" action="<?php echo esc_url($clear_url); ?>" class="flex flex-col gap-3">
@@ -116,14 +117,14 @@ $chip_class = 'flex h-10 w-full items-center rounded-xl px-3 text-sm font-medium
 					<div class="flex flex-col gap-3 pt-3" data-product-price-range data-price-floor="<?php echo esc_attr($price_floor); ?>" data-price-ceiling="<?php echo esc_attr($price_ceiling); ?>">
 						<div class="flex items-center gap-1 md:grid md:grid-cols-[auto_1fr] md:gap-1 lg:flex lg:items-center">
 							<span class="shrink-0 text-sm text-cynTextPrimary"><?php esc_html_e('شروع از', 'novavilla'); ?></span>
-							<input type="text" inputmode="numeric" name="price_min" data-price-min-input value="<?php echo $has_price_min ? esc_attr($format_price_input($current_price_min)) : ''; ?>" placeholder="<?php echo esc_attr($format_price_input($price_floor)); ?>" class="product-filter-price-input flex-1 min-w-0 h-[37px] rounded-lg border border-cynTextPrimary/10 bg-cynBlack px-1.5 text-xs font-light text-cynTextPrimary outline-none transition-colors focus:border-cynBorderHover placeholder:text-cynTextPrimary/50">
+							<input type="text" inputmode="numeric" name="price_min" data-price-min-input value="<?php echo $has_price_min ? esc_attr($format_price_input($current_price_min)) : ''; ?>" placeholder="<?php echo esc_attr($format_price_input($price_floor)); ?>" class="<?php echo esc_attr($price_input_class); ?>">
 							<span class="shrink-0 text-sm text-cynTextPrimary"><?php esc_html_e('تا', 'novavilla'); ?></span>
-							<input type="text" inputmode="numeric" name="price_max" data-price-max-input value="<?php echo $has_price_max ? esc_attr($format_price_input($current_price_max)) : ''; ?>" placeholder="<?php echo esc_attr($format_price_input($price_ceiling)); ?>" class="product-filter-price-input flex-1 min-w-0 h-[37px] rounded-lg border border-cynTextPrimary/10 bg-cynBlack px-1.5 text-xs font-light text-cynTextPrimary outline-none transition-colors focus:border-cynBorderHover placeholder:text-cynTextPrimary/50">
+							<input type="text" inputmode="numeric" name="price_max" data-price-max-input value="<?php echo $has_price_max ? esc_attr($format_price_input($current_price_max)) : ''; ?>" placeholder="<?php echo esc_attr($format_price_input($price_ceiling)); ?>" class="<?php echo esc_attr($price_input_class); ?>">
 						</div>
 
-						<div class="product-price-range relative h-3 pt-1">
-							<div class="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-[#EAEAEA]"></div>
-							<div class="product-price-range__fill absolute top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-cynWhite" data-price-range-fill></div>
+						<div class="product-price-range relative h-3 pt-1" dir="rtl">
+							<div class="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-cynTextPrimary/25"></div>
+							<div class="product-price-range__fill absolute top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-cynTextPrimary" data-price-range-fill></div>
 							<input type="range" data-price-min-range min="<?php echo esc_attr($price_floor); ?>" max="<?php echo esc_attr($price_ceiling); ?>" step="<?php echo esc_attr($price_step); ?>" value="<?php echo esc_attr($slider_min); ?>" class="product-price-range__input" aria-label="<?php esc_attr_e('حداقل قیمت', 'novavilla'); ?>">
 							<input type="range" data-price-max-range min="<?php echo esc_attr($price_floor); ?>" max="<?php echo esc_attr($price_ceiling); ?>" step="<?php echo esc_attr($price_step); ?>" value="<?php echo esc_attr($slider_max); ?>" class="product-price-range__input" aria-label="<?php esc_attr_e('حداکثر قیمت', 'novavilla'); ?>">
 						</div>
@@ -138,6 +139,6 @@ $chip_class = 'flex h-10 w-full items-center rounded-xl px-3 text-sm font-medium
 		</div>
 	<?php endif; ?>
 
-	<a href="<?php echo esc_url($clear_url); ?>" class="flex w-full items-center justify-center rounded-3xl border border-cynBorder px-3 py-3 text-sm font-medium text-cynTextPrimary/80 transition-all duration-300 hover:border-cynBorderHover hover:text-cynTextPrimary"><?php esc_html_e('پاک کردن فیلترها', 'novavilla'); ?></a>
+	<a href="<?php echo esc_url($clear_url); ?>" class="flex w-full items-center justify-center rounded-3xl border px-3 py-3 text-sm font-medium text-cynTextPrimary border-cynBorderHover/40 bg-cynBgItem/80 backdrop-blur-2xl hover:border-cynBorderHover transition-all duration-300"><?php esc_html_e('پاک کردن فیلترها', 'novavilla'); ?></a>
 	<button type="submit" class="md:hidden flex w-full items-center justify-center rounded-3xl bg-cynBorderHover px-3 py-3 text-sm font-medium text-cynBlack transition-all duration-300"><?php esc_html_e('اعمال فیلترها', 'novavilla'); ?></button>
 </form>

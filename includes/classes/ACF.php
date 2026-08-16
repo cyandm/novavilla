@@ -95,6 +95,14 @@ class ACF
 
 		$acfGroup->layoutFields->addTab('product_gallery_tab', 'گالری');
 		$acfGroup->contentFields->addGallery('product_gallery', 'تصویر', ['return_format' => 'url', 'width' => '25'], 20);
+		$acfGroup->choiceFields->addBoolean('product_videos_first', 'نمایش ویدیوها در ابتدای گالری', ['message' => 'در صورت غیرفعال بودن، ویدیوها آخرین اسلایدها خواهند بود', 'default_value' => 0]);
+		for ($i = 1; $i <= 4; $i++) {
+			$source_key = 'acf_select_product_video_' . $i . '_source_';
+			$acfGroup->choiceFields->addSelect("product_video_{$i}_source", "منبع ویدیو {$i}", ['choices' => ['aparat' => 'آپارات', 'wordpress' => 'رسانه وردپرس'], 'default_value' => 'aparat', 'width' => '25']);
+			$acfGroup->contentFields->addTextEditor("product_video_{$i}_aparat", "کد embed آپارات {$i}", ['width' => '75', 'media_upload' => 0, 'conditional_logic' => [[['field' => $source_key, 'operator' => '==', 'value' => 'aparat']]]]);
+			$acfGroup->contentFields->addFile("product_video_{$i}_file", "فایل ویدیو {$i}", ['return_format' => 'array', 'width' => '50', 'conditional_logic' => [[['field' => $source_key, 'operator' => '==', 'value' => 'wordpress']]]]);
+			$acfGroup->contentFields->addImage("product_video_{$i}_cover", "کاور ویدیو {$i}", ['return_format' => 'url', 'width' => '50']);
+		}
 
 		$acfGroup->layoutFields->addTab('product_features_tab', 'امکانات قابل انتخاب');
 		$acfGroup->basicFields->addText('product_features_title', 'عنوان بخش', ['default_value' => 'امکانات قابل انتخاب', 'width' => '50']);
@@ -255,8 +263,10 @@ class ACF
 		$acfGroup = new AcfGroup();
 
 		$acfGroup->layoutFields->addTab('product_archive_hero_tab', 'آرشیو محصولات');
-		$acfGroup->contentFields->addImage('product_archive_hero_image', 'تصویر هیرو', ['return_format' => 'url', 'width' => '50']);
-		$acfGroup->basicFields->addText('product_archive_hero_title', 'عنوان', ['default_value' => __('ویلایــــــــــــــی مـــــــدرن سریع‌تر از آنچه تصور می‌کنید', 'novavilla'), 'width' => '50']);
+		$acfGroup->contentFields->addImage('product_archive_hero_image_before', 'تصویر هیرو قبل از تغییر', ['return_format' => 'url', 'width' => '50']);
+		$acfGroup->contentFields->addImage('product_archive_hero_image_after', 'تصویر هیرو بعد از تغییر', ['return_format' => 'url', 'width' => '50']);
+		$acfGroup->basicFields->addText('product_archive_hero_title_one', 'عنوان خط اول', ['default_value' => __('ویلایــــــــــــــی مـــــــدرن', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('product_archive_hero_title_two', 'عنوان خط دوم', ['default_value' => __('سریع‌تر از آنچه تصور می‌کنید', 'novavilla'), 'width' => '50']);
 		$acfGroup->basicFields->addTextarea('product_archive_hero_description', 'توضیحات', ['rows' => 5, 'default_value' => __('در مجموعه نوا ویلا، ویلاهای پیش‌ساخته با طراحی مدرن و کیفیت بالا تولید می‌شوند. با استفاده از تکنولوژی‌های نوین ساخت، زمان تحویل پروژه به‌طور چشمگیری کاهش می‌یابد و شما می‌توانید ویلای مدرن خود را سریع‌تر از آنچه تصور می‌کنید داشته باشید.', 'novavilla')]);
 		$acfGroup->relationshipFields->addLink('product_archive_hero_button', 'دکمه', ['width' => '50']);
 

@@ -28,16 +28,18 @@ $link_for = static function (int $page) use ($base_url, $page_param, $query_args
 };
 
 $nav_class = trim('pagination flex items-center justify-center md:justify-end gap-2 ' . $class);
+$arrow_btn_class = 'flex items-center justify-center size-10 rounded-full bg-cynBorderHover text-cynWhite dark:text-cynBlack shrink-0 transition-all duration-300';
+$arrow_icon_class = 'size-6 flex items-center justify-center [&_svg]:size-full';
 ?>
 
 <nav class="<?php echo esc_attr($nav_class); ?>" aria-label="<?php echo esc_attr($aria_label); ?>">
 	<?php if ($current > 1) : ?>
-		<a href="<?php echo $link_for($current - 1); ?>" class="flex items-center justify-center size-10 rounded-full bg-cynBorderHover text-cynBlack shrink-0 transition-opacity hover:opacity-90 no-underline" aria-label="<?php esc_attr_e('صفحه قبل', 'novavilla'); ?>">
-			<i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:fill-cynBlack"><?php Icon::print('Arrow-19'); ?></i>
+		<a href="<?php echo $link_for($current - 1); ?>" class="<?php echo esc_attr($arrow_btn_class); ?> hover:opacity-90" aria-label="<?php esc_attr_e('صفحه قبل', 'novavilla'); ?>">
+			<i class="<?php echo esc_attr($arrow_icon_class); ?>"><?php Icon::print('Arrow-19'); ?></i>
 		</a>
 	<?php else : ?>
-		<span class="flex items-center justify-center size-10 rounded-full bg-cynBorderHover text-cynBlack shrink-0 opacity-40 cursor-not-allowed" aria-hidden="true">
-			<i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:fill-cynBlack"><?php Icon::print('Arrow-19'); ?></i>
+		<span class="<?php echo esc_attr($arrow_btn_class); ?> opacity-40 cursor-not-allowed" aria-hidden="true">
+			<i class="<?php echo esc_attr($arrow_icon_class); ?>"><?php Icon::print('Arrow-19'); ?></i>
 		</span>
 	<?php endif; ?>
 
@@ -54,10 +56,10 @@ $nav_class = trim('pagination flex items-center justify-center md:justify-end ga
 			if ($i < $current) $dots_before = false;
 
 			if ($i === $current) : ?>
-				<span class="flex items-center justify-center size-10 min-w-10 rounded-full bg-cynBorder text-sm font-medium text-cynTextPrimary shrink-0" aria-current="page"><?php echo (int) $i; ?></span>
+				<span class="flex items-center justify-center size-10 min-w-10 rounded-full dark:bg-cynBorder bg-[#515151] text-sm font-medium dark:text-cynTextPrimary text-cynWhite shrink-0" aria-current="page"><?php echo (int) $i; ?></span>
 			<?php else : ?>
-				<a href="<?php echo $link_for($i); ?>" class="flex items-center justify-center size-10 min-w-10 rounded-full bg-cynBgItem text-sm font-medium text-cynTextPrimary shrink-0 transition-colors hover:bg-cynBorderHover/25 no-underline"><?php echo (int) $i; ?></a>
-			<?php endif;
+				<a href="<?php echo $link_for($i); ?>" class="flex items-center justify-center size-10 min-w-10 rounded-full dark:bg-cynBgItem bg-[#515151]/50 text-sm font-medium dark:text-cynTextPrimary text-cynWhite shrink-0 transition-colors hover:bg-cynBorderHover no-underline"><?php echo (int) $i; ?></a>
+	<?php endif;
 		else :
 			if ($i < $current && !$dots_before) {
 				$dots_before = true;
@@ -71,12 +73,12 @@ $nav_class = trim('pagination flex items-center justify-center md:justify-end ga
 	?>
 
 	<?php if ($current < $total) : ?>
-		<a href="<?php echo $link_for($current + 1); ?>" class="flex items-center justify-center size-10 rounded-full bg-cynBorderHover text-cynBlack shrink-0 transition-opacity hover:opacity-90 no-underline" aria-label="<?php esc_attr_e('صفحه بعد', 'novavilla'); ?>">
-			<i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:fill-cynBlack"><?php Icon::print('Arrow-27'); ?></i>
+		<a href="<?php echo $link_for($current + 1); ?>" class="<?php echo esc_attr($arrow_btn_class); ?> hover:opacity-90" aria-label="<?php esc_attr_e('صفحه بعد', 'novavilla'); ?>">
+			<i class="<?php echo esc_attr($arrow_icon_class); ?>"><?php Icon::print('Arrow-27'); ?></i>
 		</a>
 	<?php else : ?>
-		<span class="flex items-center justify-center size-10 rounded-full bg-cynBorderHover text-cynBlack shrink-0 opacity-40 cursor-not-allowed" aria-hidden="true">
-			<i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:fill-cynBlack"><?php Icon::print('Arrow-27'); ?></i>
+		<span class="<?php echo esc_attr($arrow_btn_class); ?> opacity-40 cursor-not-allowed" aria-hidden="true">
+			<i class="<?php echo esc_attr($arrow_icon_class); ?>"><?php Icon::print('Arrow-27'); ?></i>
 		</span>
 	<?php endif; ?>
 </nav>

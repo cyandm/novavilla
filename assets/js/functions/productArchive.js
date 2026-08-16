@@ -47,10 +47,12 @@ function initProductPriceRange() {
     const min = Number(minRange.value);
     const max = Number(maxRange.value);
     const span = ceiling - floor;
-    const left = span > 0 ? ((min - floor) / span) * 100 : 0;
-    const right = span > 0 ? 100 - ((max - floor) / span) * 100 : 0;
-    fill.style.left = `${left}%`;
-    fill.style.right = `${right}%`;
+    const start = span > 0 ? ((min - floor) / span) * 100 : 0;
+    const end = span > 0 ? 100 - ((max - floor) / span) * 100 : 0;
+    fill.style.insetInlineStart = `${start}%`;
+    fill.style.insetInlineEnd = `${end}%`;
+    fill.style.left = "";
+    fill.style.right = "";
     if (minLabel) minLabel.textContent = formatProductPriceLabel(min);
     if (maxLabel) maxLabel.textContent = formatProductPriceLabel(max);
   };
@@ -144,6 +146,36 @@ function initProductPriceRange() {
   updateFill();
 }
 
+function initHeroCompare() {
+  const root = document.querySelector("[data-hero-compare]");
+  if (!root) return;
+  const before = root.querySelector("[data-hero-compare-before]");
+  const line = root.querySelector("[data-hero-compare-line]");
+  if (!before || !line) return;
+
+  const setPos = (clientX) => {
+    const rect = root.getBoundingClientRect();
+    const pct = Math.min(100, Math.max(0, ((clientX - rect.left) / rect.width) * 100));
+    before.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+    line.style.left = `${pct}%`;
+  };
+
+  let dragging = false;
+  root.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    root.setPointerCapture(e.pointerId);
+    setPos(e.clientX);
+  });
+  root.addEventListener("pointermove", (e) => {
+    if (dragging) setPos(e.clientX);
+  });
+  const stopDrag = () => {
+    dragging = false;
+  };
+  root.addEventListener("pointerup", stopDrag);
+  root.addEventListener("pointercancel", stopDrag);
+}
+
 export function ProductArchive() {
   const form = document.getElementById("product-filter-form");
   const isDesktop = () => window.matchMedia("(min-width: 768px)").matches;
@@ -157,4 +189,5 @@ export function ProductArchive() {
   }
 
   initProductPriceRange();
+  initHeroCompare();
 }

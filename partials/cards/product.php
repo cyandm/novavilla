@@ -32,8 +32,8 @@ if ($rooms_raw !== null && $rooms_raw !== '') {
 }
 ?>
 
-<a href="<?php echo esc_url($permalink); ?>" class="group flex flex-col rounded-3xl overflow-hidden border border-transparent hover:border-cynBorderHover transition-all duration-300">
-	<div class="w-full h-[276px] 2xl:h-80 overflow-hidden">
+<a href="<?php echo esc_url($permalink); ?>" class="group flex flex-col h-full rounded-3xl overflow-hidden border dark:border-transparent border-cynBorder hover:border-cynBorderHover transition-all duration-300">
+	<div class="w-full h-[276px] 2xl:h-80 shrink-0 overflow-hidden">
 		<?php if (has_post_thumbnail($post_id)) : ?>
 			<?php echo get_the_post_thumbnail($post_id, 'medium_large', ['class' => 'w-full h-full object-cover', 'alt' => esc_attr($title), 'loading' => 'lazy', 'decoding' => 'async']); ?>
 		<?php else : ?>
@@ -41,35 +41,31 @@ if ($rooms_raw !== null && $rooms_raw !== '') {
 		<?php endif; ?>
 	</div>
 
-	<div class="flex flex-col gap-1 bg-cynWhite/8 border-t border-transparent group-hover:border-t-cynBorderHover transition-all duration-300">
-		<div class="flex flex-col gap-1.5 px-3 py-2">
-			<?php if (!empty($title)) : ?>
-				<h3 class="text-base font-normal text-cynWhite leading-6 line-clamp-1"><?php echo esc_html($title); ?></h3>
-			<?php endif; ?>
+	<div class="flex flex-1 flex-col bg-cynWhite/8 border-t dark:border-transparent border-cynBorder group-hover:border-t-cynBorderHover transition-all duration-300">
+		<div class="flex flex-1 flex-col gap-1.5 px-3 py-2">
+			<h3 class="text-base font-normal text-cynTextPrimary leading-6 line-clamp-1 min-h-6"><?php echo esc_html($title); ?></h3>
 
-			<?php if (!empty($area_html) || !empty($rooms_html)) : ?>
-				<div class="flex items-center gap-3">
-					<?php if (!empty($area_html)) : ?>
-						<span class="flex items-center gap-0.5 text-xs font-semibold text-[#A3A3A3]">
-							<i class="size-5 shrink-0 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-current [&_svg]:stroke-[1.5]"><?php Icon::print('home-house-big'); ?></i>
-							<span><?php echo esc_html($area_html); ?></span>
-						</span>
-					<?php endif; ?>
-					<?php if (!empty($rooms_html)) : ?>
-						<span class="flex items-center gap-0.5 text-xs font-semibold text-[#A3A3A3]">
-							<i class="size-5 shrink-0 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-current [&_svg]:stroke-[1.5]"><?php Icon::print('Double,-Bed-1'); ?></i>
-							<span><?php echo esc_html($rooms_html); ?></span>
-						</span>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
+			<div class="flex items-center gap-3 min-h-5">
+				<?php if (!empty($area_html)) : ?>
+					<span class="flex items-center gap-0.5 text-xs font-semibold text-cynTextMuted">
+						<i class="size-5 shrink-0 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-current [&_svg]:stroke-[1.5]"><?php Icon::print('home-house-big'); ?></i>
+						<span><?php echo esc_html($area_html); ?></span>
+					</span>
+				<?php endif; ?>
+				<?php if (!empty($rooms_html)) : ?>
+					<span class="flex items-center gap-0.5 text-xs font-semibold text-cynTextMuted">
+						<i class="size-5 shrink-0 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-current [&_svg]:stroke-[1.5]"><?php Icon::print('Double,-Bed-1'); ?></i>
+						<span><?php echo esc_html($rooms_html); ?></span>
+					</span>
+				<?php endif; ?>
+			</div>
 
-			<?php if (!empty($price_html)) : ?>
-				<div class="flex items-center justify-between rounded-lg bg-cynBlack px-3 py-1.5 group-hover:bg-cynBorderHover transition-all duration-300">
+			<div class="mt-auto flex items-center justify-between rounded-lg bg-cynBlack px-3 py-1.5 group-hover:bg-cynBorderHover transition-all duration-300 min-h-8">
+				<?php if (!empty($price_html)) : ?>
 					<span class="text-sm font-normal text-cynWhite group-hover:text-cynBlack transition-all duration-300"><?php esc_html_e('قیمت', 'novavilla'); ?></span>
 					<span class="text-sm font-normal text-cynWhite group-hover:text-cynBlack transition-all duration-300"><?php echo esc_html($price_html); ?></span>
-				</div>
-			<?php endif; ?>
+				<?php endif; ?>
+			</div>
 		</div>
 	</div>
 </a>
