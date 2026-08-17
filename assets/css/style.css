@@ -357,7 +357,14 @@ a {
 
 .product-gallery-thumbs {
   display: block;
-  overflow: hidden;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.product-gallery-thumbs::-webkit-scrollbar {
+  display: none;
 }
 
 .product-gallery-thumbs swiper-slide {

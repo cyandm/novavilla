@@ -20961,28 +20961,44 @@
   function ProductSingle() {
     initFeatures();
   }
+  function formatToman(value) {
+    return `${Number(value || 0).toLocaleString("fa-IR")} \u062A\u0648\u0645\u0627\u0646`;
+  }
   function initFeatures() {
     const root = document.querySelector("[data-product-features]");
+    const modal = document.querySelector('[modal][data-modal-name="product-price-inquiry"]');
     if (!root) return;
-    const cards = [...root.querySelectorAll("button[data-feature-id]:not([data-feature-chip])")];
-    const chips = [...root.querySelectorAll("[data-feature-chip]")];
-    const countEl = root.querySelector("[data-feature-count]");
-    const inquiryBtn = root.querySelector("[data-feature-inquiry]");
+    const scopes = [root, modal].filter(Boolean);
+    const qAll = (sel) => [...new Set(scopes.flatMap((el) => [...el.querySelectorAll(sel)]))];
+    const qOne = (sel) => scopes.reduce((found, el) => found || el.querySelector(sel), null);
+    const cards = qAll("[data-feature-card]");
+    const chips = qAll("[data-feature-chip]");
+    const countEl = qOne("[data-feature-count]");
+    const inquiryBtn = qOne("[data-feature-inquiry]");
+    const baseEl = qOne("[data-price-base]");
+    const featuresEl = qOne("[data-price-features]");
+    const totalEl = qOne("[data-price-total]");
     const productTitle = root.dataset.productTitle || "";
-    const inquiryBase = inquiryBtn?.href || "";
+    const inquiryBase = inquiryBtn?.getAttribute("href") || "";
+    const basePrice = Number(root.dataset.basePrice || 0);
     const selected = /* @__PURE__ */ new Set();
     const sync = () => {
+      let featuresPrice = 0;
       cards.forEach((card) => {
         const on2 = selected.has(card.dataset.featureId);
         card.classList.toggle("is-selected", on2);
         card.setAttribute("aria-pressed", on2 ? "true" : "false");
+        if (on2) featuresPrice += Number(card.dataset.featurePrice || 0);
       });
       chips.forEach((chip) => {
-        chip.classList.toggle("hidden", !selected.has(chip.dataset.featureId));
+        const on2 = selected.has(chip.dataset.featureId);
+        chip.classList.toggle("hidden", !on2);
+        chip.classList.toggle("inline-flex", on2);
       });
-      if (countEl) {
-        countEl.textContent = `(${selected.size} \u0645\u0648\u0631\u062F)`;
-      }
+      if (countEl) countEl.textContent = `(${selected.size} \u0645\u0648\u0631\u062F)`;
+      if (baseEl) baseEl.textContent = formatToman(basePrice);
+      if (featuresEl) featuresEl.textContent = formatToman(featuresPrice);
+      if (totalEl) totalEl.textContent = formatToman(basePrice + featuresPrice);
       if (inquiryBtn && inquiryBase) {
         const url = new URL(inquiryBase, window.location.origin);
         if (productTitle) url.searchParams.set("product", productTitle);
@@ -24483,64 +24499,44 @@
     const root = document.querySelector("[data-product-gallery]");
     if (!root) return;
     const thumbsEl = root.querySelector("#product-gallery-thumbs");
+    const mainEl = root.querySelector("#product-gallery-main");
+    const bindThumbsSync = () => {
+      const mainSwiper = mainEl?.swiper;
+      if (!mainSwiper?.thumbs?.update || mainSwiper.__thumbsSyncBound) return;
+      mainSwiper.__thumbsSyncBound = true;
+      const origUpdate = mainSwiper.thumbs.update;
+      mainSwiper.thumbs.update = (initial, p2 = {}) => origUpdate(initial, { ...p2, autoScroll: false });
+      const scrollActiveThumb = () => {
+        const thumbsSwiper = thumbsEl.swiper;
+        const slide2 = thumbsSwiper?.slides?.[mainSwiper.realIndex];
+        if (!slide2) return;
+        slide2.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+      };
+      mainSwiper.on("slideChange", scrollActiveThumb);
+    };
     const configureThumbs = (swiper) => {
       if (!swiper) return;
-      swiper.params.freeMode = { enabled: true, sticky: false, momentum: true, momentumBounce: false };
-      swiper.params.watchSlidesProgress = true;
-      swiper.params.resistanceRatio = 0.55;
-      swiper.params.mousewheel = { enabled: false };
-      swiper.mousewheel?.disable?.();
+      swiper.params.cssMode = true;
+      swiper.params.freeMode = { enabled: true, sticky: false, momentum: false };
+      swiper.params.watchSlidesProgress = false;
+      if (!swiper.__lockSlideClasses) {
+        swiper.__lockSlideClasses = true;
+        swiper.updateSlidesClasses = () => {
+        };
+        swiper.updateActiveIndex = () => {
+        };
+      }
       swiper.update();
     };
     const bindThumbs = () => {
       configureThumbs(thumbsEl.swiper);
       thumbsEl.swiper?.on("breakpoint", () => configureThumbs(thumbsEl.swiper));
+      bindThumbsSync();
     };
     if (thumbsEl) {
       if (thumbsEl.swiper) bindThumbs();
       else thumbsEl.addEventListener("swiperinit", bindThumbs, { once: true });
-      let wheelTarget = null;
-      let wheelRaf = 0;
-      const clampTranslate = (swiper, value) => Math.min(swiper.minTranslate(), Math.max(swiper.maxTranslate(), value));
-      const wheelStep = (event2, swiper) => {
-        let raw = swiper.isHorizontal() ? Math.abs(event2.deltaX) > Math.abs(event2.deltaY) ? event2.deltaX : event2.deltaY : event2.deltaY;
-        if (event2.deltaMode === 1) raw *= 16;
-        else if (event2.deltaMode === 2) raw *= swiper.size;
-        const slideSize = swiper.slidesSizesGrid?.[0] || (swiper.isHorizontal() ? 120 : 192);
-        const cap = slideSize * 0.28;
-        return Math.sign(raw) * Math.min(Math.abs(raw) * 0.25, cap);
-      };
-      const easeWheel = () => {
-        const swiper = thumbsEl.swiper;
-        if (!swiper || wheelTarget === null) {
-          wheelRaf = 0;
-          return;
-        }
-        const current = swiper.getTranslate();
-        const next = current + (wheelTarget - current) * 0.12;
-        swiper.setTransition(0);
-        swiper.setTranslate(next);
-        swiper.updateProgress();
-        if (Math.abs(wheelTarget - next) > 0.5) {
-          wheelRaf = requestAnimationFrame(easeWheel);
-          return;
-        }
-        swiper.setTranslate(wheelTarget);
-        wheelTarget = null;
-        wheelRaf = 0;
-      };
-      thumbsEl.addEventListener("wheel", (event2) => {
-        const swiper = thumbsEl.swiper;
-        if (!swiper) return;
-        const step = wheelStep(event2, swiper);
-        if (!step) return;
-        const from = wheelTarget === null ? swiper.getTranslate() : wheelTarget;
-        const clamped = clampTranslate(swiper, from - step);
-        if (clamped === from) return;
-        event2.preventDefault();
-        wheelTarget = clamped;
-        if (!wheelRaf) wheelRaf = requestAnimationFrame(easeWheel);
-      }, { passive: false });
+      if (mainEl && !mainEl.swiper) mainEl.addEventListener("swiperinit", bindThumbsSync, { once: true });
     }
     let pointerX = 0;
     let pointerY = 0;
@@ -24551,7 +24547,8 @@
     root.addEventListener("click", (event2) => {
       const delegateEl = event2.target.closest("[data-fancybox-delegate]");
       if (!delegateEl) return;
-      if (Math.hypot(event2.clientX - pointerX, event2.clientY - pointerY) > DRAG_THRESHOLD) return;
+      if (Math.hypot(event2.clientX - pointerX, event2.clientY - pointerY) > DRAG_THRESHOLD)
+        return;
       event2.preventDefault();
       event2.stopPropagation();
       openProductGalleryItem(delegateEl);

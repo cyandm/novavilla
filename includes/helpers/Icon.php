@@ -13,6 +13,11 @@ class Icon {
 	public static function get( $icon_id ) {
 		$icon_id = str_replace( ' ', '-', $icon_id );
 
+		$file = THEME_DIR . '/assets/icon/' . basename( $icon_id ) . '.svg';
+		if ( is_file( $file ) ) {
+			return file_get_contents( $file );
+		}
+
 		if ( ! self::$icons ) {
 			$json = file_get_contents( THEME_DIR . '/assets/icon/icons.json' );
 			self::$icons = json_decode( $json, true );

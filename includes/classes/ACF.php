@@ -105,23 +105,22 @@ class ACF
 		}
 
 		$acfGroup->layoutFields->addTab('product_features_tab', 'امکانات قابل انتخاب');
-		$acfGroup->basicFields->addText('product_features_title', 'عنوان بخش', ['default_value' => 'امکانات قابل انتخاب', 'width' => '50']);
-		$acfGroup->basicFields->addTextarea('product_features_desc', 'توضیحات', ['rows' => 2, 'placeholder' => 'این مدل بر اساس نیاز شما قابل شخصی سازی است. امکانات موردنظر را انتخاب کنید', 'width' => '50']);
-		$acfGroup->basicFields->addText('product_features_inquiry_text', 'متن دکمه استعلام', ['placeholder' => 'استعلام قیمت با امکانات انتخابی']);
+		$acfGroup->basicFields->addTextarea('product_features_desc', 'توضیحات', ['rows' => 2, 'placeholder' => 'این مدل بر اساس نیاز شما قابل شخصی سازی است. امکانات موردنظر را انتخاب کنید', 'default_value' => 'این مدل بر اساس نیاز شما قابل شخصی سازی است. امکانات موردنظر را انتخاب کنید']);
 		$feature_placeholders = [
-			1 => ['title' => 'تراس', 'desc' => 'اضافه شدن تراس چوبی یا کامپوزیت'],
-			2 => ['title' => 'پنجره پانوراما', 'desc' => 'پنجره های قدی با دید گسترده'],
-			3 => ['title' => 'پارکینگ', 'desc' => 'پارکینگ سرپوشیده یا روباز'],
-			4 => ['title' => 'سیستم هوشمندسازی', 'desc' => 'کنترل هوشمند لوازم روشنایی و تجهیزات'],
-			5 => ['title' => 'نمای ترموود', 'desc' => 'استفاده از ترموود در نمای بیرونی'],
-			6 => ['title' => 'گرمایش از کف', 'desc' => 'سیستم گرمایش از کف برقی'],
-			7 => ['title' => 'دوربین مداربسته', 'desc' => 'نصب سیستم امنیتی و DVR'],
-			8 => ['title' => 'کابینت MDF ارتقایی', 'desc' => 'کابینت اشپزخانه MDF طرح سفارشی'],
-			9 => ['title' => 'انباری', 'desc' => 'افزودن فضای انباری مجزا'],
+			1 => ['title' => 'تراس', 'desc' => 'اضافه شدن تراس چوبی یا کامپوزیت', 'price' => '10000000'],
+			2 => ['title' => 'پنجره پانوراما', 'desc' => 'پنجره های قدی با دید گسترده', 'price' => '10000000'],
+			3 => ['title' => 'پارکینگ', 'desc' => 'پارکینگ سرپوشیده یا روباز', 'price' => '10000000'],
+			4 => ['title' => 'سیستم هوشمندسازی', 'desc' => 'کنترل هوشمند لوازم روشنایی و تجهیزات', 'price' => '10000000'],
+			5 => ['title' => 'نمای ترموود', 'desc' => 'استفاده از ترموود در نمای بیرونی', 'price' => '10000000'],
+			6 => ['title' => 'گرمایش از کف', 'desc' => 'سیستم گرمایش از کف برقی', 'price' => '10000000'],
+			7 => ['title' => 'دوربین مداربسته', 'desc' => 'نصب سیستم امنیتی و DVR', 'price' => '10000000'],
+			8 => ['title' => 'کابینت MDF ارتقایی', 'desc' => 'کابینت اشپزخانه MDF طرح سفارشی', 'price' => '10000000'],
+			9 => ['title' => 'انباری', 'desc' => 'افزودن فضای انباری مجزا', 'price' => '10000000'],
 		];
 		foreach ($feature_placeholders as $i => $item) {
-			$acfGroup->basicFields->addText("product_feature_title_{$i}", "عنوان امکان {$i}", ['default_value' => $item['title'], 'width' => '40']);
-			$acfGroup->basicFields->addTextarea("product_feature_desc_{$i}", "توضیح امکان {$i}", ['placeholder' => $item['desc'], 'rows' => 2, 'width' => '60']);
+			$acfGroup->basicFields->addText("product_feature_title_{$i}", "عنوان امکان {$i}", ['default_value' => $item['title'], 'placeholder' => $item['title'], 'width' => '33']);
+			$acfGroup->basicFields->addTextarea("product_feature_desc_{$i}", "توضیح امکان {$i}", ['default_value' => $item['desc'], 'placeholder' => $item['desc'], 'rows' => 2, 'width' => '33']);
+			$acfGroup->basicFields->addNumber("product_feature_price_{$i}", "هزینه امکان {$i}", ['default_value' => $item['price'], 'placeholder' => $item['price'], 'width' => '33', 'append' => 'تومان']);
 		}
 
 		$acfGroup->layoutFields->addTab('product_installment_tab', 'اقساط');

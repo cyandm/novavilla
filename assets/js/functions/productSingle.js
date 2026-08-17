@@ -2,32 +2,51 @@ export function ProductSingle() {
   initFeatures();
 }
 
+function formatToman(value) {
+  return `${Number(value || 0).toLocaleString("fa-IR")} تومان`;
+}
+
 function initFeatures() {
   const root = document.querySelector("[data-product-features]");
+  const modal = document.querySelector('[modal][data-modal-name="product-price-inquiry"]');
   if (!root) return;
 
-  const cards = [...root.querySelectorAll("button[data-feature-id]:not([data-feature-chip])")];
-  const chips = [...root.querySelectorAll("[data-feature-chip]")];
-  const countEl = root.querySelector("[data-feature-count]");
-  const inquiryBtn = root.querySelector("[data-feature-inquiry]");
+  const scopes = [root, modal].filter(Boolean);
+  const qAll = (sel) => [...new Set(scopes.flatMap((el) => [...el.querySelectorAll(sel)]))];
+  const qOne = (sel) => scopes.reduce((found, el) => found || el.querySelector(sel), null);
+
+  const cards = qAll("[data-feature-card]");
+  const chips = qAll("[data-feature-chip]");
+  const countEl = qOne("[data-feature-count]");
+  const inquiryBtn = qOne("[data-feature-inquiry]");
+  const baseEl = qOne("[data-price-base]");
+  const featuresEl = qOne("[data-price-features]");
+  const totalEl = qOne("[data-price-total]");
   const productTitle = root.dataset.productTitle || "";
-  const inquiryBase = inquiryBtn?.href || "";
+  const inquiryBase = inquiryBtn?.getAttribute("href") || "";
+  const basePrice = Number(root.dataset.basePrice || 0);
   const selected = new Set();
 
   const sync = () => {
+    let featuresPrice = 0;
+
     cards.forEach((card) => {
       const on = selected.has(card.dataset.featureId);
       card.classList.toggle("is-selected", on);
       card.setAttribute("aria-pressed", on ? "true" : "false");
+      if (on) featuresPrice += Number(card.dataset.featurePrice || 0);
     });
 
     chips.forEach((chip) => {
-      chip.classList.toggle("hidden", !selected.has(chip.dataset.featureId));
+      const on = selected.has(chip.dataset.featureId);
+      chip.classList.toggle("hidden", !on);
+      chip.classList.toggle("inline-flex", on);
     });
 
-    if (countEl) {
-      countEl.textContent = `(${selected.size} مورد)`;
-    }
+    if (countEl) countEl.textContent = `(${selected.size} مورد)`;
+    if (baseEl) baseEl.textContent = formatToman(basePrice);
+    if (featuresEl) featuresEl.textContent = formatToman(featuresPrice);
+    if (totalEl) totalEl.textContent = formatToman(basePrice + featuresPrice);
 
     if (inquiryBtn && inquiryBase) {
       const url = new URL(inquiryBase, window.location.origin);
