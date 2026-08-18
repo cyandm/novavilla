@@ -19,7 +19,27 @@ Use explicit height only when the element has no text flow (e.g. image wrapper: 
 <div class="flex items-center justify-between rounded-lg px-3 py-1">...</div>
 ```
 
-## RTL alignment
+## DOM order — no `order-*`
+
+Do **not** use `order-*`, `order-first`, `order-last`, or `flex-col-reverse` / `flex-row-reverse` to reshuffle layout.
+
+Put elements in the DOM in the visual order you want (RTL: first child appears on the right in a row, on top in a column). Change structure, not `order`.
+
+```html
+<!-- ❌ -->
+<div class="flex flex-col lg:flex-row">
+  <div class="order-1 lg:order-2">...</div>
+  <div class="order-2 lg:order-1">...</div>
+</div>
+
+<!-- ✅ -->
+<div class="flex flex-col lg:flex-row">
+  <div>first in DOM</div>
+  <div>second in DOM</div>
+</div>
+```
+
+
 
 Site is Persian (RTL). Do **not** add `justify-end`, `self-end`, `text-end`, or similar end-alignment utilities unless Figma clearly requires it for that node. In RTL they often flip alignment and break right-to-left layout.
 

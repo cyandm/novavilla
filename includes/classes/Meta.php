@@ -109,6 +109,9 @@ class Meta
 
         add_meta_box('session_request_information', __('اطلاعات درخواست', 'novavilla'), function () {
             $meta_group = [
+                ['name' => '_name', 'label' => __('نام:', 'novavilla')],
+                ['name' => '_phone', 'label' => __('شماره تماس:', 'novavilla')],
+                ['name' => '_channel', 'label' => __('راه ارتباطی:', 'novavilla')],
                 ['name' => '_request_type', 'label' => __('نوع درخواست:', 'novavilla')],
                 ['name' => '_source_page_title', 'label' => __('صفحه:', 'novavilla')],
                 ['name' => '_source_url', 'label' => __('آدرس صفحه:', 'novavilla')],
@@ -130,10 +133,23 @@ class Meta
         return $request_type;
     }
 
+    public static function formatSessionRequestChannel($channel)
+    {
+        $labels = [
+            'whatsapp' => __('واتساپ', 'novavilla'),
+            'telegram' => __('تلگرام', 'novavilla'),
+            'bale' => __('بله', 'novavilla'),
+        ];
+        return $labels[$channel] ?? $channel;
+    }
+
     public static function session_request_table_head($columns)
     {
         $columns['request_type'] = __('نوع درخواست', 'novavilla');
         $columns['source_page'] = __('صفحه', 'novavilla');
+        $columns['name'] = __('نام', 'novavilla');
+        $columns['phone'] = __('شماره تماس', 'novavilla');
+        $columns['channel'] = __('راه ارتباطی', 'novavilla');
         $columns['contact'] = __('ایمیل / شماره', 'novavilla');
         $columns['contact_type'] = __('نوع تماس', 'novavilla');
         return $columns;
@@ -155,6 +171,15 @@ class Meta
             } elseif ($title) {
                 echo esc_html($title);
             }
+        }
+        if ($column_name === 'name') {
+            echo esc_html(get_post_meta($post_id, '_name', true));
+        }
+        if ($column_name === 'phone') {
+            echo esc_html(get_post_meta($post_id, '_phone', true));
+        }
+        if ($column_name === 'channel') {
+            echo esc_html(self::formatSessionRequestChannel(get_post_meta($post_id, '_channel', true)));
         }
         if ($column_name === 'contact') {
             echo esc_html(get_post_meta($post_id, '_contact', true));

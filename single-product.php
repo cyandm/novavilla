@@ -9,7 +9,7 @@ Templates::getPart('breadcrumb');
 ?>
 
 <main class="single-product">
-	<?php Templates::getPart('single-product'); ?>
+	<?php Templates::getPart('product/single-product'); ?>
 </main>
 
 <?php get_footer(); ?>

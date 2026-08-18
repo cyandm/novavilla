@@ -2,6 +2,7 @@
 
 use Cyan\Theme\Helpers\Aparat;
 use Cyan\Theme\Helpers\Icon;
+use Cyan\Theme\Helpers\Templates;
 
 defined('ABSPATH') || exit;
 
@@ -18,6 +19,7 @@ $product_status = get_field('product_status', $post_id);
 $tags = get_the_terms($post_id, 'product_tag');
 $consult_url = home_url('/contact-us/');
 $play_icon = file_get_contents(THEME_DIR . '/assets/icon/play.svg');
+$phone_number = get_option('phone_number');
 
 $images = [];
 for ($i = 1; $i <= 20; $i++) {
@@ -93,8 +95,9 @@ for ($i = 1; $i <= 9; $i++) {
     $feature_desc = get_field("product_feature_desc_{$i}", $post_id);
     $feature_price = get_field("product_feature_price_{$i}", $post_id);
     if ($feature_title === '' || $feature_title === null) continue;
-    $features[] = ['id' => (string) $i, 'title' => $feature_title, 'desc' => $feature_desc, 'price' => (float) preg_replace('/[^\d.]/', '', (string) $feature_price)];
+    $features[$i] = ['id' => (string) $i, 'title' => $feature_title, 'desc' => $feature_desc, 'price' => (float) preg_replace('/[^\d.]/', '', (string) $feature_price)];
 }
+ksort($features, SORT_NUMERIC);
 $has_features = !empty($features);
 $has_description = !empty($description);
 $panel_class = 'w-full lg:w-1/2 flex flex-col gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4';
@@ -103,11 +106,11 @@ $feature_card_class = 'group flex flex-col rounded-xl lg:rounded-3xl border bord
 $feature_title_class = 'text-xs sm:text-sm font-medium text-cynTextPrimary leading-4 md:leading-5 max-sm:whitespace-nowrap transition-all duration-300 group-[.is-selected]:text-cynBorderHover group-hover:text-cynBorderHover';
 $feature_desc_class = 'text-xs font-light text-cynTextMuted leading-4 md:leading-6';
 $feature_check_class = 'size-4 md:size-6 shrink-0 rounded-md border border-cynWhite flex items-center justify-center transition-all duration-300 group-[.is-selected]:border-cynBorderHover group-[.is-selected]:bg-cynBorderHover';
-$chip_class = 'items-center gap-2.5 rounded-full border border-cynBorderHover/40 bg-cynWhite/8 px-2 py-1.5 text-xs md:text-sm font-normal text-cynTextPrimary leading-4 md:leading-5 transition-all duration-300 hover:border-cynBorderHover';
+$chip_class = 'items-center gap-2.5 rounded-full border border-cynBorderHover/40 bg-cynWhite/8 px-2 py-1.5 text-xs md:text-base font-normal text-cynTextPrimary leading-4 md:leading-5 transition-all duration-300 hover:border-cynBorderHover group';
 $format_toman = static fn($n) => number_format_i18n((float) $n) . ' ' . __('تومان', 'novavilla');
 $price_row_class = 'flex items-center justify-between gap-2 rounded-3xl border border-cynBorderHover/40 bg-cynWhite/8 backdrop-blur-md px-4 py-4';
-$price_label_class = 'text-sm md:text-base font-normal text-cynTextMuted leading-6';
-$price_value_class = 'text-sm md:text-base font-normal text-cynTextPrimary leading-6';
+$price_label_class = 'text-base md:text-xl font-semibold text-cynTextPrimary leading-6';
+$price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leading-6';
 ?>
 
 
@@ -235,14 +238,33 @@ $price_value_class = 'text-sm md:text-base font-normal text-cynTextPrimary leadi
                 </button>
             </div>
 
-            <a href="<?php echo esc_url($consult_url); ?>" class="primary-button btn-have-icon !py-2">
-                <span class="text-xs md:text-sm font-semibold whitespace-nowrap"><?php esc_html_e('درخواست مشاوره', 'novavilla'); ?></span>
-                <i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-[1.5]"><?php Icon::print('Arrow-27'); ?></i>
-            </a>
+            <button type="button" modal-opener data-modal-name="product-consult" class="primary-button btn-have-icon !py-2">
+                <span class="text-xs md:text-sm font-semibold whitespace-nowrap">
+                    <?php esc_html_e('درخواست مشاوره', 'novavilla'); ?>
+                </span>
+                <i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-[1.5]">
+                    <?php Icon::print('Arrow-27'); ?>
+                </i>
+            </button>
 
         </div>
     </div>
 
+</section>
+
+<section modal data-modal-name="product-consult" data-modal-layer="popup" data-active="false" class="fixed inset-x-3 md:inset-x-auto md:left-1/2 top-1/2 z-50 w-auto md:w-[min(800px,calc(100%-3rem))] md:-translate-x-1/2 max-h-[calc(100dvh-3rem)] -translate-y-1/2 overflow-y-auto scrollbar flex flex-col gap-5 opacity-0 pointer-events-none invisible data-[active='true']:opacity-100 data-[active='true']:pointer-events-auto data-[active='true']:visible transition-all duration-300">
+    <div id="product-consult-success" class="empty:hidden"></div>
+    <div class="rounded-3xl border border-cynBorderHover/40 bg-cynWhite/10 backdrop-blur-md p-4 flex flex-col gap-5">
+        <div class="flex items-center justify-between gap-2">
+            <span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
+                <?php esc_html_e('درخواست مشاوره', 'novavilla'); ?>
+            </span>
+            <i class="size-7 rounded-full border border-white/40 group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:stroke-[1.5] cursor-pointer" modal-closer data-modal-name="product-consult">
+                <?php Icon::print('Delete,-Disabled'); ?>
+            </i>
+        </div>
+        <?php Templates::getPart('product/product-consult-form', ['source_page_id' => $post_id]); ?>
+    </div>
 </section>
 
 <?php if ($has_features || $has_description) : ?>
@@ -277,7 +299,7 @@ $price_value_class = 'text-sm md:text-base font-normal text-cynTextPrimary leadi
                         <div class="flex flex-col gap-3 md:gap-5">
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 items-stretch">
                                 <?php foreach ($features as $feature) : ?>
-                                    <button type="button" data-feature-card data-feature-id="<?php echo esc_attr($feature['id']); ?>" data-feature-title="<?php echo esc_attr($feature['title']); ?>" data-feature-price="<?php echo esc_attr((string) $feature['price']); ?>" class="<?php echo esc_attr($feature_card_class); ?>" aria-pressed="false">
+                                    <button type="button" dir="rtl" data-feature-card data-feature-id="<?php echo esc_attr($feature['id']); ?>" data-feature-title="<?php echo esc_attr($feature['title']); ?>" data-feature-price="<?php echo esc_attr((string) $feature['price']); ?>" class="<?php echo esc_attr($feature_card_class); ?>" aria-pressed="false">
                                         <div class="flex items-start justify-between gap-2">
                                             <span class="<?php echo esc_attr($feature_check_class); ?>" aria-hidden="true">
                                                 <i class="size-2.5 md:size-3.5 opacity-0 group-[.is-selected]:opacity-100 text-cynBlack flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-current"><?php Icon::print('check'); ?></i>
@@ -295,20 +317,24 @@ $price_value_class = 'text-sm md:text-base font-normal text-cynTextPrimary leadi
 
                             <div class="flex flex-col gap-6 md:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4 items-end">
                                 <div class="flex flex-col gap-3 md:gap-5 w-full">
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-sm md:text-base font-normal text-cynTextPrimary leading-6"><?php esc_html_e('امکانات انتخاب شده', 'novavilla'); ?></span>
-                                        <span data-feature-count class="text-sm md:text-base font-normal text-cynBorderHover leading-6">(0 <?php esc_html_e('مورد', 'novavilla'); ?>)</span>
+                                    <div class="flex items-center gap-1 text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
+                                        <span class="text-cynTextPrimary">
+                                            <?php esc_html_e('امکانات انتخاب شده', 'novavilla'); ?>
+                                        </span>
+                                        <span data-feature-count class="text-cynBorderHover">(0 <?php esc_html_e('مورد', 'novavilla'); ?>)</span>
                                     </div>
                                     <div data-feature-chips class="flex flex-wrap justify-start gap-1 md:gap-2">
                                         <?php foreach ($features as $feature) : ?>
                                             <button type="button" data-feature-chip data-feature-id="<?php echo esc_attr($feature['id']); ?>" class="<?php echo esc_attr($chip_class); ?> hidden" aria-label="<?php echo esc_attr(sprintf(__('حذف %s', 'novavilla'), $feature['title'])); ?>">
-                                                <span class="size-5 md:size-6 shrink-0 rounded-full border border-white/40 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:size-2.5 md:[&_svg]:size-3.5 [&_svg]:stroke-current [&_svg]:stroke-[1.5]"><?php Icon::print('Delete,-Disabled'); ?></span>
                                                 <span><?php echo esc_html($feature['title']); ?></span>
+                                                <i class="size-5 md:size-6 rounded-full border border-white/40 group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:stroke-[1.5]">
+                                                    <?php Icon::print('Delete,-Disabled'); ?>
+                                                </i>
                                             </button>
                                         <?php endforeach; ?>
                                     </div>
                                 </div>
-                                <button type="button" modal-opener data-modal-name="product-price-inquiry" class="primary-button btn-have-icon w-fit">
+                                <button type="button" modal-opener data-modal-name="product-price-inquiry" class="primary-button btn-have-icon !py-2 w-fit">
                                     <span class="text-xs md:text-sm font-semibold whitespace-nowrap"><?php esc_html_e('استعلام قیمت با امکانات انتخابی', 'novavilla'); ?></span>
                                     <i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-[1.5]"><?php Icon::print('Arrow-27'); ?></i>
                                 </button>
@@ -317,35 +343,53 @@ $price_value_class = 'text-sm md:text-base font-normal text-cynTextPrimary leadi
                     </div>
                 </div>
 
-                <div modal data-modal-name="product-price-inquiry" data-modal-layer="popup" data-active="false" class="fixed inset-x-3 md:inset-x-auto md:left-1/2 top-1/2 z-50 w-auto md:w-[min(1160px,calc(100%-3rem))] md:-translate-x-1/2 max-h-[calc(100dvh-3rem)] -translate-y-1/2 overflow-y-auto scrollbar rounded-3xl border border-cynBorderHover/40 bg-cynWhite/10 backdrop-blur-md p-4 flex flex-col gap-5 opacity-0 pointer-events-none invisible data-[active='true']:opacity-100 data-[active='true']:pointer-events-auto data-[active='true']:visible transition-all duration-300">
-                    <div class="flex flex-col gap-3 md:gap-5">
-                        <span class="text-sm md:text-base font-normal text-cynTextPrimary leading-6"><?php esc_html_e('امکانات انتخابی', 'novavilla'); ?></span>
+                <div modal data-modal-name="product-price-inquiry" data-modal-layer="popup" data-active="false" class="fixed inset-x-3 md:inset-x-auto md:left-1/2 top-1/2 z-50 w-auto md:w-[min(1160px,calc(100%-3rem))] md:-translate-x-1/2 max-h-[calc(100dvh-3rem)] -translate-y-1/2 overflow-y-auto scrollbar rounded-3xl border border-cynBorderHover/40 bg-cynWhite/10 backdrop-blur-md p-4 flex flex-col gap-5 opacity-0 pointer-events-none invisible data-[active='true']:opacity-100 data-[active='true']:pointer-events-auto data-[active='true']:visible transition-all duration-300 items-end">
+                    <div class="flex flex-col gap-3 md:gap-5 w-full">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
+                                <?php esc_html_e('امکانات انتخابی', 'novavilla'); ?>
+                            </span>
+                            <i class="size-7 rounded-full border border-white/40 group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:stroke-[1.5] cursor-pointer" modal-closer data-modal-name="product-price-inquiry">
+                                <?php Icon::print('Delete,-Disabled'); ?>
+                            </i>
+                        </div>
+
                         <div class="flex flex-wrap justify-start gap-1 md:gap-2">
                             <?php foreach ($features as $feature) : ?>
                                 <button type="button" data-feature-chip data-feature-id="<?php echo esc_attr($feature['id']); ?>" class="<?php echo esc_attr($chip_class); ?> hidden" aria-label="<?php echo esc_attr(sprintf(__('حذف %s', 'novavilla'), $feature['title'])); ?>">
-                                    <span class="size-5 md:size-6 shrink-0 rounded-full border border-white/40 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:size-2.5 md:[&_svg]:size-3.5 [&_svg]:stroke-current [&_svg]:stroke-[1.5]"><?php Icon::print('Delete,-Disabled'); ?></span>
                                     <span><?php echo esc_html($feature['title']); ?></span>
+                                    <i class="size-5 md:size-6 rounded-full border border-white/40 group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:stroke-[1.5]">
+                                        <?php Icon::print('Delete,-Disabled'); ?>
+                                    </i>
                                 </button>
                             <?php endforeach; ?>
                         </div>
                     </div>
-                    <div class="flex flex-col gap-2 md:gap-3">
+                    <div class="flex flex-col gap-2 md:gap-3 w-full">
                         <div class="<?php echo esc_attr($price_row_class); ?>">
-                            <span class="<?php echo esc_attr($price_label_class); ?>"><?php esc_html_e('قیمت پایه', 'novavilla'); ?></span>
-                            <span data-price-base class="<?php echo esc_attr($price_value_class); ?>"><?php echo esc_html($format_toman($product_price_num)); ?></span>
+                            <span class="<?php echo esc_attr($price_label_class); ?>">
+                                <?php esc_html_e('قیمت پایه', 'novavilla'); ?>
+                            </span>
+                            <span data-price-base class="<?php echo esc_attr($price_value_class); ?>">
+                                <?php echo esc_html($format_toman($product_price_num)); ?>
+                            </span>
                         </div>
                         <div class="<?php echo esc_attr($price_row_class); ?>">
                             <span class="<?php echo esc_attr($price_label_class); ?>"><?php esc_html_e('هزینه امکانات انتخابی', 'novavilla'); ?></span>
                             <span data-price-features class="<?php echo esc_attr($price_value_class); ?>"><?php echo esc_html($format_toman(0)); ?></span>
                         </div>
                         <div class="<?php echo esc_attr($price_row_class); ?>">
-                            <span class="text-sm md:text-base font-normal text-cynBorderHover leading-6"><?php esc_html_e('قیمت کل', 'novavilla'); ?></span>
-                            <span data-price-total class="text-sm md:text-base font-normal text-cynBorderHover leading-6"><?php echo esc_html($format_toman($product_price_num)); ?></span>
+                            <span class="text-base md:text-xl font-semibold text-cynBorderHover leading-6"><?php esc_html_e('قیمت کل', 'novavilla'); ?></span>
+                            <span data-price-total class="text-base md:text-xl font-medium text-cynBorderHover leading-6"><?php echo esc_html($format_toman($product_price_num)); ?></span>
                         </div>
                     </div>
-                    <a href="<?php echo esc_url($consult_url); ?>" data-feature-inquiry class="primary-button btn-have-icon w-fit">
-                        <span class="text-xs md:text-sm font-semibold whitespace-nowrap"><?php esc_html_e('ثبت و ادامه', 'novavilla'); ?></span>
-                        <i class="size-6 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-[1.5]"><?php Icon::print('Arrow-27'); ?></i>
+                    <a href="<?php echo esc_url('tel:' . $phone_number); ?>" class="primary-button w-fit">
+                        <i class="size-5 flex items-center justify-center [&_svg]:stroke-[1.5] [&_svg_g_path]:fill-cynTextSecondary group-hover:[&_svg_g_path]:fill-cynBlack">
+                            <?php Icon::print('Phone,-Call-11'); ?>
+                        </i>
+                        <span class="text-xs md:text-sm font-semibold whitespace-nowrap">
+                            <?php esc_html_e('تماس با مشاورین ما', 'novavilla'); ?>
+                        </span>
                     </a>
                 </div>
             </div>
@@ -353,3 +397,7 @@ $price_value_class = 'text-sm md:text-base font-normal text-cynTextPrimary leadi
 
     </section>
 <?php endif; ?>
+
+<?php Templates::getPart('product/product-related'); ?>
+
+

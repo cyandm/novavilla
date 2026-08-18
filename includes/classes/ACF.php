@@ -107,15 +107,15 @@ class ACF
 		$acfGroup->layoutFields->addTab('product_features_tab', 'امکانات قابل انتخاب');
 		$acfGroup->basicFields->addTextarea('product_features_desc', 'توضیحات', ['rows' => 2, 'placeholder' => 'این مدل بر اساس نیاز شما قابل شخصی سازی است. امکانات موردنظر را انتخاب کنید', 'default_value' => 'این مدل بر اساس نیاز شما قابل شخصی سازی است. امکانات موردنظر را انتخاب کنید']);
 		$feature_placeholders = [
-			1 => ['title' => 'تراس', 'desc' => 'اضافه شدن تراس چوبی یا کامپوزیت', 'price' => '10000000'],
+			1 => ['title' => 'پارکینگ', 'desc' => 'پارکینگ سرپوشیده یا روباز', 'price' => '10000000'],
 			2 => ['title' => 'پنجره پانوراما', 'desc' => 'پنجره های قدی با دید گسترده', 'price' => '10000000'],
-			3 => ['title' => 'پارکینگ', 'desc' => 'پارکینگ سرپوشیده یا روباز', 'price' => '10000000'],
-			4 => ['title' => 'سیستم هوشمندسازی', 'desc' => 'کنترل هوشمند لوازم روشنایی و تجهیزات', 'price' => '10000000'],
+			3 => ['title' => 'تراس', 'desc' => 'اضافه شدن تراس چوبی یا کامپوزیت', 'price' => '10000000'],
+			4 => ['title' => 'گرمایش از کف', 'desc' => 'سیستم گرمایش از کف برقی', 'price' => '10000000'],
 			5 => ['title' => 'نمای ترموود', 'desc' => 'استفاده از ترموود در نمای بیرونی', 'price' => '10000000'],
-			6 => ['title' => 'گرمایش از کف', 'desc' => 'سیستم گرمایش از کف برقی', 'price' => '10000000'],
-			7 => ['title' => 'دوربین مداربسته', 'desc' => 'نصب سیستم امنیتی و DVR', 'price' => '10000000'],
+			6 => ['title' => 'سیستم هوشمندسازی', 'desc' => 'کنترل هوشمند لوازم روشنایی و تجهیزات', 'price' => '10000000'],
+			7 => ['title' => 'انباری', 'desc' => 'افزودن فضای انباری مجزا', 'price' => '10000000'],
 			8 => ['title' => 'کابینت MDF ارتقایی', 'desc' => 'کابینت اشپزخانه MDF طرح سفارشی', 'price' => '10000000'],
-			9 => ['title' => 'انباری', 'desc' => 'افزودن فضای انباری مجزا', 'price' => '10000000'],
+			9 => ['title' => 'دوربین مداربسته', 'desc' => 'نصب سیستم امنیتی و DVR', 'price' => '10000000'],
 		];
 		foreach ($feature_placeholders as $i => $item) {
 			$acfGroup->basicFields->addText("product_feature_title_{$i}", "عنوان امکان {$i}", ['default_value' => $item['title'], 'placeholder' => $item['title'], 'width' => '33']);
@@ -145,8 +145,8 @@ class ACF
 		$acfGroup->basicFields->addTextarea('product_installment_note', 'توضیح پایین محاسبه', ['rows' => 2, 'placeholder' => 'مبلغ نهایی با توجه به مبلغ سفارش و تعداد اقساط محاسبه می‌شود.', 'width' => '50']);
 
 		$acfGroup->layoutFields->addTab('product_related_tab', 'محصولات مرتبط');
-		$acfGroup->relationshipFields->addPostObject('product_similar', 'محصولات مشابه', ['post_type' => ['product'], 'multiple' => 1, 'return_format' => 'id']);
-		$acfGroup->relationshipFields->addPostObject('product_suggested', 'شاید بپسندید', ['post_type' => ['product'], 'multiple' => 1, 'return_format' => 'id']);
+		$acfGroup->relationshipFields->addPostObject('product_similar', 'انتخاب محصولات مرتبط (حداکثر 4 — در صورت کمتر، بقیه خودکار پر می‌شود)', ['post_type' => 'product', 'multiple' => 1, 'return_format' => 'id', 'width' => '100%']);
+		$acfGroup->relationshipFields->addPostObject('product_suggested', 'شاید بپسندید (حداکثر 4 — در صورت کمتر، بقیه خودکار پر می‌شود)', ['post_type' => 'product', 'multiple' => 1, 'return_format' => 'id', 'width' => '100%']);
 
 		$acfGroup->setLocation('post_type', '==', 'product');
 		$acfGroup->register('Product');
@@ -261,12 +261,63 @@ class ACF
 	{
 		$acfGroup = new AcfGroup();
 
+		$acfGroup->layoutFields->addTab('home_top_hero_tab', 'بنر بالای هیرو');
+		$acfGroup->choiceFields->addBoolean('home_top_hero_default', 'فعال سازی نمایش پیش فرض', ['message' => 'در صورت فعال بودن، طرح پیش‌فرض نمایش داده می‌شود', 'default_value' => 1, 'width' => '50']);
+		$acfGroup->contentFields->addImage('home_top_hero_image', 'تصویر و یا گیف بنر بالای هیرو', ['return_format' => 'url', 'width' => '50', 'conditional_logic' => [[['field' => 'acf_true_false_home_top_hero_default_', 'operator' => '!=', 'value' => '1']]]]);
+
+		$acfGroup->layoutFields->addTab('home_hero_tab', 'هیرو و دسته‌بندی‌ها');
+		$home_cat_defaults = [
+			1 => ['title' => 'ویلای پیش ساخته', 'subtitle' => 'رویایی ترین ویلاها رو به سرعت بسازید'],
+			2 => ['title' => 'کلبه چوبی', 'subtitle' => 'رویایی ترین ویلاها رو به سرعت بسازید'],
+			3 => ['title' => 'کانتینر', 'subtitle' => 'کاربردی , نصب سریع , قیمت مناسب'],
+			4 => ['title' => 'کانکس', 'subtitle' => 'کاربردی , نصب سریع , قیمت مناسب'],
+		];
+		foreach ($home_cat_defaults as $i => $item) {
+			$acfGroup->contentFields->addImage("home_cat_image_{$i}", "تصویر {$i}", ['return_format' => 'url', 'width' => '25', 'required' => 1]);
+			$acfGroup->basicFields->addText("home_cat_title_{$i}", "عنوان {$i}", ['default_value' => $item['title'], 'width' => '25']);
+			$acfGroup->basicFields->addText("home_cat_subtitle_{$i}", "زیرعنوان {$i}", ['default_value' => $item['subtitle'], 'width' => '25']);
+			$acfGroup->relationshipFields->addLink("home_cat_btn_{$i}", "دکمه {$i}", ['width' => '25', 'required' => 1]);
+		}
+
+		$acfGroup->layoutFields->addTab('home_cta_tab', 'بنر CTA');
+		$acfGroup->basicFields->addText('home_cta_title', 'عنوان', ['default_value' => __('اقســــــــاط 12 ماهه', 'novavilla'), 'required' => 1, 'width' => '50']);
+		$acfGroup->basicFields->addText('home_cta_subtitle', 'زیرعنوان', ['default_value' => __('فروش رویایی ترین ویلاهای پیش ساخته', 'novavilla'), 'width' => '50']);
+		$acfGroup->relationshipFields->addLink('home_cta_button', 'دکمه', ['width' => '50']);
+		$acfGroup->contentFields->addImage('home_cta_image', 'عکس', ['return_format' => 'url', 'required' => 1, 'width' => '50']);
+
+
+		$acfGroup->layoutFields->addTab('home_3d_tab', 'سازه سه‌بعدی');
+		$acfGroup->contentFields->addImage('home_3d_image', 'عکس (دارک)', ['return_format' => 'url', 'required' => 1, 'width' => '50']);
+		$acfGroup->contentFields->addImage('home_3d_image_light', 'عکس (لایت)', ['return_format' => 'url', 'width' => '50']);
+		$acfGroup->basicFields->addText('home_3d_title', 'عنوان (سفید)', ['default_value' => __('قبل از ساخت،', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('home_3d_title_colored', 'عنوان رنگی', ['default_value' => __('سازه‌تان را ببینید', 'novavilla'), 'width' => '50']);
+		$acfGroup->contentFields->addTextEditor('home_3d_description', 'توضیحات', ['rows' => 5, 'default_value' => __('یکی از خدمات ویژه مجموعه، طراحی سه‌بعدی سازه هم‌زمان با جلسه حضوری فروش است. در این جلسه، کارشناسان ما نیازها، سلیقه، متراژ و نوع کاربری پروژه شما را بررسی کرده و طرح اولیه سازه را در همان لحظه آماده می‌کنند. مدل سه‌بعدی از طریق ویدئوپروژکتور روی پرده نمایش داده می‌شود تا بتوانید تغییرات طرح را واضح‌تر مشاهده کنید، درباره جزئیات نظر بدهید و نتیجه هر تصمیم را پیش از شروع تولید ببینید.', 'novavilla')]);
+		$acfGroup->relationshipFields->addLink('home_3d_button', 'دکمه', ['width' => '50']);
+
+		$acfGroup->layoutFields->addTab('home_about_tab', 'درباره ما');
+		$acfGroup->basicFields->addText('home_about_title', 'عنوان', ['default_value' => __('چرا نواویلا', 'novavilla'), 'width' => '50', 'required' => 1]);
+		$acfGroup->basicFields->addTextarea('home_about_description', 'توضیحات', ['rows' => 6, 'default_value' => __('سال‌ها تجربه در طراحی و اجرای ویلاهای پیش‌ساخته، امروز ما رو به عنوان مجموعه‌ای قابل اعتماد در این حوزه معرفی کرده. ما همواره تلاش کرده‌ایم با ارائه قیمت‌های منصفانه و رقابتی، بهترین ارزش را در برابر هزینه پرداختی برای مشتریان خود فراهم کنیم. در نواویلا، هر پروژه با دقت و توجه کامل به نیازها، سلیقه و شرایط مشتری ارزیابی می‌شود و سپس به‌صورت کاملاً دقیق و اصولی اجرا می‌گردد. باور ما این است که یک پروژه موفق، نتیجه درک درست از خواسته‌های مشتری و اجرای بی‌نقص آن است؛ به همین دلیل از مرحله مشاوره تا تحویل نهایی در کنار شما هستیم تا نتیجه‌ای مطابق انتظار و حتی فراتر از آن ارائه دهیم.', 'novavilla'), 'required' => 1]);
+		$acfGroup->relationshipFields->addLink('home_about_button', 'دکمه', ['width' => '50']);
+		$acfGroup->contentFields->addImage('home_about_image', 'عکس', ['return_format' => 'url', 'width' => '50', 'required' => 1]);
+
+		$acfGroup->layoutFields->addTab('home_achievements_tab', 'دستاورد های ما');
+		$home_achievement_defaults = [
+			1 => __('استحکام بنا', 'novavilla'),
+			2 => __('فروش اقساطی', 'novavilla'),
+			3 => __('خوش نقشه', 'novavilla'),
+			4 => __('نصب سریع', 'novavilla'),
+			5 => __('مهندسین حرفه ای', 'novavilla'),
+		];
+		foreach ($home_achievement_defaults as $i => $title) {
+			$acfGroup->basicFields->addText("home_achievement_title_{$i}", "عنوان {$i}", ['default_value' => $title]);
+		}
+
 		$acfGroup->layoutFields->addTab('product_archive_hero_tab', 'آرشیو محصولات');
 		$acfGroup->contentFields->addImage('product_archive_hero_image_before', 'تصویر هیرو قبل از تغییر', ['return_format' => 'url', 'width' => '50']);
 		$acfGroup->contentFields->addImage('product_archive_hero_image_after', 'تصویر هیرو بعد از تغییر', ['return_format' => 'url', 'width' => '50']);
 		$acfGroup->basicFields->addText('product_archive_hero_title_one', 'عنوان خط اول', ['default_value' => __('ویلایــــــــــــــی مـــــــدرن', 'novavilla'), 'width' => '50']);
 		$acfGroup->basicFields->addText('product_archive_hero_title_two', 'عنوان خط دوم', ['default_value' => __('سریع‌تر از آنچه تصور می‌کنید', 'novavilla'), 'width' => '50']);
-		$acfGroup->basicFields->addTextarea('product_archive_hero_description', 'توضیحات', ['rows' => 5, 'default_value' => __('در مجموعه نوا ویلا، ویلاهای پیش‌ساخته با طراحی مدرن و کیفیت بالا تولید می‌شوند. با استفاده از تکنولوژی‌های نوین ساخت، زمان تحویل پروژه به‌طور چشمگیری کاهش می‌یابد و شما می‌توانید ویلای مدرن خود را سریع‌تر از آنچه تصور می‌کنید داشته باشید.', 'novavilla')]);
+		$acfGroup->contentFields->addTextEditor('product_archive_hero_description', 'توضیحات', ['rows' => 5, 'default_value' => __('در مجموعه نوا ویلا، ویلاهای پیش‌ساخته با طراحی مدرن و کیفیت بالا تولید می‌شوند. با استفاده از تکنولوژی‌های نوین ساخت، زمان تحویل پروژه به‌طور چشمگیری کاهش می‌یابد و شما می‌توانید ویلای مدرن خود را سریع‌تر از آنچه تصور می‌کنید داشته باشید.', 'novavilla')]);
 		$acfGroup->relationshipFields->addLink('product_archive_hero_button', 'دکمه', ['width' => '50']);
 
 		$acfGroup->setLocation('page_template', '==', 'templates/home.php');

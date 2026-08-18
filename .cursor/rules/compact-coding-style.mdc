@@ -42,3 +42,5 @@ self::makePostType(
 - Break ACF helper args, `makePostType`, or small associative arrays across lines when they have only a few keys
 
 Long content strings or large data arrays may stay multi-line when readability clearly requires it.
+
+Exception: when an HTML tag’s **content** is a PHP print (text or `Icon::print`), wrap it in three lines — see `php-tag-content.mdc`. Do not put `<?php ... ?>` on the same line as `<span>` / `<i>` / etc.

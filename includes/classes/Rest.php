@@ -135,31 +135,52 @@ class Rest
 		}
 
 		$body = $request->get_body_params();
-		$contact_raw = isset($body['contact']) ? trim($body['contact']) : '';
-		$contact = sanitize_text_field($contact_raw);
+		$html_success = !empty($body['html_success']);
+		$is_product_consult = array_key_exists('name', $body) || array_key_exists('phone', $body);
 
-		if ($contact === '') {
-			return new WP_REST_Response([
-				'error' => __('ایمیل یا شماره همراه الزامی است.', 'novavilla'),
-			], 400);
-		}
-
+		$name = '';
+		$phone = '';
+		$channel = '';
+		$contact = '';
 		$contact_type = '';
-		if (is_email($contact)) {
-			$contact_type = 'email';
-		} elseif (preg_match('/^[0-9]{11}$/', $contact)) {
-			$contact_type = 'phone';
-		} else {
-			return new WP_REST_Response([
-				'error' => __('ایمیل یا شماره همراه معتبر نیست.', 'novavilla'),
-			], 400);
-		}
 
-		$request_type = isset($body['request_type']) ? sanitize_key($body['request_type']) : '';
-		if (!in_array($request_type, ['session', 'consultation'], true)) {
-			return new WP_REST_Response([
-				'error' => __('نوع درخواست معتبر نیست.', 'novavilla'),
-			], 400);
+		if ($is_product_consult) {
+			$name = isset($body['name']) ? sanitize_text_field($body['name']) : '';
+			$phone = isset($body['phone']) ? sanitize_text_field($body['phone']) : '';
+			$channel = isset($body['channel']) ? sanitize_key($body['channel']) : '';
+
+			if ($name === '' || $phone === '') {
+				return new WP_REST_Response(['error' => __('نام و شماره موبایل الزامی هستند.', 'novavilla')], 400);
+			}
+			if (!preg_match('/^[0-9]{11}$/', $phone)) {
+				return new WP_REST_Response(['error' => __('شماره تلفن معتبر نیست.', 'novavilla')], 400);
+			}
+			if (!in_array($channel, ['whatsapp', 'telegram', 'bale'], true)) {
+				return new WP_REST_Response(['error' => __('راه ارتباطی معتبر نیست.', 'novavilla')], 400);
+			}
+
+			$contact = $phone;
+			$contact_type = 'phone';
+			$request_type = 'consultation';
+		} else {
+			$contact_raw = isset($body['contact']) ? trim($body['contact']) : '';
+			$contact = sanitize_text_field($contact_raw);
+
+			if ($contact === '') {
+				return new WP_REST_Response(['error' => __('ایمیل یا شماره همراه الزامی است.', 'novavilla')], 400);
+			}
+			if (is_email($contact)) {
+				$contact_type = 'email';
+			} elseif (preg_match('/^[0-9]{11}$/', $contact)) {
+				$contact_type = 'phone';
+			} else {
+				return new WP_REST_Response(['error' => __('ایمیل یا شماره همراه معتبر نیست.', 'novavilla')], 400);
+			}
+
+			$request_type = isset($body['request_type']) ? sanitize_key($body['request_type']) : '';
+			if (!in_array($request_type, ['session', 'consultation'], true)) {
+				return new WP_REST_Response(['error' => __('نوع درخواست معتبر نیست.', 'novavilla')], 400);
+			}
 		}
 
 		$source_page_id = isset($body['source_page_id']) ? absint($body['source_page_id']) : 0;
@@ -170,34 +191,49 @@ class Rest
 			$source_url = get_permalink($source_page_id);
 		}
 
+		$meta_input = [
+			'_contact' => $contact,
+			'_contact_type' => $contact_type,
+			'_request_type' => $request_type,
+			'_source_page_id' => $source_page_id,
+			'_source_page_title' => $source_page_title,
+			'_source_url' => $source_url,
+			'_read' => '0',
+		];
+		if ($is_product_consult) {
+			$meta_input['_name'] = $name;
+			$meta_input['_phone'] = $phone;
+			$meta_input['_channel'] = $channel;
+		}
+
 		$new_post = wp_insert_post([
 			'post_type' => 'session_request',
-			'post_title' => $contact,
+			'post_title' => $is_product_consult ? $name : $contact,
 			'post_status' => 'private',
-			'meta_input' => [
-				'_contact' => $contact,
-				'_contact_type' => $contact_type,
-				'_request_type' => $request_type,
-				'_source_page_id' => $source_page_id,
-				'_source_page_title' => $source_page_title,
-				'_source_url' => $source_url,
-				'_read' => '0',
-			],
+			'meta_input' => $meta_input,
 		], true);
 
 		if (is_wp_error($new_post)) {
-			return new WP_REST_Response([
-				'error' => __('خطا در ثبت فرم، لطفاً دوباره تلاش کنید.', 'novavilla'),
-			], 500);
+			return new WP_REST_Response(['error' => __('خطا در ثبت فرم، لطفاً دوباره تلاش کنید.', 'novavilla')], 500);
 		}
 
 		set_transient($rate_key, time(), $min_interval);
 		$count_data['count']++;
 		set_transient($count_key, $count_data, HOUR_IN_SECONDS);
 
-		return new WP_REST_Response([
-			'message' => __('درخواست شما با موفقیت ثبت شد.', 'novavilla'),
-		], 200);
+		$message = __('درخواست شما با موفقیت ثبت شد.', 'novavilla');
+		if ($html_success) {
+			ob_start();
+			include get_template_directory() . '/partials/parts/product/product-consult-success.php';
+			$html = ob_get_clean();
+			status_header(200);
+			nocache_headers();
+			header('Content-Type: text/html; charset=' . get_option('blog_charset'));
+			echo $html;
+			exit;
+		}
+
+		return new WP_REST_Response(['message' => $message], 200);
 	}
 
 	/**

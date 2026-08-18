@@ -29,6 +29,9 @@ if (!isset($meta_group) || !is_array($meta_group)) {
                 if ($meta_name === '_request_type') {
                     $meta_value = Meta::formatSessionRequestType($meta_value);
                 }
+                if ($meta_name === '_channel') {
+                    $meta_value = Meta::formatSessionRequestChannel($meta_value);
+                }
                 if ($meta_name === '_contact_type') {
                     $meta_value = $meta_value === 'email' ? __('ایمیل', 'novavilla') : __('موبایل', 'novavilla');
                 }

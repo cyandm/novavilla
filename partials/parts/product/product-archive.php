@@ -120,7 +120,7 @@ $archive_current = max(1, (int) get_query_var('paged'));
 					</button>
 				</div>
 
-				<?php Templates::getPart('product-filter'); ?>
+				<?php Templates::getPart('product/product-filter'); ?>
 			</aside>
 
 			<div class="flex flex-col gap-5 md:col-span-3">
