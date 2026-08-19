@@ -66,6 +66,7 @@ class Register
 		self::makePostType('certificate', 'گواهینامه', 'گواهینامه‌ها', 'dashicons-awards', ['title', 'thumbnail', 'page-attributes'], false, false, false);
 		self::makePostType('personnels', 'عضو تیم', 'تیم ما', 'dashicons-groups', ['title', 'editor', 'thumbnail', 'page-attributes'], false, false, false);
 		self::makePostType('product', 'محصول', 'محصولات', 'dashicons-cart', ['title', 'thumbnail']);
+		self::makePostType('project', 'پروژه', 'پروژه ها', 'dashicons-portfolio', ['title', 'thumbnail']);
 	}
 
 	public static function registerTaxonomy()
@@ -74,6 +75,8 @@ class Register
 		self::makeTaxonomy('faq_place', 'مکان نمایش ', 'مکان ها', ['faq']);
 		self::makeTaxonomy('product_cat', 'دسته بندی محصولات', 'دسته بندی ها', ['product']);
 		self::makeTaxonomy('product_tag', 'برچسب محصولات', 'برچسب ها', ['product']);
+		self::makeTaxonomy('project_cat', 'دسته بندی پروژه ها', 'دسته بندی ها', ['project']);
+		self::makeTaxonomy('project_state', 'وضعیت پروژه ها', 'وضعیت ها', ['project']);
 	}
 
 	/**

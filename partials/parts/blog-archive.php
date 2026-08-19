@@ -3,11 +3,14 @@
 use Cyan\Theme\Helpers\Templates;
 
 $per_page = 9;
-$base_url = get_permalink();
+$is_term_archive = is_category() || is_tag();
+$term = $is_term_archive ? get_queried_object() : null;
+$tag_slug = is_tag() ? $term->slug : '';
+$base_url = remove_query_arg(['blog_tab', 'blog_paged', 'paged'], html_entity_decode(get_pagenum_link(1)));
 $blog_tab = isset($_GET['blog_tab']) ? sanitize_title(wp_unslash($_GET['blog_tab'])) : 'all';
 $blog_paged = max(1, (int) ($_GET['blog_paged'] ?? 1));
 
-$query_posts = function (string $category_slug = '', int $paged = 1) use ($per_page): array {
+$query_posts = function (string $category_slug = '', int $paged = 1) use ($per_page, $tag_slug): array {
 	$args = [
 		'post_type' => 'post',
 		'post_status' => 'publish',
@@ -19,6 +22,10 @@ $query_posts = function (string $category_slug = '', int $paged = 1) use ($per_p
 
 	if ($category_slug !== '' && $category_slug !== 'all') {
 		$args['category_name'] = $category_slug;
+	}
+
+	if ($tag_slug !== '') {
+		$args['tag'] = $tag_slug;
 	}
 
 	$query = new WP_Query($args);
@@ -34,7 +41,7 @@ $query_posts = function (string $category_slug = '', int $paged = 1) use ($per_p
 
 $render_blog_posts = function (array $post_ids): void {
 	if (empty($post_ids)) {
-		echo '<p class="text-sm md:text-base text-cynTextPrimary/70 py-8 text-center">' . esc_html__('مقاله‌ای در این دسته‌بندی یافت نشد.', 'novavilla') . '</p>';
+		echo '<p class="text-sm md:text-base text-cynTextPrimary/70 py-8 text-center">' . esc_html__('مقاله‌ای یافت نشد.', 'novavilla') . '</p>';
 		return;
 	}
 ?>
@@ -70,6 +77,31 @@ $render_tab_panel = function (string $tab_slug, array $tab_data, bool $is_active
 	</div>
 <?php
 };
+
+if ($is_term_archive && $term) {
+	$term_data = $query_posts(is_category() ? $term->slug : 'all', $blog_paged);
+	?>
+	<section id="blog-archive" class="flex flex-col gap-5 md:gap-6">
+		<h1 class="text-xl font-medium md:text-4xl md:font-bold text-cynTextPrimary md:leading-12">
+			<?php echo esc_html($term->name); ?>
+		</h1>
+
+		<?php $render_blog_posts($term_data['post_ids']); ?>
+
+		<?php Templates::getPart('pagination', [
+			'total' => $term_data['total'],
+			'current' => $term_data['current'],
+			'base_url' => $base_url,
+			'page_param' => 'blog_paged',
+			'query_args' => [],
+			'hash' => 'blog-archive',
+			'class' => '',
+			'aria_label' => __('صفحه‌بندی مقالات', 'novavilla'),
+		]); ?>
+	</section>
+	<?php
+	return;
+}
 
 $blog_categories = get_categories([
 	'taxonomy' => 'category',

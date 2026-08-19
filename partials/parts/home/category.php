@@ -55,7 +55,7 @@ if (empty($cards)) return;
                     <div class="<?php echo $is_tall ? 'flex items-end justify-between gap-2' : 'w-full lg:w-1/2 flex flex-col gap-0 lg:gap-5'; ?>">
                         <div class="flex flex-col <?php echo $is_tall ? 'gap-2' : 'gap-0 lg:gap-2'; ?>">
                             <?php if (!empty($card['title'])) : ?>
-                                <h3 class="text-2xl font-black text-cynTextPrimary leading-6">
+                                <h3 class="text-2xl font-black text-cynTextPrimary leading-8">
                                     <?php echo esc_html($card['title']); ?>
                                 </h3>
                             <?php endif; ?>

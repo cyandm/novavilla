@@ -19,7 +19,7 @@ if (! $use_default && empty($banner_image)) return;
 			<i class="absolute start-2 top-1/2 -translate-y-1/2 md:static md:translate-y-0 size-8 shrink-0 rotate-180 [&_svg]:size-full" aria-hidden="true">
 				<?php Icon::print('banner-ornament'); ?>
 			</i>
-			<span class="text-xl leading-8 md:text-3xl md:leading-11 font-bold bg-[linear-gradient(170deg,#180C72_0%,#FF6739_100%)] bg-clip-text text-transparent whitespace-nowrap">
+			<span class="text-base sm:text-xl leading-8 md:text-3xl md:leading-11 font-bold bg-[linear-gradient(170deg,#180C72_0%,#FF6739_100%)] bg-clip-text text-transparent whitespace-nowrap">
 				<?php echo esc_html($banner_title); ?>
 			</span>
 			<i class="absolute end-2 top-1/2 -translate-y-1/2 md:static md:translate-y-0 size-8 shrink-0 rotate-180 [&_svg]:size-full" aria-hidden="true">

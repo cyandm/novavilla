@@ -111,6 +111,7 @@
     font-family: "PeydaFaNumber", sans-serif;
     font-feature-settings: "ss01" 1;
     font-variant-ligatures: discretionary-ligatures;
+    isolation: isolate;
     background-color: var(--color-cynBgBase);
     color: var(--color-cynTextPrimary);
   }
@@ -760,4 +761,46 @@ input[type="number"] {
 
 [data-theme="dark"] .product-filter-price-input::placeholder {
   color: color-mix(in oklab, var(--color-cynWhite) 50%, transparent);
+}
+
+.home-sky-star {
+  background: radial-gradient(
+    closest-side,
+    rgb(255 244 230 / 0.95) 0%,
+    rgb(255 244 230 / 0.38) 18%,
+    transparent 68%
+  );
+  animation: home-sky-twinkle var(--dur, 4s) ease-in-out var(--delay, 0s)
+    infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes home-sky-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translate3d(0, 0, 0) scale(0.86);
+  }
+
+  45% {
+    opacity: 1;
+    transform: translate3d(var(--tx, 0px), var(--ty, 0px), 0) scale(1.08);
+  }
+
+  72% {
+    opacity: 0.38;
+    transform: translate3d(
+        calc(var(--tx, 0px) * -0.5),
+        calc(var(--ty, 0px) * 0.7),
+        0
+      )
+      scale(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-sky-star {
+    animation: none;
+    opacity: 0.7;
+  }
 }

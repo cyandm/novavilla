@@ -38,7 +38,7 @@ if (empty($home_about_title) && empty($home_about_description) && empty($home_ab
             <?php endif; ?>
 
             <?php if (!empty($home_about_button_url)) : ?>
-                <a href="<?php echo esc_url($home_about_button_url); ?>" <?php echo $home_about_button_target; ?> class="primary-button w-fit">
+                <a href="<?php echo esc_url($home_about_button_url); ?>" <?php echo $home_about_button_target; ?> class="primary-button w-fit !px-8">
                     <span class="text-sm font-semibold whitespace-nowrap">
                         <?php echo esc_html($home_about_button_title); ?>
                     </span>

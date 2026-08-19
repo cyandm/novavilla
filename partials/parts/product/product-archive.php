@@ -76,12 +76,7 @@ $archive_current = max(1, (int) get_query_var('paged'));
 						<div data-hero-compare-before class="absolute inset-0" style="clip-path: inset(0 50% 0 0);">
 							<img src="<?php echo esc_url($hero_image_before); ?>" alt="" class="absolute inset-0 size-full object-contain pointer-events-none" loading="eager" decoding="async">
 						</div>
-						<div data-hero-compare-line class="absolute inset-y-0 left-1/2 z-20 w-0.5 -translate-x-1/2 bg-cynBorderHover pointer-events-none">
-							<span class="absolute top-1/2 left-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-0 rounded-full border border-cynBorderHover bg-cynBgBase text-cynBorderHover">
-								<i class="size-4 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-[1.5]"><?php Icon::print('Arrow-27'); ?></i>
-								<i class="size-4 flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-[1.5]"><?php Icon::print('Arrow-19'); ?></i>
-							</span>
-						</div>
+						<?php Templates::getPart('hero-compare-handle'); ?>
 					</div>
 				<?php elseif (!empty($hero_image_single)) : ?>
 					<img src="<?php echo esc_url($hero_image_single); ?>" alt="<?php echo esc_attr($hero_alt); ?>" class="relative z-10 w-full h-56 lg:h-[439px] object-contain" loading="eager" decoding="async" />

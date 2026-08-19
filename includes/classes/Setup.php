@@ -25,6 +25,7 @@ class Setup {
 		Search::init();
 
 		ProductFilter::init();
+		ProjectFilter::init();
 
 		Meta::init();
 	}

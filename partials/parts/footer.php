@@ -41,7 +41,7 @@ $has_contact = $phone_number || $phone_number_support || $address_text || $locat
 
 <section class="container">
 
-	<div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 py-16 md:py-14 px-10 bg-cynBgBase rounded-4xl">
+	<div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 py-16 md:py-14 px-10 bg-cynBgBase/80 rounded-4xl">
 
 		<div class="order-1 lg:order-4 shrink-0 mx-auto lg:mx-0 -mt-32 lg:mt-0">
 			<?php if ($logo_footer) : ?>

@@ -20957,6 +20957,22 @@
     initHeroCompare();
   }
 
+  // assets/js/functions/projectArchive.js
+  function ProjectArchive() {
+    const form = document.getElementById("project-filter-form");
+    if (!form) return;
+    const isDesktop = () => window.matchMedia("(min-width: 768px)").matches;
+    form.querySelectorAll('input[type="radio"]').forEach((radio) => {
+      radio.addEventListener("change", () => {
+        if (isDesktop()) form.submit();
+      });
+    });
+    const city = form.querySelector('input[name="city"]');
+    city?.addEventListener("change", () => {
+      if (isDesktop()) form.submit();
+    });
+  }
+
   // assets/js/functions/productSingle.js
   function ProductSingle() {
     initFeatures();
@@ -24555,6 +24571,41 @@
     });
   }
 
+  // assets/js/functions/statCount.js
+  var DURATION = 3200;
+  var START_DELAY = 1e3;
+  var formatter = new Intl.NumberFormat("fa-IR");
+  function easeOutSine(t9) {
+    return Math.sin(t9 * Math.PI / 2);
+  }
+  function animateStat(el) {
+    const target = Number(el.dataset.statCount);
+    if (!Number.isFinite(target) || el.dataset.statCounted === "true") return;
+    el.dataset.statCounted = "true";
+    const start = performance.now();
+    function tick(now2) {
+      const progress = Math.min((now2 - start) / DURATION, 1);
+      const value = Math.round(easeOutSine(progress) * target);
+      el.textContent = `+${formatter.format(value)}`;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  function onPageLoad(callback) {
+    if (document.readyState === "complete") {
+      callback();
+      return;
+    }
+    window.addEventListener("load", callback, { once: true });
+  }
+  function StatCount() {
+    const stats = document.querySelectorAll("[data-stat-count]");
+    if (!stats.length) return;
+    onPageLoad(() => {
+      setTimeout(() => stats.forEach(animateStat), START_DELAY);
+    });
+  }
+
   // assets/js/index.js
   Modals();
   register();
@@ -24572,8 +24623,10 @@
   PrimaryButton();
   BlogArchive();
   ProductArchive();
+  ProjectArchive();
   ProductSingle();
   ProductGallery();
+  StatCount();
   fancybox();
 })();
 /*! Bundled license information:

@@ -5,9 +5,11 @@ use Cyan\Theme\Helpers\Templates;
 defined('ABSPATH') || exit;
 
 get_header();
-
 Templates::getPart('breadcrumb');
+?>
 
-Templates::getPart('blogs');
+<main class="single-project">
+	<?php Templates::getPart('project/single-project'); ?>
+</main>
 
-get_footer();
+<?php get_footer(); ?>

@@ -26,6 +26,7 @@ $render_template = $args['render_template'] ?? true;
 	<?php wp_body_open(); ?>
 
 	<?php if ($render_template) : ?>
+		<?php Templates::getPart('sky'); ?>
 
 		<div class="icon hidden size-6" id="chevron-down">
 			<?php Icon::print('Arrow-28') ?>

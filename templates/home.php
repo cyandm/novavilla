@@ -7,7 +7,6 @@ use Cyan\Theme\Helpers\Templates;
 get_header(); ?>
 
 <main class="relative">
-
     <?php Templates::getPart('home/hero'); ?>
     <?php Templates::getPart('home/category'); ?>
     <?php Templates::getPart('home/cta'); ?>

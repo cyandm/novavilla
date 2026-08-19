@@ -37,6 +37,7 @@ class ACF
 		self::forActivity();
 		self::forCertificate();
 		self::forProduct();
+		self::forProject();
 
 		//Taxonomies
 
@@ -150,6 +151,53 @@ class ACF
 
 		$acfGroup->setLocation('post_type', '==', 'product');
 		$acfGroup->register('Product');
+	}
+
+	private static function forProject()
+	{
+		$acfGroup = new AcfGroup();
+
+		$acfGroup->layoutFields->addTab('project_info_tab', 'اطلاعات پروژه');
+		$acfGroup->contentFields->addTextEditor('project_desc', 'توضیحات)', ['rows' => 3, 'placeholder' => 'طراحی و اجرای یک ویلای مدرن با متریال ترکیبی چوب و شیشه در دل طبیعت؛ با نورگیری عالی، مصرف انرژی بهینه و دوام بالا', 'width' => '50']);
+		$acfGroup->basicFields->addText('project_type', 'نوع پروژه', ['placeholder' => 'ویلای پیش‌ساخته دوبلکس', 'width' => '50']);
+		$acfGroup->basicFields->addText('project_location', 'محل اجرا', ['placeholder' => 'مازندران', 'width' => '50']);
+		$acfGroup->basicFields->addText('project_area', 'متراژ', ['placeholder' => '۱۲۰ مترمربع', 'width' => '50']);
+		$acfGroup->basicFields->addText('project_floors', 'تعداد طبقات', ['placeholder' => '۲ طبقه', 'width' => '33']);
+		$acfGroup->basicFields->addText('project_duration', 'مدت زمان اجرا', ['placeholder' => '۴۵ روز کاری', 'width' => '33']);
+		$acfGroup->basicFields->addText('project_year', 'سال اجرا', ['placeholder' => '۱۴۰۵', 'width' => '33']);
+
+		$acfGroup->layoutFields->addTab('project_gallery_tab', 'گالری');
+		$acfGroup->contentFields->addGallery('project_gallery', 'تصویر', ['return_format' => 'url', 'width' => '25'], 20);
+		$acfGroup->choiceFields->addBoolean('project_videos_first', 'نمایش ویدیوها در ابتدای گالری', ['message' => 'در صورت غیرفعال بودن، ویدیوها آخرین اسلایدها خواهند بود', 'default_value' => 0]);
+		for ($i = 1; $i <= 4; $i++) {
+			$source_key = 'acf_select_project_video_' . $i . '_source_';
+			$acfGroup->choiceFields->addSelect("project_video_{$i}_source", "منبع ویدیو {$i}", ['choices' => ['aparat' => 'آپارات', 'wordpress' => 'رسانه وردپرس'], 'default_value' => 'aparat', 'width' => '25']);
+			$acfGroup->contentFields->addTextEditor("project_video_{$i}_aparat", "کد embed آپارات {$i}", ['width' => '75', 'media_upload' => 0, 'conditional_logic' => [[['field' => $source_key, 'operator' => '==', 'value' => 'aparat']]]]);
+			$acfGroup->contentFields->addFile("project_video_{$i}_file", "فایل ویدیو {$i}", ['return_format' => 'array', 'width' => '50', 'conditional_logic' => [[['field' => $source_key, 'operator' => '==', 'value' => 'wordpress']]]]);
+			$acfGroup->contentFields->addImage("project_video_{$i}_cover", "کاور ویدیو {$i}", ['return_format' => 'url', 'width' => '50']);
+		}
+
+		$acfGroup->layoutFields->addTab('project_content_tab', 'توضیحات');
+		$acfGroup->contentFields->addTextEditor('project_description', 'توضیحات پروژه', ['rows' => 8]);
+		$acfGroup->contentFields->addTextEditor('project_design_solution', 'راهکار طراحی', ['rows' => 8, 'placeholder' => 'هر مورد در یک خط', 'width' => '50']);
+		$acfGroup->contentFields->addTextEditor('project_client_need', 'نیاز کارفرما', ['rows' => 8, 'placeholder' => 'هر مورد در یک خط', 'width' => '50']);
+
+		$acfGroup->layoutFields->addTab('project_compare_tab', 'قبل و بعد');
+		$acfGroup->contentFields->addImage('project_image_before', 'تصویر قبل', ['return_format' => 'url', 'width' => '50']);
+		$acfGroup->contentFields->addImage('project_image_after', 'تصویر بعد', ['return_format' => 'url', 'width' => '50']);
+
+		$acfGroup->layoutFields->addTab('project_review_tab', 'نظر کارفرما');
+		$acfGroup->contentFields->addTextEditor('project_review_text', 'متن نظر', ['rows' => 5]);
+		$acfGroup->basicFields->addNumber('project_review_rating', 'امتیاز', ['placeholder' => '5', 'min' => 0, 'max' => 5, 'step' => 0.1, 'width' => '25']);
+		$acfGroup->basicFields->addText('project_review_name', 'نام', ['placeholder' => 'آقای میرزایی', 'width' => '25']);
+		$acfGroup->basicFields->addText('project_review_role', 'سمت', ['default_value' => 'کارفرما', 'placeholder' => 'کارفرما', 'width' => '25']);
+		$acfGroup->contentFields->addImage('project_review_image', 'تصویر', ['return_format' => 'url', 'width' => '25']);
+
+		$acfGroup->layoutFields->addTab('project_related_tab', 'پروژه‌های مرتبط');
+		$acfGroup->relationshipFields->addPostObject('project_similar', 'انتخاب پروژه‌های مشابه (حداکثر 4 — در صورت کمتر، بقیه خودکار پر می‌شود)', ['post_type' => 'project', 'multiple' => 1, 'return_format' => 'id', 'width' => '100%']);
+
+		$acfGroup->setLocation('post_type', '==', 'project');
+		$acfGroup->register('Project');
 	}
 
 	private static function forContactUs()
@@ -319,6 +367,23 @@ class ACF
 		$acfGroup->basicFields->addText('product_archive_hero_title_two', 'عنوان خط دوم', ['default_value' => __('سریع‌تر از آنچه تصور می‌کنید', 'novavilla'), 'width' => '50']);
 		$acfGroup->contentFields->addTextEditor('product_archive_hero_description', 'توضیحات', ['rows' => 5, 'default_value' => __('در مجموعه نوا ویلا، ویلاهای پیش‌ساخته با طراحی مدرن و کیفیت بالا تولید می‌شوند. با استفاده از تکنولوژی‌های نوین ساخت، زمان تحویل پروژه به‌طور چشمگیری کاهش می‌یابد و شما می‌توانید ویلای مدرن خود را سریع‌تر از آنچه تصور می‌کنید داشته باشید.', 'novavilla')]);
 		$acfGroup->relationshipFields->addLink('product_archive_hero_button', 'دکمه', ['width' => '50']);
+
+		$acfGroup->layoutFields->addTab('project_archive_hero_tab', 'آرشیو پروژه‌ها');
+		$acfGroup->basicFields->addText('project_archive_hero_title', 'عنوان', ['default_value' => __('پروژه‌هایی که', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('project_archive_hero_title_colored', 'عنوان رنگی', ['default_value' => __('از ایده به واقعیت رسیدند', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addTextarea('project_archive_hero_description', 'توضیحات', ['rows' => 4, 'default_value' => __('مجموعه‌ای از پروژه‌های طراحی، تولید و اجرای ویلای پیش‌ساخته، کانکس، کانتینر تجهیزشده و کلبه چوبی را مشاهده کنید.', 'novavilla')]);
+		$acfGroup->contentFields->addImage('project_archive_hero_image', 'عکس', ['return_format' => 'url']);
+		$project_archive_stat_defaults = [
+			1 => ['title' => __('سال تجربه اجرایی', 'novavilla'), 'number' => 10, 'icon' => 'shield-chekmark'],
+			2 => ['title' => __('گواهینامه معتبر', 'novavilla'), 'number' => 12, 'icon' => 'Certificate'],
+			3 => ['title' => __('سال تجربه اجرایی', 'novavilla'), 'number' => 10, 'icon' => 'shield-chekmark'],
+			4 => ['title' => __('گواهینامه معتبر', 'novavilla'), 'number' => 12, 'icon' => 'Certificate'],
+		];
+		foreach ($project_archive_stat_defaults as $i => $item) {
+			$acfGroup->basicFields->addText("project_archive_stat_title_{$i}", "عنوان آمار {$i}", ['default_value' => $item['title'], 'width' => '40']);
+			$acfGroup->basicFields->addNumber("project_archive_stat_number_{$i}", "عدد آمار {$i}", ['default_value' => $item['number'], 'min' => 0, 'step' => 1, 'width' => '30']);
+			$acfGroup->basicFields->addText("project_archive_stat_icon_{$i}", "نام آیکون آمار {$i}", ['default_value' => $item['icon'], 'width' => '30']);
+		}
 
 		$acfGroup->setLocation('page_template', '==', 'templates/home.php');
 

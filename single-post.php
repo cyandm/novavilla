@@ -38,7 +38,7 @@ get_header(); ?>
 
             <section class="container flex flex-col gap-2 mb-5">
 
-                <div class="text-cynTextPrimary/80 [&_a]:text-cynTextPrimaryHover text-xs font-medium flex gap-2 items-center"><?php the_category('|'); ?></div>
+                <div class="text-cynTextPrimary/80 [&_a]:text-cynTextSecondaryHover text-xs font-medium flex gap-2 items-center"><?php the_category('|'); ?></div>
 
                 <h1 class="text-3xl text-cynTextPrimary leading-11"><?php the_title(); ?></h1>
 
