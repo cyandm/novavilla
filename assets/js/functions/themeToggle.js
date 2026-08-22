@@ -1,6 +1,6 @@
 const STORAGE_KEY = "novavilla-theme";
 const TRANSITION_CLASS = "theme-transition";
-const TRANSITION_DURATION = 500;
+const TRANSITION_DURATION = 800;
 const HOVER_MEDIA = "(hover: hover) and (pointer: fine)";
 
 let pointerInsideDock = false;
@@ -97,8 +97,8 @@ function updateToggleState(theme) {
   );
 }
 
-function setTransitionOrigin(event) {
-  const button = getToggleButton();
+function setTransitionOrigin(source) {
+  const button = source?.closest?.("[theme-toggle]") || getToggleButton();
   let clickX;
   let clickY;
 
@@ -106,24 +106,27 @@ function setTransitionOrigin(event) {
     const rect = button.getBoundingClientRect();
     clickX = rect.left + rect.width / 2;
     clickY = rect.top + rect.height / 2;
+  } else if (
+    source &&
+    typeof source.clientX === "number" &&
+    typeof source.clientY === "number" &&
+    (source.clientX !== 0 || source.clientY !== 0)
+  ) {
+    clickX = source.clientX;
+    clickY = source.clientY;
   } else {
-    clickX =
-      typeof event?.clientX === "number" ? event.clientX : window.innerWidth / 2;
-    clickY =
-      typeof event?.clientY === "number" ? event.clientY : window.innerHeight / 2;
+    clickX = window.innerWidth / 2;
+    clickY = window.innerHeight / 2;
   }
 
-  const endRadius =
-    Math.hypot(
-      Math.max(clickX, window.innerWidth - clickX),
-      Math.max(clickY, window.innerHeight - clickY),
-    ) + 16;
+  const endRadius = Math.hypot(
+    Math.max(clickX, window.innerWidth - clickX),
+    Math.max(clickY, window.innerHeight - clickY),
+  );
 
   document.documentElement.style.setProperty("--theme-x", `${clickX}px`);
   document.documentElement.style.setProperty("--theme-y", `${clickY}px`);
   document.documentElement.style.setProperty("--theme-r", `${endRadius}px`);
-
-  return { clickX, clickY, endRadius };
 }
 
 function applyTheme(theme) {
@@ -132,7 +135,7 @@ function applyTheme(theme) {
   updateToggleState(theme);
 }
 
-function fallbackColorTransition(theme) {
+function fallbackTransition(theme) {
   document.documentElement.classList.add(TRANSITION_CLASS);
   applyTheme(theme);
 
@@ -146,24 +149,15 @@ function fallbackColorTransition(theme) {
 
 function setTheme(theme, event) {
   setTransitionOrigin(event);
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
 
-  if (prefersReducedMotion) {
-    applyTheme(theme);
-    return Promise.resolve();
+  if (
+    document.startViewTransition &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    return document.startViewTransition(() => applyTheme(theme)).finished;
   }
 
-  if (document.startViewTransition) {
-    try {
-      return document.startViewTransition(() => applyTheme(theme)).finished;
-    } catch {
-      return fallbackColorTransition(theme);
-    }
-  }
-
-  return fallbackColorTransition(theme);
+  return fallbackTransition(theme);
 }
 
 function toggleTheme(event) {
@@ -250,12 +244,16 @@ export function ThemeToggle() {
 
     if (clickedButton) {
       if (hasHoverPointer()) {
-        toggleTheme(event).finally(finishThemeTransition);
+        toggleTheme(clickedButton).finally(finishThemeTransition);
         return;
       }
 
-      setExpanded(true);
-      toggleTheme(event);
+      if (!isExpanded()) {
+        setExpanded(true);
+        return;
+      }
+
+      toggleTheme(clickedButton);
       return;
     }
 

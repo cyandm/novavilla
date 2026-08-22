@@ -20448,7 +20448,7 @@
   // assets/js/functions/themeToggle.js
   var STORAGE_KEY = "novavilla-theme";
   var TRANSITION_CLASS = "theme-transition";
-  var TRANSITION_DURATION = 500;
+  var TRANSITION_DURATION = 800;
   var HOVER_MEDIA = "(hover: hover) and (pointer: fine)";
   var pointerInsideDock = false;
   var isThemeTransitioning = false;
@@ -20521,33 +20521,35 @@
       isDark ? "\u0641\u0639\u0627\u0644 \u06A9\u0631\u062F\u0646 \u062A\u0645 \u0631\u0648\u0634\u0646" : "\u0641\u0639\u0627\u0644 \u06A9\u0631\u062F\u0646 \u062A\u0645 \u062A\u06CC\u0631\u0647"
     );
   }
-  function setTransitionOrigin(event2) {
-    const button = getToggleButton();
+  function setTransitionOrigin(source2) {
+    const button = source2?.closest?.("[theme-toggle]") || getToggleButton();
     let clickX;
     let clickY;
     if (button) {
       const rect = button.getBoundingClientRect();
       clickX = rect.left + rect.width / 2;
       clickY = rect.top + rect.height / 2;
+    } else if (source2 && typeof source2.clientX === "number" && typeof source2.clientY === "number" && (source2.clientX !== 0 || source2.clientY !== 0)) {
+      clickX = source2.clientX;
+      clickY = source2.clientY;
     } else {
-      clickX = typeof event2?.clientX === "number" ? event2.clientX : window.innerWidth / 2;
-      clickY = typeof event2?.clientY === "number" ? event2.clientY : window.innerHeight / 2;
+      clickX = window.innerWidth / 2;
+      clickY = window.innerHeight / 2;
     }
     const endRadius = Math.hypot(
       Math.max(clickX, window.innerWidth - clickX),
       Math.max(clickY, window.innerHeight - clickY)
-    ) + 16;
+    );
     document.documentElement.style.setProperty("--theme-x", `${clickX}px`);
     document.documentElement.style.setProperty("--theme-y", `${clickY}px`);
     document.documentElement.style.setProperty("--theme-r", `${endRadius}px`);
-    return { clickX, clickY, endRadius };
   }
   function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem(STORAGE_KEY, theme);
     updateToggleState(theme);
   }
-  function fallbackColorTransition(theme) {
+  function fallbackTransition(theme) {
     document.documentElement.classList.add(TRANSITION_CLASS);
     applyTheme(theme);
     return new Promise((resolve) => {
@@ -20559,21 +20561,10 @@
   }
   function setTheme(theme, event2) {
     setTransitionOrigin(event2);
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReducedMotion) {
-      applyTheme(theme);
-      return Promise.resolve();
+    if (document.startViewTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return document.startViewTransition(() => applyTheme(theme)).finished;
     }
-    if (document.startViewTransition) {
-      try {
-        return document.startViewTransition(() => applyTheme(theme)).finished;
-      } catch {
-        return fallbackColorTransition(theme);
-      }
-    }
-    return fallbackColorTransition(theme);
+    return fallbackTransition(theme);
   }
   function toggleTheme(event2) {
     const nextTheme = getTheme() === "dark" ? "light" : "dark";
@@ -20640,11 +20631,14 @@
       const clickedButton = event2.target.closest("[theme-toggle]");
       if (clickedButton) {
         if (hasHoverPointer()) {
-          toggleTheme(event2).finally(finishThemeTransition);
+          toggleTheme(clickedButton).finally(finishThemeTransition);
           return;
         }
-        setExpanded(true);
-        toggleTheme(event2);
+        if (!isExpanded()) {
+          setExpanded(true);
+          return;
+        }
+        toggleTheme(clickedButton);
         return;
       }
       if (!event2.target.closest("[theme-toggle-dock]")) {

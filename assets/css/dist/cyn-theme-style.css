@@ -4636,7 +4636,7 @@
   animation: none;
 }
 ::view-transition-new(root) {
-  animation: theme-circle-reveal 0.85s ease-in-out;
+  animation: theme-circle-reveal 0.8s ease-out;
   transform-origin: var(--theme-x) var(--theme-y);
 }
 @keyframes theme-circle-reveal {
@@ -4680,13 +4680,7 @@
   }
 }
 html.theme-transition, html.theme-transition * {
-  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, fill 0.5s ease, stroke 0.5s ease;
-}
-[theme-toggle-dock] {
-  view-transition-name: theme-toggle-dock;
-}
-::view-transition-old(theme-toggle-dock), ::view-transition-new(theme-toggle-dock) {
-  animation: none;
+  transition: background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease, fill 0.8s ease, stroke 0.8s ease;
 }
 .container {
   width: 100%;
