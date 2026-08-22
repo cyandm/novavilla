@@ -100,15 +100,15 @@ for ($i = 1; $i <= 9; $i++) {
 ksort($features, SORT_NUMERIC);
 $has_features = !empty($features);
 $has_description = !empty($description);
-$panel_class = 'w-full lg:w-1/2 flex flex-col gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4';
-$panel_box_class = 'w-full flex flex-col gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4';
-$feature_card_class = 'group flex flex-col rounded-xl lg:rounded-3xl border border-white/30 bg-cynBgItem backdrop-blur-md p-2 sm:p-3 lg:p-4 text-start transition-all duration-300 cursor-pointer [&.is-selected]:border-cynBorderHover/40';
+$panel_class = 'w-full lg:w-1/2 flex flex-col gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4 transition-all duration-300 hover:border-cynBorderHover';
+$panel_box_class = 'w-full flex flex-col gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4 transition-all duration-300 hover:border-cynBorderHover';
+$feature_card_class = 'group flex flex-col rounded-xl lg:rounded-3xl border border-white/30 bg-cynBgItem backdrop-blur-md p-2 sm:p-3 lg:p-4 text-start transition-all duration-300 cursor-pointer hover:border-cynBorderHover [&.is-selected]:border-cynBorderHover/40';
 $feature_title_class = 'text-xs sm:text-sm font-medium text-cynTextPrimary leading-4 md:leading-5 max-sm:whitespace-nowrap transition-all duration-300 group-[.is-selected]:text-cynBorderHover group-hover:text-cynBorderHover';
 $feature_desc_class = 'text-xs font-light text-cynTextMuted leading-4 md:leading-6';
 $feature_check_class = 'size-4 md:size-6 shrink-0 rounded-md border border-cynWhite flex items-center justify-center transition-all duration-300 group-[.is-selected]:border-cynBorderHover group-[.is-selected]:bg-cynBorderHover';
 $chip_class = 'items-center gap-2.5 rounded-full border border-cynBorderHover/40 bg-cynWhite/8 px-2 py-1.5 text-xs md:text-base font-normal text-cynTextPrimary leading-4 md:leading-5 transition-all duration-300 hover:border-cynBorderHover group';
 $format_toman = static fn($n) => number_format_i18n((float) $n) . ' ' . __('تومان', 'novavilla');
-$price_row_class = 'flex items-center justify-between gap-2 rounded-3xl border border-cynBorderHover/40 bg-cynWhite/8 backdrop-blur-md px-4 py-4';
+$price_row_class = 'flex items-center justify-between gap-2 rounded-3xl border border-cynBorderHover/40 bg-cynWhite/8 backdrop-blur-md px-4 py-4 transition-all duration-300 hover:border-cynBorderHover';
 $price_label_class = 'text-base md:text-xl font-semibold text-cynTextPrimary leading-6';
 $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leading-6';
 ?>
@@ -134,7 +134,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
             <?php if ($gallery_count > 1) : ?>
                 <swiper-container id="product-gallery-thumbs" dir="rtl" class="product-gallery-thumbs w-full h-[123px] lg:w-[140px] lg:h-[642px] xl:h-[592px]" slides-per-view="auto" space-between="8" direction="horizontal" css-mode="true" free-mode="true" nested="true" breakpoints='{"1024":{"direction":"vertical","slidesPerView":"auto","spaceBetween":8}}'>
                     <?php foreach ($gallery_items as $index => $item) : ?>
-                        <swiper-slide class="group relative w-[120px] h-[123px] lg:w-[140px] lg:h-[192px] overflow-hidden rounded-xl lg:rounded-3xl border border-cynBorderHover/40 cursor-pointer">
+                        <swiper-slide class="group relative w-[120px] h-[123px] lg:w-[140px] lg:h-[192px] overflow-hidden rounded-xl lg:rounded-3xl border border-cynBorderHover/40 cursor-pointer transition-all duration-300 hover:border-cynBorderHover">
                             <div class="relative w-full h-full" data-fancybox-delegate="product-gallery" data-fancybox-index="<?php echo (int) $index; ?>">
                                 <?php $thumb_src = $item['type'] === 'image' ? $item['url'] : ($item['poster'] ?? ''); ?>
                                 <?php if ($thumb_src) : ?>
@@ -152,7 +152,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
                 </swiper-container>
             <?php endif; ?>
 
-            <div class="relative w-full lg:flex-1 h-[399px] lg:h-[642px] xl:h-[592px] overflow-hidden rounded-xl lg:rounded-3xl border border-cynBorderHover/40">
+            <div class="relative w-full lg:flex-1 h-[399px] lg:h-[642px] xl:h-[592px] overflow-hidden rounded-xl lg:rounded-3xl border border-cynBorderHover/40 transition-all duration-300 hover:border-cynBorderHover">
                 <swiper-container id="product-gallery-main" class="product-gallery-main w-full h-full overflow-hidden" slides-per-view="1" space-between="0" <?php echo $gallery_count > 1 ? 'loop="true"' : ''; ?> <?php echo $gallery_count > 1 ? 'thumbs-swiper="#product-gallery-thumbs"' : ''; ?> navigation="true" navigation-next-el="#productGalleryNext" navigation-prev-el="#productGalleryPrev">
                     <?php foreach ($gallery_items as $index => $item) : ?>
                         <swiper-slide class="!h-full">
@@ -190,7 +190,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
         </div>
     <?php endif; ?>
 
-    <div class="w-full lg:w-[calc(50%-0.375rem)] flex flex-col justify-center gap-5 lg:gap-6 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md lg:backdrop-blur-md p-4 lg:px-4 lg:py-5">
+    <div class="w-full lg:w-[calc(50%-0.375rem)] flex flex-col justify-center gap-5 lg:gap-6 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md lg:backdrop-blur-md p-4 lg:px-4 lg:py-5 transition-all duration-300 hover:border-cynBorderHover">
         <div class="flex flex-col gap-2">
             <?php if (!empty($title)) : ?>
                 <h1 class="text-2xl md:text-4xl font-bold text-cynTextPrimary leading-8 md:leading-14"><?php echo esc_html($title); ?></h1>
@@ -254,7 +254,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
 
 <section modal data-modal-name="product-consult" data-modal-layer="popup" data-active="false" class="fixed inset-x-3 md:inset-x-auto md:left-1/2 top-1/2 z-50 w-auto md:w-[min(800px,calc(100%-3rem))] md:-translate-x-1/2 max-h-[calc(100dvh-3rem)] -translate-y-1/2 overflow-y-auto scrollbar flex flex-col gap-5 opacity-0 pointer-events-none invisible data-[active='true']:opacity-100 data-[active='true']:pointer-events-auto data-[active='true']:visible transition-all duration-300">
     <div id="product-consult-success" class="empty:hidden"></div>
-    <div class="rounded-3xl border border-cynBorderHover/40 bg-cynWhite/10 backdrop-blur-md p-4 flex flex-col gap-5">
+    <div class="rounded-3xl border border-cynBorderHover/40 bg-cynWhite/10 backdrop-blur-md p-4 flex flex-col gap-5 transition-all duration-300 hover:border-cynBorderHover">
         <div class="flex items-center justify-between gap-2">
             <span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
                 <?php esc_html_e('درخواست مشاوره', 'novavilla'); ?>
@@ -268,7 +268,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
 </section>
 
 <?php if ($has_features || $has_description) : ?>
-    <section class="flex flex-col lg:flex-row gap-5 lg:gap-3 items-stretch lg:items-start container mt-5 lg:mt-6">
+    <section class="flex flex-col lg:flex-row gap-5 lg:gap-3 items-stretch lg:items-start container my-5 lg:my-6">
 
         <?php if ($has_description) : ?>
             <div class="<?php echo esc_attr($panel_class); ?> !gap-3">
@@ -315,7 +315,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
                                 <?php endforeach; ?>
                             </div>
 
-                            <div class="flex flex-col gap-6 md:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4 items-end">
+                            <div class="flex flex-col gap-6 md:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4 items-end transition-all duration-300 hover:border-cynBorderHover">
                                 <div class="flex flex-col gap-3 md:gap-5 w-full">
                                     <div class="flex items-center gap-1 text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
                                         <span class="text-cynTextPrimary">
@@ -343,7 +343,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
                     </div>
                 </div>
 
-                <div modal data-modal-name="product-price-inquiry" data-modal-layer="popup" data-active="false" class="fixed inset-x-3 md:inset-x-auto md:left-1/2 top-1/2 z-50 w-auto md:w-[min(1160px,calc(100%-3rem))] md:-translate-x-1/2 max-h-[calc(100dvh-3rem)] -translate-y-1/2 overflow-y-auto scrollbar rounded-3xl border border-cynBorderHover/40 bg-cynWhite/10 backdrop-blur-md p-4 flex flex-col gap-5 opacity-0 pointer-events-none invisible data-[active='true']:opacity-100 data-[active='true']:pointer-events-auto data-[active='true']:visible transition-all duration-300 items-end">
+                <div modal data-modal-name="product-price-inquiry" data-modal-layer="popup" data-active="false" class="fixed inset-x-3 md:inset-x-auto md:left-1/2 top-1/2 z-50 w-auto md:w-[min(1160px,calc(100%-3rem))] md:-translate-x-1/2 max-h-[calc(100dvh-3rem)] -translate-y-1/2 overflow-y-auto scrollbar rounded-3xl border border-cynBorderHover/40 bg-cynWhite/10 backdrop-blur-md p-4 flex flex-col gap-5 opacity-0 pointer-events-none invisible data-[active='true']:opacity-100 data-[active='true']:pointer-events-auto data-[active='true']:visible transition-all duration-300 hover:border-cynBorderHover items-end">
                     <div class="flex flex-col gap-3 md:gap-5 w-full">
                         <div class="flex items-center justify-between gap-2">
                             <span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
@@ -398,6 +398,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
     </section>
 <?php endif; ?>
 
+
+
+<?php Templates::getPart('product/product-installment'); ?>
 <?php Templates::getPart('product/product-related'); ?>
-
-

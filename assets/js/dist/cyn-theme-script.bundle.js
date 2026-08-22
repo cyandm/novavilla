@@ -20976,16 +20976,85 @@
   // assets/js/functions/productSingle.js
   function ProductSingle() {
     initFeatures();
+    initInstallment();
   }
   function formatToman(value) {
     return `${Number(value || 0).toLocaleString("fa-IR")} \u062A\u0648\u0645\u0627\u0646`;
   }
+  function formatPercent(value) {
+    const n11 = Number(value || 0);
+    const trimmed = String(n11).replace(/\.0+$/, "").replace(/(\.\d*?)0+$/, "$1");
+    return `${trimmed} %`;
+  }
+  function initInstallment() {
+    const root = document.querySelector("[data-product-installment]");
+    if (!root) return;
+    const price = Number(root.dataset.price || 0);
+    const rate = Number(root.dataset.rate || 0);
+    const prepayBtns = [...root.querySelectorAll("[data-installment-prepay]")];
+    const periodBtns = [...root.querySelectorAll("[data-installment-period]")];
+    const totalEl = root.querySelector("[data-installment-total-price]");
+    const prepayEl = root.querySelector("[data-installment-prepay-percent]");
+    const remainingEl = root.querySelector("[data-installment-remaining]");
+    const monthsEl = root.querySelector("[data-installment-months]");
+    const sumEl = root.querySelector("[data-installment-sum]");
+    const monthlyEl = root.querySelector("[data-installment-monthly]");
+    let percent = Number(
+      prepayBtns.find((btn) => btn.classList.contains("is-selected"))?.dataset.percent
+    ) || Number(prepayBtns[0]?.dataset.percent || 0);
+    let months = Number(
+      periodBtns.find((btn) => btn.classList.contains("is-selected"))?.dataset.months
+    ) || Number(periodBtns[0]?.dataset.months || 0);
+    const setSelected = (btns, active) => {
+      btns.forEach((btn) => {
+        const on2 = btn === active;
+        btn.classList.toggle("is-selected", on2);
+        btn.setAttribute("aria-pressed", on2 ? "true" : "false");
+      });
+    };
+    const setTomanAmount = (el, value) => {
+      if (!el) return;
+      const amountEl = el.querySelector("[data-installment-amount]");
+      if (amountEl) amountEl.textContent = Number(value || 0).toLocaleString("fa-IR");
+    };
+    const sync = () => {
+      if (price <= 0 || months <= 0) return;
+      const remaining = price * (1 - percent / 100);
+      const sum = remaining * (1 + months * rate / 100);
+      const monthly = sum / months;
+      setTomanAmount(totalEl, Math.round(price));
+      if (prepayEl) prepayEl.textContent = formatPercent(percent);
+      setTomanAmount(remainingEl, Math.round(remaining));
+      if (monthsEl) monthsEl.textContent = `${months.toLocaleString("fa-IR")} \u0645\u0627\u0647`;
+      setTomanAmount(sumEl, Math.round(sum));
+      setTomanAmount(monthlyEl, Math.round(monthly));
+    };
+    prepayBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        percent = Number(btn.dataset.percent || 0);
+        setSelected(prepayBtns, btn);
+        sync();
+      });
+    });
+    periodBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        months = Number(btn.dataset.months || 0);
+        setSelected(periodBtns, btn);
+        sync();
+      });
+    });
+    sync();
+  }
   function initFeatures() {
     const root = document.querySelector("[data-product-features]");
-    const modal = document.querySelector('[modal][data-modal-name="product-price-inquiry"]');
+    const modal = document.querySelector(
+      '[modal][data-modal-name="product-price-inquiry"]'
+    );
     if (!root) return;
     const scopes = [root, modal].filter(Boolean);
-    const qAll = (sel) => [...new Set(scopes.flatMap((el) => [...el.querySelectorAll(sel)]))];
+    const qAll = (sel) => [
+      ...new Set(scopes.flatMap((el) => [...el.querySelectorAll(sel)]))
+    ];
     const qOne = (sel) => scopes.reduce((found, el) => found || el.querySelector(sel), null);
     const cards = qAll("[data-feature-card]");
     const chips = qAll("[data-feature-chip]");

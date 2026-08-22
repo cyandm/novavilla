@@ -126,24 +126,8 @@ class ACF
 
 		$acfGroup->layoutFields->addTab('product_installment_tab', 'اقساط');
 		$acfGroup->basicFields->addText('product_installment_title', 'عنوان بخش', ['default_value' => 'شرایط پیش پرداخت و اقساط', 'width' => '50']);
-		$acfGroup->basicFields->addText('product_installment_subtitle', 'زیرعنوان', ['placeholder' => 'یکی از دو حالت زیر را انتخاب کنید', 'width' => '50']);
-		$acfGroup->basicFields->addText('product_prepay_section_title', 'عنوان بخش پیش پرداخت', ['default_value' => 'پیش پرداخت']);
-		$prepay_placeholders = [
-			1 => ['title' => 'پیش پرداخت 30%', 'percent' => '30', 'desc' => 'مناسب شروع آسان‌تر با پیش پرداخت کمتر'],
-			2 => ['title' => 'پیش پرداخت 50 %', 'percent' => '50', 'desc' => 'مناسب پرداخت اولیه بیشتر و اقساط سبک‌تر'],
-		];
-		foreach ($prepay_placeholders as $i => $item) {
-			$acfGroup->basicFields->addText("product_prepay_title_{$i}", "عنوان پیش‌پرداخت {$i}", ['default_value' => $item['title'], 'width' => '40']);
-			$acfGroup->basicFields->addNumber("product_prepay_percent_{$i}", "درصد {$i}", ['placeholder' => $item['percent'], 'width' => '20']);
-			$acfGroup->basicFields->addTextarea("product_prepay_desc_{$i}", "توضیح {$i}", ['placeholder' => $item['desc'], 'rows' => 2, 'width' => '40']);
-		}
-		$acfGroup->basicFields->addText('product_period_section_title', 'عنوان بخش مدت بازپرداخت', ['default_value' => 'مدت بازپرداخت (تعداد اقساط)']);
-		$period_placeholders = [1 => '3 ماه', 2 => '6 ماه', 3 => '12 ماه'];
-		foreach ($period_placeholders as $i => $label) {
-			$acfGroup->basicFields->addText("product_period_label_{$i}", "مدت {$i}", ['placeholder' => $label, 'width' => '33']);
-		}
-		$acfGroup->basicFields->addNumber('product_interest_rate', 'سود ماهانه (%)', ['placeholder' => '3', 'width' => '50']);
-		$acfGroup->basicFields->addTextarea('product_installment_note', 'توضیح پایین محاسبه', ['rows' => 2, 'placeholder' => 'مبلغ نهایی با توجه به مبلغ سفارش و تعداد اقساط محاسبه می‌شود.', 'width' => '50']);
+		$acfGroup->basicFields->addText('product_installment_subtitle', 'زیرعنوان', ['default_value' => 'یکی از دو حالت زیر را انتخاب کنید', 'width' => '50']);
+		$acfGroup->contentFields->addImage('product_installment_image', 'عکس بخش اقساط', ['return_format' => 'url']);
 
 		$acfGroup->layoutFields->addTab('product_related_tab', 'محصولات مرتبط');
 		$acfGroup->relationshipFields->addPostObject('product_similar', 'انتخاب محصولات مرتبط (حداکثر 4 — در صورت کمتر، بقیه خودکار پر می‌شود)', ['post_type' => 'product', 'multiple' => 1, 'return_format' => 'id', 'width' => '100%']);
@@ -367,6 +351,28 @@ class ACF
 		$acfGroup->basicFields->addText('product_archive_hero_title_two', 'عنوان خط دوم', ['default_value' => __('سریع‌تر از آنچه تصور می‌کنید', 'novavilla'), 'width' => '50']);
 		$acfGroup->contentFields->addTextEditor('product_archive_hero_description', 'توضیحات', ['rows' => 5, 'default_value' => __('در مجموعه نوا ویلا، ویلاهای پیش‌ساخته با طراحی مدرن و کیفیت بالا تولید می‌شوند. با استفاده از تکنولوژی‌های نوین ساخت، زمان تحویل پروژه به‌طور چشمگیری کاهش می‌یابد و شما می‌توانید ویلای مدرن خود را سریع‌تر از آنچه تصور می‌کنید داشته باشید.', 'novavilla')]);
 		$acfGroup->relationshipFields->addLink('product_archive_hero_button', 'دکمه', ['width' => '50']);
+
+		$acfGroup->layoutFields->addTab('product_installment_settings_tab', 'اقساط محصولات');
+		$acfGroup->contentFields->addImage('product_installment_default_image', 'عکس پیش‌فرض بخش اقساط', ['return_format' => 'url']);
+		$acfGroup->basicFields->addText('product_prepay_section_title', 'عنوان بخش پیش پرداخت', ['default_value' => 'پیش پرداخت']);
+		$home_prepay = [
+			1 => ['title' => 'پیش پرداخت 50 %', 'percent' => 50, 'desc' => 'مناسب پرداخت اولیه بیشتر و اقساط سبک‌تر'],
+			2 => ['title' => 'پیش پرداخت 30%', 'percent' => 30, 'desc' => 'مناسب شروع آسان‌تر با پیش پرداخت کمتر'],
+		];
+		foreach ($home_prepay as $i => $item) {
+			$acfGroup->basicFields->addText("product_prepay_title_{$i}", "عنوان پیش‌پرداخت {$i}", ['default_value' => $item['title'], 'width' => '40']);
+			$acfGroup->basicFields->addNumber("product_prepay_percent_{$i}", "درصد {$i}", ['default_value' => $item['percent'], 'min' => 1, 'max' => 99, 'width' => '20']);
+			$acfGroup->basicFields->addTextarea("product_prepay_desc_{$i}", "توضیح {$i}", ['default_value' => $item['desc'], 'rows' => 2, 'width' => '40']);
+		}
+		$acfGroup->basicFields->addText('product_period_section_title', 'عنوان بخش مدت بازپرداخت', ['default_value' => 'مدت بازپرداخت (تعداد اقساط)']);
+		$home_periods = [1 => ['label' => '3 ماه', 'months' => 3], 2 => ['label' => '6 ماه', 'months' => 6], 3 => ['label' => '12 ماه', 'months' => 12]];
+		foreach ($home_periods as $i => $item) {
+			$acfGroup->basicFields->addText("product_period_label_{$i}", "برچسب مدت {$i}", ['default_value' => $item['label'], 'width' => '50']);
+			$acfGroup->basicFields->addNumber("product_period_months_{$i}", "تعداد ماه {$i}", ['default_value' => $item['months'], 'min' => 1, 'width' => '50']);
+		}
+		$acfGroup->basicFields->addNumber('product_interest_rate', 'سود ماهانه (%)', ['default_value' => 3, 'min' => 0, 'step' => 0.1, 'width' => '50']);
+		$acfGroup->basicFields->addText('product_calc_section_title', 'عنوان بخش محاسبه', ['default_value' => 'محاسبه اقساط', 'width' => '50']);
+		$acfGroup->basicFields->addTextarea('product_installment_note', 'توضیح پایین محاسبه', ['rows' => 2, 'default_value' => 'مبلغ نهایی با توجه به مبلغ سفارش و تعداد اقساط محاسبه می‌شود.']);
 
 		$acfGroup->layoutFields->addTab('project_archive_hero_tab', 'آرشیو پروژه‌ها');
 		$acfGroup->basicFields->addText('project_archive_hero_title', 'عنوان', ['default_value' => __('پروژه‌هایی که', 'novavilla'), 'width' => '50']);

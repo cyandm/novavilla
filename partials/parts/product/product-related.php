@@ -20,7 +20,7 @@ $sections = [
 	if ($section['ids'] === []) continue;
 	$nav = $section['nav'];
 	?>
-	<section class="container flex flex-col gap-3 md:gap-5 mt-11 lg:mt-16">
+	<section class="container flex flex-col gap-3 md:gap-5 my-11 lg:my-16">
 		<div class="flex items-center justify-between gap-3">
 			<h2 class="text-xl font-medium md:text-4xl md:font-bold text-cynTextPrimary md:leading-12">
 				<?php echo esc_html($section['title']); ?>

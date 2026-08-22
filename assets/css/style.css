@@ -236,6 +236,42 @@
   }
 }
 
+.theme-toggle-icon {
+  animation: theme-toggle-icon-pulse 1.8s ease-in-out infinite;
+  will-change: color, transform, filter;
+}
+
+[theme-toggle]:hover .theme-toggle-icon,
+[theme-toggle][data-expanded="true"] .theme-toggle-icon {
+  animation: none;
+  color: var(--color-cynSvgHover);
+  transform: scale(1);
+  filter: none;
+}
+
+@keyframes theme-toggle-icon-pulse {
+  0%,
+  100% {
+    color: var(--color-cynSvg);
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+
+  50% {
+    color: var(--color-cynSvgHover);
+    transform: scale(1.15);
+    filter: drop-shadow(
+      0 0 8px color-mix(in oklab, var(--color-cynSvgHover) 55%, transparent)
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle-icon {
+    animation: none;
+  }
+}
+
 html.theme-transition,
 html.theme-transition * {
   transition:
@@ -501,8 +537,8 @@ a {
     var(--color-cynBgBase) 75%,
     transparent
   );
-  -webkit-backdrop-filter: blur(40px);
-  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
   @apply [&>li]:border-t-2 [&>li]:border-cynBorder [&>li]:first:border-t-0;
 }
 
