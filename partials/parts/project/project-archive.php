@@ -65,7 +65,7 @@ for ($i = 1; $i <= 4; $i++) {
 	<?php if (!empty($project_archive_stats)) : ?>
 		<div class="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3">
 			<?php foreach ($project_archive_stats as $project_archive_stat) : ?>
-				<div class="flex items-center justify-center gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 hover:border-cynBorderHover transition-all duration-300 bg-cynWhite/10 backdrop-blur-xl px-10 py-6">
+				<div class="flex items-center justify-center gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 hover:border-cynBorderHover transition-all duration-300 bg-cynWhite/10 backdrop-blur-xl sm:px-10 sm:py-6 px-4 py-4">
 					<div class="flex flex-col gap-1">
 						<?php if ($project_archive_stat['number'] !== null) : ?>
 							<span class="text-lg md:text-4xl font-bold text-cynBorderHover leading-5 md:leading-10 text-end" dir="ltr" data-stat-count="<?php echo esc_attr($project_archive_stat['number']); ?>">+0</span>

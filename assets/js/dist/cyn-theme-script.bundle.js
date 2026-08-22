@@ -20448,7 +20448,7 @@
   // assets/js/functions/themeToggle.js
   var STORAGE_KEY = "novavilla-theme";
   var TRANSITION_CLASS = "theme-transition";
-  var TRANSITION_DURATION = 300;
+  var TRANSITION_DURATION = 500;
   var HOVER_MEDIA = "(hover: hover) and (pointer: fine)";
   var pointerInsideDock = false;
   var isThemeTransitioning = false;
@@ -20522,22 +20522,32 @@
     );
   }
   function setTransitionOrigin(event2) {
-    const clickX = typeof event2?.clientX === "number" ? event2.clientX : window.innerWidth / 2;
-    const clickY = typeof event2?.clientY === "number" ? event2.clientY : window.innerHeight / 2;
+    const button = getToggleButton();
+    let clickX;
+    let clickY;
+    if (button) {
+      const rect = button.getBoundingClientRect();
+      clickX = rect.left + rect.width / 2;
+      clickY = rect.top + rect.height / 2;
+    } else {
+      clickX = typeof event2?.clientX === "number" ? event2.clientX : window.innerWidth / 2;
+      clickY = typeof event2?.clientY === "number" ? event2.clientY : window.innerHeight / 2;
+    }
     const endRadius = Math.hypot(
       Math.max(clickX, window.innerWidth - clickX),
       Math.max(clickY, window.innerHeight - clickY)
-    );
+    ) + 16;
     document.documentElement.style.setProperty("--theme-x", `${clickX}px`);
     document.documentElement.style.setProperty("--theme-y", `${clickY}px`);
     document.documentElement.style.setProperty("--theme-r", `${endRadius}px`);
+    return { clickX, clickY, endRadius };
   }
   function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem(STORAGE_KEY, theme);
     updateToggleState(theme);
   }
-  function fallbackTransition(theme) {
+  function fallbackColorTransition(theme) {
     document.documentElement.classList.add(TRANSITION_CLASS);
     applyTheme(theme);
     return new Promise((resolve) => {
@@ -20549,10 +20559,21 @@
   }
   function setTheme(theme, event2) {
     setTransitionOrigin(event2);
-    if (document.startViewTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return document.startViewTransition(() => applyTheme(theme)).finished;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReducedMotion) {
+      applyTheme(theme);
+      return Promise.resolve();
     }
-    return fallbackTransition(theme);
+    if (document.startViewTransition) {
+      try {
+        return document.startViewTransition(() => applyTheme(theme)).finished;
+      } catch {
+        return fallbackColorTransition(theme);
+      }
+    }
+    return fallbackColorTransition(theme);
   }
   function toggleTheme(event2) {
     const nextTheme = getTheme() === "dark" ? "light" : "dark";
@@ -20622,10 +20643,7 @@
           toggleTheme(event2).finally(finishThemeTransition);
           return;
         }
-        if (!isExpanded()) {
-          setExpanded(true);
-          return;
-        }
+        setExpanded(true);
         toggleTheme(event2);
         return;
       }
@@ -20726,7 +20744,9 @@
       });
     }
     function switchTab(name, { updateUrl = true } = {}) {
-      const current = contentsWrapper.querySelector(".blog-archive-content.is-active");
+      const current = contentsWrapper.querySelector(
+        ".blog-archive-content.is-active"
+      );
       const next = getContent(name);
       if (!next || current === next || isAnimating) return;
       isAnimating = true;
@@ -20782,9 +20802,13 @@
         panel.setAttribute("aria-hidden", isActive ? "false" : "true");
       });
     }
-    setContainerHeight(contentsWrapper.querySelector(".blog-archive-content.is-active"));
+    setContainerHeight(
+      contentsWrapper.querySelector(".blog-archive-content.is-active")
+    );
     window.addEventListener("resize", () => {
-      setContainerHeight(contentsWrapper.querySelector(".blog-archive-content.is-active"));
+      setContainerHeight(
+        contentsWrapper.querySelector(".blog-archive-content.is-active")
+      );
     });
   }
 

@@ -229,12 +229,14 @@ class ACF
 		$acfGroup->basicFields->addText('activities_title', 'عنوان بخش', ['default_value' => __('حوزه‌های فعالیت ما', 'novavilla')]);
 
 		$acfGroup->layoutFields->addTab('about_certificates_tab', 'گواهینامه‌ها');
-		$acfGroup->basicFields->addText('about_certificates_title', 'عنوان', ['default_value' => __('گواهینامه‌ها و استانداردهای ما', 'novavilla')]);
+		$acfGroup->basicFields->addText('about_certificates_title', 'عنوان', ['default_value' => __('گواهینامه‌ها و', 'novavilla')]);
+		$acfGroup->basicFields->addText('about_certificates_title_accent', 'ادامه عنوان رنگی', ['default_value' => __('استانداردهای', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('about_certificates_title_normal', 'ادامه عنوان عادی', ['default_value' => __(' ما', 'novavilla'), 'width' => '50']);
 		$acfGroup->basicFields->addTextarea('about_certificates_desc', 'توضیحات', ['rows' => 3, 'default_value' => __('کیفیت، ایمنی و دوام محصولات ما بر پایه استانداردهای فنی و فرآیندهای کنترل‌شده است. در این بخش می‌توانید گواهینامه‌ها، مجوزها و تأییدیه‌های مجموعه را مشاهده کنید.', 'novavilla')]);
 		$acfGroup->contentFields->addImage('about_certificates_image', 'تصویر بخش', ['return_format' => 'url']);
-		$acfGroup->basicFields->addText('about_cert_stat_value_1', 'مقدار آمار ۱', ['default_value' => '+ 12', 'width' => '50']);
+		$acfGroup->basicFields->addNumber('about_cert_stat_value_1', 'عدد آمار ۱', ['default_value' => 12, 'min' => 0, 'step' => 1, 'width' => '50']);
 		$acfGroup->basicFields->addText('about_cert_stat_label_1', 'برچسب آمار ۱', ['default_value' => __('گواهینامه معتبر', 'novavilla'), 'width' => '50']);
-		$acfGroup->basicFields->addText('about_cert_stat_value_2', 'مقدار آمار ۲', ['default_value' => '+ 10', 'width' => '50']);
+		$acfGroup->basicFields->addNumber('about_cert_stat_value_2', 'عدد آمار ۲', ['default_value' => 10, 'min' => 0, 'step' => 1, 'width' => '50']);
 		$acfGroup->basicFields->addText('about_cert_stat_label_2', 'برچسب آمار ۲', ['default_value' => __('سال تجربه اجرایی', 'novavilla'), 'width' => '50']);
 
 		$acfGroup->layoutFields->addTab('about_why_tab', 'چرا مشتریان ما');

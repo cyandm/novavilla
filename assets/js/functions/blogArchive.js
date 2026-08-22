@@ -20,7 +20,8 @@ export function BlogArchive() {
   const panels = [...contentsWrapper.querySelectorAll("[data-content]")];
   let isAnimating = false;
 
-  const getContent = (name) => panels.find((panel) => panel.dataset.content === name) || null;
+  const getContent = (name) =>
+    panels.find((panel) => panel.dataset.content === name) || null;
 
   const setContainerHeight = (panel) => {
     if (!panel) return;
@@ -39,7 +40,9 @@ export function BlogArchive() {
   }
 
   function switchTab(name, { updateUrl = true } = {}) {
-    const current = contentsWrapper.querySelector(".blog-archive-content.is-active");
+    const current = contentsWrapper.querySelector(
+      ".blog-archive-content.is-active",
+    );
     const next = getContent(name);
 
     if (!next || current === next || isAnimating) return;
@@ -95,7 +98,9 @@ export function BlogArchive() {
   });
 
   const urlTab = new URL(window.location.href).searchParams.get("blog_tab");
-  const tabByUrl = urlTab ? [...tabs].find((tab) => tab.dataset.tab === urlTab) : null;
+  const tabByUrl = urlTab
+    ? [...tabs].find((tab) => tab.dataset.tab === urlTab)
+    : null;
   const initialTab =
     (tabByUrl && getContent(urlTab) && tabByUrl) ||
     [...tabs].find((tab) => tab.classList.contains("is-active")) ||
@@ -112,9 +117,13 @@ export function BlogArchive() {
     });
   }
 
-  setContainerHeight(contentsWrapper.querySelector(".blog-archive-content.is-active"));
+  setContainerHeight(
+    contentsWrapper.querySelector(".blog-archive-content.is-active"),
+  );
 
   window.addEventListener("resize", () => {
-    setContainerHeight(contentsWrapper.querySelector(".blog-archive-content.is-active"));
+    setContainerHeight(
+      contentsWrapper.querySelector(".blog-archive-content.is-active"),
+    );
   });
 }

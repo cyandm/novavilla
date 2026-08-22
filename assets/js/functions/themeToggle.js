@@ -1,6 +1,6 @@
 const STORAGE_KEY = "novavilla-theme";
 const TRANSITION_CLASS = "theme-transition";
-const TRANSITION_DURATION = 300;
+const TRANSITION_DURATION = 500;
 const HOVER_MEDIA = "(hover: hover) and (pointer: fine)";
 
 let pointerInsideDock = false;
@@ -98,18 +98,32 @@ function updateToggleState(theme) {
 }
 
 function setTransitionOrigin(event) {
-  const clickX =
-    typeof event?.clientX === "number" ? event.clientX : window.innerWidth / 2;
-  const clickY =
-    typeof event?.clientY === "number" ? event.clientY : window.innerHeight / 2;
-  const endRadius = Math.hypot(
-    Math.max(clickX, window.innerWidth - clickX),
-    Math.max(clickY, window.innerHeight - clickY),
-  );
+  const button = getToggleButton();
+  let clickX;
+  let clickY;
+
+  if (button) {
+    const rect = button.getBoundingClientRect();
+    clickX = rect.left + rect.width / 2;
+    clickY = rect.top + rect.height / 2;
+  } else {
+    clickX =
+      typeof event?.clientX === "number" ? event.clientX : window.innerWidth / 2;
+    clickY =
+      typeof event?.clientY === "number" ? event.clientY : window.innerHeight / 2;
+  }
+
+  const endRadius =
+    Math.hypot(
+      Math.max(clickX, window.innerWidth - clickX),
+      Math.max(clickY, window.innerHeight - clickY),
+    ) + 16;
 
   document.documentElement.style.setProperty("--theme-x", `${clickX}px`);
   document.documentElement.style.setProperty("--theme-y", `${clickY}px`);
   document.documentElement.style.setProperty("--theme-r", `${endRadius}px`);
+
+  return { clickX, clickY, endRadius };
 }
 
 function applyTheme(theme) {
@@ -118,7 +132,7 @@ function applyTheme(theme) {
   updateToggleState(theme);
 }
 
-function fallbackTransition(theme) {
+function fallbackColorTransition(theme) {
   document.documentElement.classList.add(TRANSITION_CLASS);
   applyTheme(theme);
 
@@ -132,15 +146,24 @@ function fallbackTransition(theme) {
 
 function setTheme(theme, event) {
   setTransitionOrigin(event);
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
-  if (
-    document.startViewTransition &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  ) {
-    return document.startViewTransition(() => applyTheme(theme)).finished;
+  if (prefersReducedMotion) {
+    applyTheme(theme);
+    return Promise.resolve();
   }
 
-  return fallbackTransition(theme);
+  if (document.startViewTransition) {
+    try {
+      return document.startViewTransition(() => applyTheme(theme)).finished;
+    } catch {
+      return fallbackColorTransition(theme);
+    }
+  }
+
+  return fallbackColorTransition(theme);
 }
 
 function toggleTheme(event) {
@@ -231,11 +254,7 @@ export function ThemeToggle() {
         return;
       }
 
-      if (!isExpanded()) {
-        setExpanded(true);
-        return;
-      }
-
+      setExpanded(true);
       toggleTheme(event);
       return;
     }

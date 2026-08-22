@@ -30,13 +30,23 @@ $activities = get_posts([
 ]);
 
 $about_certificates_title = get_field('about_certificates_title');
+$about_certificates_title_accent = get_field('about_certificates_title_accent');
+$about_certificates_title_normal = get_field('about_certificates_title_normal');
 $about_certificates_desc = get_field('about_certificates_desc');
 $about_certificates_image = get_field('about_certificates_image');
 $about_certificates_image_url = is_array($about_certificates_image) ? ($about_certificates_image['url'] ?? '') : $about_certificates_image;
-$about_cert_stat_value_1 = get_field('about_cert_stat_value_1');
 $about_cert_stat_label_1 = get_field('about_cert_stat_label_1');
-$about_cert_stat_value_2 = get_field('about_cert_stat_value_2');
 $about_cert_stat_label_2 = get_field('about_cert_stat_label_2');
+$about_cert_stats = [];
+foreach ([
+	['number' => get_field('about_cert_stat_value_1'), 'title' => $about_cert_stat_label_1, 'icon' => 'Certificate'],
+	['number' => get_field('about_cert_stat_value_2'), 'title' => $about_cert_stat_label_2, 'icon' => 'Shield,-Protected,-Checkmark'],
+] as $about_cert_stat_item) {
+	$about_cert_stat_raw = $about_cert_stat_item['number'];
+	$about_cert_stat_number = is_numeric($about_cert_stat_raw) ? (int) $about_cert_stat_raw : (preg_match('/\d+/', (string) $about_cert_stat_raw, $about_cert_stat_match) ? (int) $about_cert_stat_match[0] : null);
+	if ($about_cert_stat_number === null && empty($about_cert_stat_item['title'])) continue;
+	$about_cert_stats[] = ['number' => $about_cert_stat_number, 'title' => $about_cert_stat_item['title'], 'icon' => $about_cert_stat_item['icon']];
+}
 $about_certificates = get_posts([
     'post_type' => 'certificate',
     'posts_per_page' => -1,
@@ -160,73 +170,6 @@ get_header();
 
     </section>
 
-    <?php if (!empty($about_certificates_title) || !empty($about_certificates_image_url) || !empty($about_certificates)) : ?>
-        <section class="flex flex-col gap-3 lg:gap-3">
-            <div class="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-3">
-                <?php if (!empty($about_certificates_image_url)) : ?>
-                    <div class="w-full lg:w-[55%] shrink-0">
-                        <img src="<?php echo esc_url($about_certificates_image_url); ?>" alt="<?php echo esc_attr($about_certificates_title ?: __('گواهینامه‌ها', 'novavilla')); ?>" class="relative z-10 w-full object-cover" loading="lazy" decoding="async" />
-                    </div>
-                <?php endif; ?>
-
-                <div class="flex flex-col gap-3 w-full lg:w-[45%]">
-                    <div class="flex flex-col gap-2 lg:gap-3">
-                        <?php if (!empty($about_certificates_title)) : ?>
-                            <h2 class="text-xl font-medium lg:text-4xl lg:font-bold text-cynTextPrimary lg:leading-16 whitespace-pre-line"><?php echo esc_html($about_certificates_title); ?></h2>
-                        <?php endif; ?>
-
-                        <?php if (!empty($about_certificates_desc)) : ?>
-                            <p class="text-xs lg:text-base font-light text-cynTextPrimary leading-[15px] lg:leading-7"><?php echo esc_html($about_certificates_desc); ?></p>
-                        <?php endif; ?>
-                    </div>
-
-                    <?php if (!empty($about_cert_stat_value_1) || !empty($about_cert_stat_value_2)) : ?>
-                        <div class="grid grid-cols-2 gap-2 lg:gap-3">
-                            <?php if (!empty($about_cert_stat_value_1) || !empty($about_cert_stat_label_1)) : ?>
-                                <div class="flex items-center justify-center gap-3 lg:gap-5 rounded-3xl border border-cynBorder bg-cynBgItem backdrop-blur-xl px-3 py-4 lg:px-6 lg:py-[26px]">
-                                    <i class="size-[30px] lg:size-[50px] flex items-center justify-center shrink-0 [&_svg]:size-full [&_svg]:stroke-cynBorderHover"><?php Icon::print('Certificate'); ?></i>
-                                    <div class="flex flex-col gap-1">
-                                        <?php if (!empty($about_cert_stat_value_1)) : ?><span class="text-sm lg:text-[28px] font-bold text-cynBorderHover leading-[18px] lg:leading-[38px]"><?php echo esc_html($about_cert_stat_value_1); ?></span><?php endif; ?>
-                                        <?php if (!empty($about_cert_stat_label_1)) : ?><span class="text-[10px] lg:text-base font-medium text-cynTextPrimary leading-[14px] lg:leading-[25px]"><?php echo esc_html($about_cert_stat_label_1); ?></span><?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (!empty($about_cert_stat_value_2) || !empty($about_cert_stat_label_2)) : ?>
-                                <div class="flex items-center justify-center gap-3 lg:gap-5 rounded-3xl border border-cynBorder bg-cynBgItem backdrop-blur-xl px-3 py-4 lg:px-6 lg:py-[26px]">
-                                    <i class="size-[30px] lg:size-[50px] flex items-center justify-center shrink-0 [&_svg]:size-full [&_svg]:stroke-cynBorderHover"><?php Icon::print('Shield,-Protected,-Checkmark'); ?></i>
-                                    <div class="flex flex-col gap-1">
-                                        <?php if (!empty($about_cert_stat_value_2)) : ?><span class="text-sm lg:text-[28px] font-bold text-cynBorderHover leading-[18px] lg:leading-[38px]"><?php echo esc_html($about_cert_stat_value_2); ?></span><?php endif; ?>
-                                        <?php if (!empty($about_cert_stat_label_2)) : ?><span class="text-[10px] lg:text-base font-medium text-cynTextPrimary leading-[14px] lg:leading-[25px]"><?php echo esc_html($about_cert_stat_label_2); ?></span><?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <?php if (!empty($about_certificates)) : ?>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                    <?php foreach ($about_certificates as $certificate_id) : ?>
-                        <?php Templates::getCard('certificate', ['post-id' => $certificate_id]); ?>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        </section>
-    <?php endif; ?>
-
-    <?php if (!empty($personnels)) : ?>
-        <section class="flex flex-col gap-3">
-            <h2 class="text-xl font-medium md:text-4xl md:font-bold text-cynTextPrimary md:leading-12"><?php esc_html_e('تیم ما', 'novavilla'); ?></h2>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                <?php foreach ($personnels as $personnel_id) : ?>
-                    <?php Templates::getCard('personnel', ['post-id' => $personnel_id]); ?>
-                <?php endforeach; ?>
-            </div>
-        </section>
-    <?php endif; ?>
-
     <?php if (!empty($activities)) : ?>
         <section class="flex flex-col gap-3">
             <div class="flex items-center justify-between gap-3">
@@ -277,6 +220,97 @@ get_header();
             <?php endforeach; ?>
         </div>
     </section>
+
+    <?php if (!empty($about_certificates_title) || !empty($about_certificates_title_accent) || !empty($about_certificates_title_normal) || !empty($about_certificates_image_url) || !empty($about_certificates)) : ?>
+        <section class="flex flex-col gap-3 lg:gap-3">
+            <div class="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-3">
+                <?php if (!empty($about_certificates_image_url)) : ?>
+                    <div class="w-full lg:w-[55%] shrink-0">
+                        <img src="<?php echo esc_url($about_certificates_image_url); ?>" alt="<?php echo esc_attr($about_certificates_title ?: __('گواهینامه‌ها', 'novavilla')); ?>" class="relative z-10 w-full object-cover" loading="lazy" decoding="async" />
+                    </div>
+                <?php endif; ?>
+
+                <div class="flex flex-col gap-3 w-full lg:w-[45%]">
+                    <?php if (!empty($about_certificates_title) || !empty($about_certificates_title_accent) || !empty($about_certificates_title_normal) || !empty($about_certificates_desc)) : ?>
+                        <div class="flex flex-col gap-2 lg:gap-3">
+                            <?php if (!empty($about_certificates_title) || !empty($about_certificates_title_accent) || !empty($about_certificates_title_normal)) : ?>
+                                <h2 class="text-xl font-medium lg:text-4xl lg:font-bold leading-8 lg:leading-16">
+                                    <?php if (!empty($about_certificates_title)) : ?>
+                                        <span class="block text-cynTextPrimary">
+                                            <?php echo esc_html($about_certificates_title); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                    <?php if (!empty($about_certificates_title_accent) || !empty($about_certificates_title_normal)) : ?>
+                                        <span class="block">
+                                            <?php if (!empty($about_certificates_title_accent)) : ?>
+                                                <span class="text-cynBorderHover">
+                                                    <?php echo esc_html($about_certificates_title_accent); ?>
+                                                </span>
+                                            <?php endif; ?>
+                                            <?php if (!empty($about_certificates_title_normal)) : ?>
+                                                <span class="text-cynTextPrimary">
+                                                    <?php echo esc_html($about_certificates_title_normal); ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </h2>
+                            <?php endif; ?>
+
+                            <?php if (!empty($about_certificates_desc)) : ?>
+                                <p class="text-xs lg:text-base font-light text-cynTextPrimary leading-4 lg:leading-7">
+                                    <?php echo esc_html($about_certificates_desc); ?>
+                                </p>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($about_cert_stats)) : ?>
+                        <div class="grid grid-cols-2 gap-2 lg:gap-3">
+                            <?php foreach ($about_cert_stats as $about_cert_stat) : ?>
+                                <div class="flex items-center justify-center gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 hover:border-cynBorderHover transition-all duration-300 bg-cynWhite/10 backdrop-blur-xl sm:px-8 sm:py-6 px-4 py-4">
+                                    <div class="flex flex-col gap-1">
+                                        <?php if ($about_cert_stat['number'] !== null) : ?>
+                                            <span class="text-lg md:text-4xl font-bold text-cynBorderHover leading-5 md:leading-10 text-end" dir="ltr" data-stat-count="<?php echo esc_attr($about_cert_stat['number']); ?>">+0</span>
+                                        <?php endif; ?>
+                                        <?php if (!empty($about_cert_stat['title'])) : ?>
+                                            <span class="text-xs md:text-xl font-normal text-cynTextPrimary leading-4 md:leading-6">
+                                                <?php echo esc_html($about_cert_stat['title']); ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <?php if (!empty($about_cert_stat['icon'])) : ?>
+                                        <i class="size-8 sm:size-12 shrink-0 flex items-center justify-center text-cynBorderHover [&_svg]:size-full [&_svg]:stroke-[1.5]">
+                                            <?php Icon::print($about_cert_stat['icon']); ?>
+                                        </i>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <?php if (!empty($about_certificates)) : ?>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    <?php foreach ($about_certificates as $certificate_id) : ?>
+                        <?php Templates::getCard('certificate', ['post-id' => $certificate_id]); ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </section>
+    <?php endif; ?>
+
+    <?php if (!empty($personnels)) : ?>
+        <section class="flex flex-col gap-3">
+            <h2 class="text-xl font-medium md:text-4xl md:font-bold text-cynTextPrimary md:leading-12"><?php esc_html_e('تیم ما', 'novavilla'); ?></h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <?php foreach ($personnels as $personnel_id) : ?>
+                    <?php Templates::getCard('personnel', ['post-id' => $personnel_id]); ?>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php endif; ?>
 
     <?php Templates::getPart('faq', ['faq_place' => 'about-us']); ?>
 
