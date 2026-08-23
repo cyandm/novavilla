@@ -25,7 +25,7 @@ $locations = [];
 for ($i = 1; $i <= 6; $i++) {
 	$image = get_option("location_image_$i");
 	$link = get_option("location_link_$i");
-	if ($image || $link) {
+	if ($image && $link) {
 		$locations[] = [
 			'image' => $image,
 			'link' => $link,
@@ -94,21 +94,9 @@ $has_contact = $phone_number || $phone_number_support || $address_text || $locat
 							<?php if ($locations) : ?>
 								<div class="flex items-center gap-2 flex-wrap">
 									<?php foreach ($locations as $location) : ?>
-										<?php
-										$location_class = 'size-6 rounded-sm overflow-hidden flex items-center justify-center shrink-0';
-										$location_image = !empty($location['image'])
-											? '<img src="' . esc_url($location['image']) . '" alt="" class="size-full object-contain">'
-											: '';
-										?>
-										<?php if (!empty($location['link'])) : ?>
-											<a href="<?php echo esc_url($location['link']); ?>" target="_blank" rel="noopener noreferrer" class="<?php echo $location_class; ?>">
-												<?php echo $location_image; ?>
-											</a>
-										<?php else : ?>
-											<span class="<?php echo $location_class; ?>">
-												<?php echo $location_image; ?>
-											</span>
-										<?php endif; ?>
+										<a href="<?php echo esc_url($location['link']); ?>" target="_blank" rel="noopener noreferrer" class="size-6 rounded-sm overflow-hidden flex items-center justify-center shrink-0">
+											<img src="<?php echo esc_url($location['image']); ?>" alt="" class="size-full object-contain">
+										</a>
 									<?php endforeach; ?>
 								</div>
 							<?php endif; ?>

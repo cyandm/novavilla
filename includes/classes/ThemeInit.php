@@ -36,6 +36,9 @@ class ThemeInit
 
 		//Allow SVG
 		self::allowSvg();
+
+		//Redirect legacy singular archive URLs (/product, /project)
+		self::redirectLegacyArchiveUrls();
 	}
 
 	public static function removeUnnecessaryAssets()
@@ -175,5 +178,21 @@ class ThemeInit
 			$mimes['svg'] = 'image/svg+xml';
 			return $mimes;
 		}, 10, 1);
+	}
+
+	public static function redirectLegacyArchiveUrls()
+	{
+		add_action('template_redirect', function () {
+			$path = trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+			$map = [
+				'product' => 'product',
+				'project' => 'project',
+			];
+			if (!isset($map[$path])) return;
+			$target = get_post_type_archive_link($map[$path]);
+			if (!$target) return;
+			wp_safe_redirect($target, 301);
+			exit;
+		});
 	}
 }

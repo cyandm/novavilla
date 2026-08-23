@@ -17,6 +17,7 @@ class Register
 		add_action('init', [__CLASS__, 'registerTaxonomy']);
 		add_action('init', [__CLASS__, 'registerTerm']);
 		add_action('init', [__CLASS__, 'registerPage']);
+		add_action('init', [__CLASS__, 'maybeFlushRewriteRules'], 999);
 
 		add_action('after_setup_theme', [__CLASS__, 'registerMenus']);
 		add_filter('nav_menu_css_class', [__CLASS__, 'addMenuClasses'], 10, 4);
@@ -65,8 +66,15 @@ class Register
 		self::makePostType('activity', 'حوزه فعالیت', 'حوزه‌های فعالیت', 'dashicons-building', ['title', 'thumbnail', 'page-attributes'], false, false, false);
 		self::makePostType('certificate', 'گواهینامه', 'گواهینامه‌ها', 'dashicons-awards', ['title', 'thumbnail', 'page-attributes'], false, false, false);
 		self::makePostType('personnels', 'عضو تیم', 'تیم ما', 'dashicons-groups', ['title', 'editor', 'thumbnail', 'page-attributes'], false, false, false);
-		self::makePostType('product', 'محصول', 'محصولات', 'dashicons-cart', ['title', 'thumbnail']);
-		self::makePostType('project', 'پروژه', 'پروژه ها', 'dashicons-portfolio', ['title', 'thumbnail']);
+		self::makePostType('product', 'محصول', 'محصولات', 'dashicons-cart', ['title', 'thumbnail'], true, true, true, 'products');
+		self::makePostType('project', 'پروژه', 'پروژه ها', 'dashicons-portfolio', ['title', 'thumbnail'], true, true, true, 'projects');
+	}
+
+	public static function maybeFlushRewriteRules()
+	{
+		if (get_option('novavilla_cpt_archive_slugs') === 'products-projects') return;
+		flush_rewrite_rules(false);
+		update_option('novavilla_cpt_archive_slugs', 'products-projects');
 	}
 
 	public static function registerTaxonomy()
@@ -102,10 +110,10 @@ class Register
 		// self::makePage('contact-us', 'تماس با ما');
 	}
 
-	private static function makePostType($slug, $singular_name, $plural_name, $icon, $supports = ['title', 'thumbnail'], $search_include = true, $has_single = true, $has_archive = true)
+	private static function makePostType($slug, $singular_name, $plural_name, $icon, $supports = ['title', 'thumbnail'], $search_include = true, $has_single = true, $has_archive = true, $archive_slug = null)
 	{
 		$labels = [
-			'name' => $singular_name,
+			'name' => $plural_name,
 			'singular_name' => $singular_name,
 			'menu_name' => $plural_name,
 			'name_admin_bar' => $singular_name,
@@ -129,7 +137,7 @@ class Register
 			'query_var' => true,
 			'rewrite' => $has_single ? ['slug' => $slug] : false,
 			'exclude_from_search' => ! $search_include,
-			'has_archive' => $has_archive,
+			'has_archive' => $has_archive ? ($archive_slug ?: $slug) : false,
 			'hierarchical' => false,
 			'menu_position' => null,
 			'menu_icon' => $icon,
