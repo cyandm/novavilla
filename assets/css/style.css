@@ -189,7 +189,7 @@
   --color-cynBgBase: #fbfbfb;
   --color-cynTextPrimary: #515151;
   --color-cynTextSecondary: #ffffff;
-  --color-cynTextPrimaryHover: #ffffff;
+  --color-cynTextPrimaryHover: #ff8f34;
   --color-cynTextSecondaryHover: #ff8f34;
   --color-cynBorder: #cccccc;
   --color-cynBorderHover: #ff8f34;
@@ -241,6 +241,15 @@
   will-change: color, transform, filter;
 }
 
+[theme-toggle].theme-toggle-btn {
+  animation: theme-toggle-shadow-pulse-light 1.5s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
+[data-theme="dark"] [theme-toggle].theme-toggle-btn {
+  animation-name: theme-toggle-shadow-pulse-dark;
+}
+
 [theme-toggle]:hover .theme-toggle-icon,
 [theme-toggle][data-expanded="true"] .theme-toggle-icon {
   animation: none;
@@ -266,8 +275,31 @@
   }
 }
 
+@keyframes theme-toggle-shadow-pulse-light {
+  0%,
+  100% {
+    box-shadow: 0 0 6px 0 rgb(0 0 0 / 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 14px 3px rgb(0 0 0 / 0.45);
+  }
+}
+
+@keyframes theme-toggle-shadow-pulse-dark {
+  0%,
+  100% {
+    box-shadow: 0 0 6px 0 rgb(255 255 255 / 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 14px 3px rgb(255 255 255 / 0.55);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .theme-toggle-icon {
+  .theme-toggle-icon,
+  [theme-toggle].theme-toggle-btn {
     animation: none;
   }
 }

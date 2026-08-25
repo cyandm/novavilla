@@ -25,7 +25,7 @@ if ($postId === 0) {
 
     <div class="faq-expert | grid grid-rows-[0fr] transition-all duration-300">
         <div class="overflow-hidden">
-            <div class="pt-4 [&_a]:text-cynBlue [&_a]:underline text-cynTextPrimary/80 text-xs md:text-sm font-light leading-6 md:leading-7">
+            <div class="pt-4 [&_a]:text-cynBlue [&_a]:underline text-cynTextPrimary dark:text-cynTextPrimary/80 text-xs md:text-sm font-light leading-6 md:leading-7">
                 <?php echo get_the_content(null, false, $postId) ?>
             </div>
         </div>

@@ -78,7 +78,7 @@ $review_rating = is_numeric($project_review_rating) ? (float) $project_review_ra
 $action_btn_class = 'inline-flex items-center justify-center rounded-md border border-cynBorderHover/20 bg-cynWhite/8 px-3 py-2 text-cynTextPrimary transition-all duration-300 hover:border-cynBorderHover';
 $panel_class = 'w-full flex flex-col gap-3 rounded-3xl border border-cynBorderHover/40 bg-cynWhite/8 backdrop-blur-xl p-4';
 $inner_panel_class = 'w-full flex flex-col gap-3 rounded-3xl border border-cynBorderHover/40 bg-cynWhite/8 backdrop-blur-xl p-4';
-$title_row_class = 'inline-flex items-center gap-2 border-b border-white/25 pb-2 w-fit';
+$title_row_class = 'inline-flex items-center gap-2 border-b border-cynBorder dark:border-white/25 pb-2 w-fit';
 $body_class = 'text-xs md:text-sm font-light md:font-medium text-cynTextPrimary leading-6 md:leading-7 [&_ul]:list-disc [&_ul]:pr-6 [&_p]:mb-0';
 ?>
 
@@ -390,7 +390,7 @@ $body_class = 'text-xs md:text-sm font-light md:font-medium text-cynTextPrimary 
 			<span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
 				<?php esc_html_e('درخواست پروژه مشابه', 'novavilla'); ?>
 			</span>
-			<i class="size-7 rounded-full border border-white/40 group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:stroke-[1.5] cursor-pointer" modal-closer data-modal-name="product-consult">
+			<i class="size-7 rounded-full border border-cynBorder dark:border-white/40 hover:border-cynBorderHover dark:hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynTextPrimary dark:text-cynWhite [&_svg]:stroke-[1.5] cursor-pointer" modal-closer data-modal-name="product-consult">
 				<?php Icon::print('Delete,-Disabled'); ?>
 			</i>
 		</div>

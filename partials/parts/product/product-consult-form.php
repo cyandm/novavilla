@@ -7,9 +7,9 @@ defined('ABSPATH') || exit;
 $args = get_query_var('args', []);
 $source_page_id = (int) ($args['source_page_id'] ?? get_the_ID());
 $phone_number = get_option('phone_number');
-$input_class = 'w-full rounded-xl border border-white/40 bg-cynWhite/8 backdrop-blur-md px-4 ps-12 py-4 text-sm md:text-base font-normal text-cynTextPrimary placeholder:text-cynWhite/80 focus:outline-none focus:border-cynBorderHover transition-all duration-300';
+$input_class = 'w-full rounded-xl border border-cynBorder dark:border-white/40 bg-cynWhite/8 backdrop-blur-md px-4 ps-12 py-4 text-sm md:text-base font-normal text-cynTextPrimary placeholder:text-cynTextPrimary/50 dark:placeholder:text-cynWhite/80 focus:outline-none focus:border-cynBorderHover transition-all duration-300';
 $icon_wrap_class = 'size-7 shrink-0 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none text-cynBorderHover flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-current [&_svg]:stroke-[1.5]';
-$channel_label_class = 'group flex items-center gap-2 rounded-xl border border-white/30 bg-white/8 backdrop-blur-md px-3 py-4 cursor-pointer transition-all duration-300 has-[:checked]:border-cynBorderHover';
+$channel_label_class = 'group flex items-center gap-2 rounded-xl border border-cynBorder dark:border-white/30 bg-white/8 backdrop-blur-md px-3 py-4 cursor-pointer transition-all duration-300 has-[:checked]:border-cynBorderHover';
 $channels = [
 	'whatsapp' => __('درخواست مشاوره در واتساپ', 'novavilla'),
 	'telegram' => __('درخواست مشاوره در تلگرام', 'novavilla'),
@@ -62,7 +62,7 @@ $channels = [
 		<div class="flex flex-col gap-2 md:gap-3">
 			<?php foreach ($channels as $value => $label) : ?>
 				<label class="<?php echo esc_attr($channel_label_class); ?>">
-					<span class="size-6 shrink-0 rounded-md border border-white flex items-center justify-center transition-all duration-300 group-has-[:checked]:border-cynBorderHover group-has-[:checked]:bg-cynBorderHover">
+					<span class="size-6 shrink-0 rounded-md border border-cynBorder dark:border-white flex items-center justify-center transition-all duration-300 group-has-[:checked]:border-cynBorderHover group-has-[:checked]:bg-cynBorderHover">
 						<i class="size-3.5 opacity-0 text-cynBlack flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-current group-has-[:checked]:opacity-100">
 							<?php Icon::print('check'); ?>
 						</i>

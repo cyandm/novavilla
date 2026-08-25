@@ -46,7 +46,7 @@ if (empty($faq_group))
 
 ?>
 
-<div class="py-4 px-4 md:py-10 md:px-5 divide-y divide-white/8">
+<div class="py-4 px-4 md:py-10 md:px-5 divide-y divide-cynTextPrimary/8">
 
     <?php foreach ($faq_group as $index => $faq_id) : ?>
         <?php Templates::getCard('faq', ['post-id' => $faq_id]) ?>

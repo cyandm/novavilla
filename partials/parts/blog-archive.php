@@ -141,7 +141,7 @@ foreach ($blog_category_tabs as $category) {
 ?>
 
 <section id="blog-archive" class="blog-archive flex flex-col gap-5 md:gap-6">
-	<div class="flex items-center gap-2 md:gap-3 border-b border-white/25 pb-3 overflow-x-auto scrollbar" role="tablist">
+	<div class="flex items-center gap-2 md:gap-3 border-b border-cynBorder dark:border-white/25 pb-3 overflow-x-auto scrollbar" role="tablist">
 		<button type="button" role="tab" data-tab="all" aria-selected="<?php echo $blog_tab === 'all' ? 'true' : 'false'; ?>" aria-controls="blog-content-all" class="blog-archive-tab<?php echo $blog_tab === 'all' ? ' is-active' : ''; ?>"><span><?php esc_html_e('همه مقالات', 'novavilla'); ?></span></button>
 
 		<?php foreach ($blog_category_tabs as $category) : ?>

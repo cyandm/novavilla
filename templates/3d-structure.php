@@ -121,7 +121,7 @@ get_header();
 							<?php if (!empty($step['image'])) : ?>
 								<img src="<?php echo esc_url($step['image']); ?>" alt="<?php echo esc_attr($step['title']); ?>" class="size-full object-contain" loading="lazy" decoding="async" />
 							<?php endif; ?>
-							<span class="absolute bottom-0 start-0 flex items-center justify-center size-5 max-[376px]:size-4 md:size-[30px] rounded-full bg-cynBorderHover border border-white/35 text-[10px] max-[376px]:text-[8px] md:text-xs font-semibold text-cynWhite group-hover:scale-120 transition-all duration-300"><?php echo esc_html($step['number']); ?></span>
+							<span class="absolute bottom-0 start-0 flex items-center justify-center size-5 max-[376px]:size-4 md:size-[30px] rounded-full bg-cynBorderHover border border-cynBorder dark:border-white/35 text-[10px] max-[376px]:text-[8px] md:text-xs font-semibold text-cynWhite group-hover:scale-120 transition-all duration-300"><?php echo esc_html($step['number']); ?></span>
 						</div>
 						<div class="flex flex-col gap-1 max-w-40 max-[376px]:max-w-none min-w-0 w-full">
 							<h3 class="text-[10px] max-[376px]:text-[9px] max-[376px]:leading-3 max-[376px]:break-words lg:text-sm font-medium text-cynTextPrimary leading-4 lg:leading-6"><?php echo esc_html($step['title']); ?></h3>

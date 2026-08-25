@@ -81,11 +81,11 @@ $spec_rows = [
 ];
 
 $icon_class = 'size-4 lg:size-5 shrink-0 flex items-center justify-center text-cynTextPrimary [&_svg]:size-full [&_svg]:stroke-current [&_svg]:stroke-[1.5]';
-$row_class = 'flex items-center justify-between gap-3 rounded-xl bg-cynBgElevated px-3 py-3';
+$row_class = 'flex items-center justify-between gap-3 rounded-xl border border-cynBorder dark:border-transparent bg-cynBgElevated px-3 py-3';
 $label_class = 'text-xs md:text-base font-medium text-cynTextPrimary leading-5';
 $value_class = 'text-xs md:text-base font-medium text-cynTextPrimary leading-5';
-$tag_class = 'inline-flex items-center rounded-md border border-cynBorderHover/20 bg-cynBgElevated px-3 py-1 text-xs md:text-base font-normal text-cynTextPrimary leading-5 transition-all duration-300 hover:border-cynBorderHover';
-$action_btn_class = 'inline-flex items-center justify-center rounded-md border border-cynBorderHover/20 bg-cynWhite/8 px-3 py-2 text-cynTextPrimary transition-all duration-300 hover:border-cynBorderHover';
+$tag_class = 'inline-flex items-center rounded-md border border-cynBorder dark:border-cynBorderHover/20 bg-cynBgElevated px-3 py-1 text-xs md:text-base font-normal text-cynTextPrimary leading-5 transition-all duration-300 hover:border-cynBorderHover';
+$action_btn_class = 'inline-flex items-center justify-center rounded-md border border-cynBorder dark:border-cynBorderHover/20 bg-cynWhite/8 px-3 py-2 text-cynTextPrimary transition-all duration-300 hover:border-cynBorderHover';
 
 $description = get_field('product_description', $post_id);
 $features_desc = get_field('product_features_desc', $post_id) ?: __('این مدل بر اساس نیاز شما قابل شخصی سازی است. امکانات موردنظر را انتخاب کنید', 'novavilla');
@@ -102,15 +102,18 @@ $has_features = !empty($features);
 $has_description = !empty($description);
 $panel_class = 'w-full lg:w-1/2 flex flex-col gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4 transition-all duration-300 hover:border-cynBorderHover';
 $panel_box_class = 'w-full flex flex-col gap-3 lg:gap-5 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4 transition-all duration-300 hover:border-cynBorderHover';
-$feature_card_class = 'group flex flex-col rounded-xl lg:rounded-3xl border border-white/30 bg-cynBgItem backdrop-blur-md p-2 sm:p-3 lg:p-4 text-start transition-all duration-300 cursor-pointer hover:border-cynBorderHover [&.is-selected]:border-cynBorderHover/40';
+$feature_card_class = 'group flex flex-col rounded-xl lg:rounded-3xl border border-cynBorder dark:border-white/30 bg-cynBgItem backdrop-blur-md p-2 sm:p-3 lg:p-4 text-start transition-all duration-300 cursor-pointer hover:border-cynBorderHover [&.is-selected]:border-cynBorderHover/40';
 $feature_title_class = 'text-xs sm:text-sm font-medium text-cynTextPrimary leading-4 md:leading-5 max-sm:whitespace-nowrap transition-all duration-300 group-[.is-selected]:text-cynBorderHover group-hover:text-cynBorderHover';
 $feature_desc_class = 'text-xs font-light text-cynTextMuted leading-4 md:leading-6';
-$feature_check_class = 'size-4 md:size-6 shrink-0 rounded-md border border-cynWhite flex items-center justify-center transition-all duration-300 group-[.is-selected]:border-cynBorderHover group-[.is-selected]:bg-cynBorderHover';
+$feature_check_class = 'size-4 md:size-6 shrink-0 rounded-md border border-cynBorder dark:border-cynWhite flex items-center justify-center transition-all duration-300 group-[.is-selected]:border-cynBorderHover group-[.is-selected]:bg-cynBorderHover';
 $chip_class = 'items-center gap-2.5 rounded-full border border-cynBorderHover/40 bg-cynWhite/8 px-2 py-1.5 text-xs md:text-base font-normal text-cynTextPrimary leading-4 md:leading-5 transition-all duration-300 hover:border-cynBorderHover group';
 $format_toman = static fn($n) => number_format_i18n((float) $n) . ' ' . __('تومان', 'novavilla');
 $price_row_class = 'flex items-center justify-between gap-2 rounded-3xl border border-cynBorderHover/40 bg-cynWhite/8 backdrop-blur-md px-4 py-4 transition-all duration-300 hover:border-cynBorderHover';
 $price_label_class = 'text-base md:text-xl font-semibold text-cynTextPrimary leading-6';
 $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leading-6';
+$close_icon_class = 'size-7 rounded-full border border-cynBorder dark:border-white/40 hover:border-cynBorderHover dark:hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynTextPrimary dark:text-cynWhite [&_svg]:stroke-[1.5] cursor-pointer';
+$chip_remove_icon_class = 'size-5 md:size-6 rounded-full border border-cynBorder dark:border-white/40 group-hover:border-cynBorderHover dark:group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynTextPrimary dark:text-cynWhite [&_svg]:stroke-[1.5]';
+$title_underline_class = 'inline-flex items-center gap-2 border-b border-cynBorder dark:border-white/25 pb-2 w-fit';
 ?>
 
 
@@ -209,7 +212,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
 
         <div class="flex flex-col gap-2">
             <?php if (!empty($product_price)) : ?>
-                <div class="flex items-center justify-between gap-3 rounded-xl bg-cynBgElevated px-3 py-3">
+                <div class="flex items-center justify-between gap-3 rounded-xl border border-cynBorder dark:border-transparent bg-cynBgElevated px-3 py-3">
                     <span class="text-sm md:text-xl font-medium text-cynTextPrimary leading-6"><?php esc_html_e('قیمت', 'novavilla'); ?></span>
                     <span class="text-sm md:text-xl font-medium text-cynTextPrimary leading-6"><?php echo esc_html($product_price); ?></span>
                 </div>
@@ -259,7 +262,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
             <span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
                 <?php esc_html_e('درخواست مشاوره', 'novavilla'); ?>
             </span>
-            <i class="size-7 rounded-full border border-white/40 group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:stroke-[1.5] cursor-pointer" modal-closer data-modal-name="product-consult">
+            <i class="<?php echo esc_attr($close_icon_class); ?>" modal-closer data-modal-name="product-consult">
                 <?php Icon::print('Delete,-Disabled'); ?>
             </i>
         </div>
@@ -272,7 +275,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
 
         <?php if ($has_description) : ?>
             <div class="<?php echo esc_attr($panel_class); ?> !gap-3">
-                <div class="inline-flex items-center gap-2 border-b border-white/25 pb-2 w-fit">
+                <div class="<?php echo esc_attr($title_underline_class); ?>">
                     <i class="size-6 text-cynBorderHover [&_svg]:stroke-[1.5]"><?php Icon::print('home-house-big'); ?></i>
                     <span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6"><?php esc_html_e('توضیحات محصول', 'novavilla'); ?></span>
                 </div>
@@ -327,7 +330,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
                                         <?php foreach ($features as $feature) : ?>
                                             <button type="button" data-feature-chip data-feature-id="<?php echo esc_attr($feature['id']); ?>" class="<?php echo esc_attr($chip_class); ?> hidden" aria-label="<?php echo esc_attr(sprintf(__('حذف %s', 'novavilla'), $feature['title'])); ?>">
                                                 <span><?php echo esc_html($feature['title']); ?></span>
-                                                <i class="size-5 md:size-6 rounded-full border border-white/40 group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:stroke-[1.5]">
+                                                <i class="<?php echo esc_attr($chip_remove_icon_class); ?>">
                                                     <?php Icon::print('Delete,-Disabled'); ?>
                                                 </i>
                                             </button>
@@ -349,7 +352,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
                             <span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
                                 <?php esc_html_e('امکانات انتخابی', 'novavilla'); ?>
                             </span>
-                            <i class="size-7 rounded-full border border-white/40 group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:stroke-[1.5] cursor-pointer" modal-closer data-modal-name="product-price-inquiry">
+                            <i class="<?php echo esc_attr($close_icon_class); ?>" modal-closer data-modal-name="product-price-inquiry">
                                 <?php Icon::print('Delete,-Disabled'); ?>
                             </i>
                         </div>
@@ -358,7 +361,7 @@ $price_value_class = 'text-base md:text-xl font-medium text-cynTextPrimary leadi
                             <?php foreach ($features as $feature) : ?>
                                 <button type="button" data-feature-chip data-feature-id="<?php echo esc_attr($feature['id']); ?>" class="<?php echo esc_attr($chip_class); ?> hidden" aria-label="<?php echo esc_attr(sprintf(__('حذف %s', 'novavilla'), $feature['title'])); ?>">
                                     <span><?php echo esc_html($feature['title']); ?></span>
-                                    <i class="size-5 md:size-6 rounded-full border border-white/40 group-hover:border-cynWhite transition-all duration-300 bg-cynWhite/8 flex items-center justify-center text-cynWhite [&_svg]:stroke-[1.5]">
+                                    <i class="<?php echo esc_attr($chip_remove_icon_class); ?>">
                                         <?php Icon::print('Delete,-Disabled'); ?>
                                     </i>
                                 </button>

@@ -74,13 +74,14 @@ $calc_remaining = $price * (1 - ($default_prepay / 100));
 $calc_sum = $calc_remaining * (1 + (($default_months * $interest_rate) / 100));
 $calc_monthly = $default_months > 0 ? $calc_sum / $default_months : 0;
 
-$option_card = 'group flex items-start gap-5 rounded-3xl border border-cynWhite/30 bg-cynWhite/8 backdrop-blur-lg p-4 transition-all duration-300 cursor-pointer [&.is-selected]:border-cynBorderHover';
-$check_box = 'size-6 shrink-0 rounded-md border border-cynWhite flex items-center justify-center transition-all duration-300 group-[.is-selected]:border-cynBorderHover group-[.is-selected]:bg-cynBorderHover';
-$period_card = 'group flex items-center gap-5 rounded-3xl border border-cynWhite/30 bg-cynWhite/8 backdrop-blur-lg p-4 transition-all duration-300 cursor-pointer [&.is-selected]:border-cynBorderHover';
+$option_card = 'group flex items-start gap-5 rounded-3xl border border-cynBorder dark:border-cynWhite/30 bg-cynWhite/8 backdrop-blur-lg p-4 transition-all duration-300 cursor-pointer [&.is-selected]:border-cynBorderHover';
+$check_box = 'size-6 shrink-0 rounded-md border border-cynBorder dark:border-cynWhite flex items-center justify-center transition-all duration-300 group-[.is-selected]:border-cynBorderHover group-[.is-selected]:bg-cynBorderHover';
+$period_card = 'group flex items-center gap-5 rounded-3xl border border-cynBorder dark:border-cynWhite/30 bg-cynWhite/8 backdrop-blur-lg p-4 transition-all duration-300 cursor-pointer [&.is-selected]:border-cynBorderHover';
 $stat_label = 'text-sm md:text-base font-medium text-cynTextPrimary leading-5';
 $stat_value = 'text-xs md:text-sm font-normal text-cynTextPrimary leading-6';
 $stat_accent = 'text-xs md:text-sm font-medium text-cynBorderHover leading-6';
-$stat_cell = 'flex flex-col gap-2 p-4 border-cynWhite/25 max-sm:[&:nth-child(even)]:border-r [&:not(:nth-last-child(-n+2))]:border-b sm:[&:not(:nth-last-child(-n+2))]:border-b-0 sm:[&:not(:nth-last-child(-n+3))]:border-b sm:[&:nth-child(3n+2)]:border-r sm:[&:nth-child(3n)]:border-r';
+$stat_cell = 'flex flex-col gap-2 p-4 border-cynBorder dark:border-cynWhite/25 max-sm:[&:nth-child(even)]:border-r [&:not(:nth-last-child(-n+2))]:border-b sm:[&:not(:nth-last-child(-n+2))]:border-b-0 sm:[&:not(:nth-last-child(-n+3))]:border-b sm:[&:nth-child(3n+2)]:border-r sm:[&:nth-child(3n)]:border-r';
+$title_underline_class = 'flex items-center gap-2 pb-2 border-b border-cynBorder dark:border-white/25 w-fit';
 ?>
 
 <section class="container my-12 lg:my-20" data-product-installment data-price="<?php echo esc_attr((string) $price); ?>" data-rate="<?php echo esc_attr((string) $interest_rate); ?>" data-currency="<?php echo esc_attr($currency); ?>">
@@ -106,7 +107,7 @@ $stat_cell = 'flex flex-col gap-2 p-4 border-cynWhite/25 max-sm:[&:nth-child(eve
 				<div class="flex flex-col gap-3">
 					<div class="flex flex-col gap-6">
 						<div class="flex flex-col gap-3">
-							<div class="flex items-center gap-2 pb-2 border-b border-white/25 w-fit">
+							<div class="<?php echo esc_attr($title_underline_class); ?>">
 								<span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
 									<?php echo esc_html($prepay_section_title); ?>
 								</span>
@@ -137,7 +138,7 @@ $stat_cell = 'flex flex-col gap-2 p-4 border-cynWhite/25 max-sm:[&:nth-child(eve
 						</div>
 
 						<div class="flex flex-col gap-3">
-							<div class="flex items-center gap-2 pb-2 border-b border-white/25 w-fit">
+							<div class="<?php echo esc_attr($title_underline_class); ?>">
 								<span class="text-base md:text-xl font-medium md:font-semibold text-cynTextPrimary leading-6">
 									<?php echo esc_html($period_section_title); ?>
 								</span>
@@ -163,7 +164,7 @@ $stat_cell = 'flex flex-col gap-2 p-4 border-cynWhite/25 max-sm:[&:nth-child(eve
 
 					<div class="rounded-3xl border border-cynBorderHover/40 p-4 hover:border-cynBorderHover transition-all duration-300">
 						<div class="flex flex-col gap-3">
-							<div class="flex items-center gap-2 pb-2 border-b border-white/25 w-fit">
+							<div class="<?php echo esc_attr($title_underline_class); ?>">
 								<i class="size-6 flex items-center justify-center text-cynBorderHover [&_svg]:size-full [&_svg]:stroke-[1.5]">
 									<?php Icon::print('Calculator'); ?>
 								</i>
