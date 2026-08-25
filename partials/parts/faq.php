@@ -41,7 +41,7 @@ if (!$has_faqs) {
 
 <section class="my-14 flex flex-col gap-3" id="faq">
 
-    <div class="container flex justify-between items-center gap-3">
+    <div class="flex justify-between items-center gap-3">
 
         <div class="flex flex-col gap-2 max-md:w-full">
 
@@ -76,33 +76,31 @@ if (!$has_faqs) {
             </div>
         <?php endif; ?>
 
-        <div class="container">
-            <div class="col-span-5 max-md:col-span-6 bg-cynBgItem rounded-3xl border border-cynBorder overflow-hidden backdrop-blur-xl">
-                <div class="fade-in-down"
-                    anim-delay="0.8">
-                    <?php if ($has_cats) : ?>
-                        <?php foreach ($faq_cats as $index => $category) : ?>
-                            <div class="faq-panel grid grid-rows-[0fr] transition-all duration-700"
-                                controlled-by="<?php echo "faq-cat-" . $category->term_id ?>">
-                                <div class="overflow-hidden">
-                                    <?php Templates::getPart('faq-group', ['term_ids' => [$category->term_id], 'faq_place' => $faq_place]); ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <div class="faq-panel grid grid-rows-[1fr]">
+        <div class="col-span-5 max-md:col-span-6 bg-cynBgItem rounded-3xl border border-cynBorder overflow-hidden backdrop-blur-xl">
+            <div class="fade-in-down"
+                anim-delay="0.8">
+                <?php if ($has_cats) : ?>
+                    <?php foreach ($faq_cats as $index => $category) : ?>
+                        <div class="faq-panel grid grid-rows-[0fr] transition-all duration-700"
+                            controlled-by="<?php echo "faq-cat-" . $category->term_id ?>">
                             <div class="overflow-hidden">
-                                <?php Templates::getPart('faq-group', ['term_ids' => [], 'faq_place' => $faq_place]); ?>
+                                <?php Templates::getPart('faq-group', ['term_ids' => [$category->term_id], 'faq_place' => $faq_place]); ?>
                             </div>
                         </div>
-                    <?php endif; ?>
-                </div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <div class="faq-panel grid grid-rows-[1fr]">
+                        <div class="overflow-hidden">
+                            <?php Templates::getPart('faq-group', ['term_ids' => [], 'faq_place' => $faq_place]); ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
 
     </div>
 
-    <div class="container flex justify-center items-center md:hidden mt-3">
+    <div class="flex justify-center items-center md:hidden mt-3">
 
         <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button text-xs font-semibold w-full justify-center">
             <?php _e('تماس با ما', 'novavilla'); ?>

@@ -47,6 +47,7 @@ class ACF
 		self::forBlogs();
 		self::forHome();
 		self::for3dStructure();
+		self::forLanding();
 
 		//Menu Items
 
@@ -457,5 +458,52 @@ class ACF
 		$acfGroup->setLocation('page_template', '==', 'templates/3d-structure.php');
 
 		$acfGroup->register('3D-Structure');
+	}
+
+	private static function forLanding()
+	{
+		$acfGroup = new AcfGroup();
+
+		$acfGroup->layoutFields->addTab('landing_content_tab', 'بخش‌های محتوا');
+		$landing_defaults = [
+			1 => [
+				'title' => __('انواع کانکس‌های سفارشی برای انواع کسب و کارها', 'novavilla'),
+				'desc' => __('از فضای فروش و کافه تا دفتر کار، اقامتگاه و کاربری‌های تخصصی؛ کانکس‌های ما متناسب با نوع استفاده، محیط پروژه و نیاز شما طراحی و اجرا می‌شوند.', 'novavilla'),
+			],
+			2 => [
+				'title' => __('انواع کانکس‌های سفارشی برای انواع کسب و کارها', 'novavilla'),
+				'desc' => __('از فضای فروش و کافه تا دفتر کار، اقامتگاه و کاربری‌های تخصصی؛ کانکس‌های ما متناسب با نوع استفاده، محیط پروژه و نیاز شما طراحی و اجرا می‌شوند.', 'novavilla'),
+			],
+			3 => [
+				'title' => __('انواع کانکس‌های سفارشی برای انواع کسب و کارها', 'novavilla'),
+				'desc' => __('از فضای فروش و کافه تا دفتر کار، اقامتگاه و کاربری‌های تخصصی؛ کانکس‌های ما متناسب با نوع استفاده، محیط پروژه و نیاز شما طراحی و اجرا می‌شوند.', 'novavilla'),
+			],
+		];
+		foreach ($landing_defaults as $i => $item) {
+			$acfGroup->contentFields->addImage("landing_block_image_{$i}", "تصویر {$i}", ['return_format' => 'url', 'width' => '25']);
+			$acfGroup->basicFields->addText("landing_block_title_{$i}", "عنوان {$i}", ['default_value' => $item['title'], 'width' => '35']);
+			$acfGroup->contentFields->addTextEditor("landing_block_desc_{$i}", "توضیح {$i}", ['default_value' => $item['desc'], 'rows' => 4, 'width' => '40']);
+		}
+		for ($i = 4; $i <= 6; $i++) {
+			$acfGroup->contentFields->addImage("landing_block_image_{$i}", "تصویر {$i}", ['return_format' => 'url', 'width' => '25']);
+			$acfGroup->basicFields->addText("landing_block_title_{$i}", "عنوان {$i}", ['width' => '35']);
+			$acfGroup->contentFields->addTextEditor("landing_block_desc_{$i}", "توضیح {$i}", ['rows' => 4, 'width' => '40']);
+		}
+
+		$acfGroup->layoutFields->addTab('landing_projects_tab', 'پروژه‌های اجرا شده');
+		$acfGroup->choiceFields->addBoolean('landing_projects_enabled', 'نمایش بخش پروژه‌های اجرا شده', ['message' => 'در صورت فعال بودن، بخش پروژه‌ها در صفحه نمایش داده می‌شود', 'default_value' => 0]);
+		$acfGroup->basicFields->addText('landing_projects_title', 'عنوان بخش', ['default_value' => __('پروژه های اجرا شده', 'novavilla')]);
+		$acfGroup->relationshipFields->addPostObject('landing_projects', 'انتخاب پروژه‌ها (حداکثر ۴ — در صورت خالی، آخرین پروژه‌ها)', ['post_type' => 'project', 'multiple' => 1, 'return_format' => 'id']);
+
+		$acfGroup->layoutFields->addTab('landing_products_tab', 'محصولات');
+		$acfGroup->choiceFields->addBoolean('landing_products_enabled', 'نمایش بخش محصولات', ['message' => 'در صورت فعال بودن، بخش محصولات در صفحه نمایش داده می‌شود', 'default_value' => 0]);
+		$acfGroup->basicFields->addText('landing_products_title', 'عنوان بخش', ['default_value' => __('محصولات', 'novavilla')]);
+		$acfGroup->relationshipFields->addPostObject('landing_products', 'انتخاب محصولات (حداکثر ۴ — در صورت خالی، آخرین محصولات)', ['post_type' => 'product', 'multiple' => 1, 'return_format' => 'id']);
+
+		$acfGroup->layoutFields->addTab('landing_faq_tab', 'سوالات متداول');
+		$acfGroup->relationshipFields->addTaxonomy('landing_faq_place', 'مکان نمایش سوالات متداول', ['taxonomy' => 'faq_place', 'field_type' => 'select', 'allow_null' => 1, 'return_format' => 'object', 'create_terms' => 1]);
+
+		$acfGroup->setLocation('page_template', '==', 'templates/landing.php');
+		$acfGroup->register('Landing');
 	}
 }

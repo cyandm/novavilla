@@ -114,6 +114,7 @@ class AcfRelationshipFields extends AcfField
 			'load_terms' => $additionalAttributes['load_terms'] ?? 0,
 			'return_format' => $additionalAttributes['return_format'] ?? 'id',
 			'field_type' => $additionalAttributes['field_type'] ?? 'multi_select',
+			'allow_null' => $additionalAttributes['allow_null'] ?? 0,
 		], $additionalAttributes), $id);
 	}
 
