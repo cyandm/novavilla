@@ -18,9 +18,9 @@ if ($postId === 0) {
             <?php echo get_the_title($postId) ?>
         </span>
 
-        <div class="icon size-8 shrink-0 transition-all [&_svg]:duration-300 text-cynTextPrimary">
+        <i class="icon size-6 shrink-0 flex items-center justify-center text-cynTextPrimary rotate-45 transition-transform duration-300 [&_svg]:size-full [&_svg]:stroke-[1.5]">
             <?php Icon::print('Delete,-Disabled'); ?>
-        </div>
+        </i>
     </div>
 
     <div class="faq-expert | grid grid-rows-[0fr] transition-all duration-300">

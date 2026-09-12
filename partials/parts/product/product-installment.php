@@ -98,7 +98,7 @@ $title_underline_class = 'flex items-center gap-2 pb-2 border-b border-cynBorder
 	<div class="flex flex-col gap-5">
 
 		<?php if ($image_url) : ?>
-			<div class="flex lg:hidden w-full items-center justify-center">
+			<div class="flex lg:hidden w-full items-center justify-center max-sm:max-w-[300px]">
 				<img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-full max-w-md h-auto object-contain" loading="lazy" decoding="async" />
 			</div>
 		<?php endif; ?>

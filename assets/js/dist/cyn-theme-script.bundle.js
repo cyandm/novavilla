@@ -14025,23 +14025,21 @@
     if (!faqCards) return;
     function activateFaq(faq, expert) {
       expert.classList.replace("grid-rows-[0fr]", "grid-rows-[1fr]");
-      const svg = faq.querySelector("svg");
       const q2 = faq.querySelector(".faq-q");
       const icon = faq.querySelector(".icon");
       q2 == null ? void 0 : q2.classList.remove("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
       q2 == null ? void 0 : q2.classList.add("text-cynTextPrimary");
       icon == null ? void 0 : icon.classList.replace("text-cynTextPrimary", "text-cynTextPrimaryHover");
-      if (svg) svg.classList.add("rotate-45");
+      icon == null ? void 0 : icon.classList.replace("rotate-45", "rotate-90");
     }
     function deActivateFaq(faq, expert) {
       expert.classList.replace("grid-rows-[1fr]", "grid-rows-[0fr]");
-      const svg = faq.querySelector("svg");
       const q2 = faq.querySelector(".faq-q");
       const icon = faq.querySelector(".icon");
       q2 == null ? void 0 : q2.classList.remove("text-cynTextPrimary");
       q2 == null ? void 0 : q2.classList.add("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
       icon == null ? void 0 : icon.classList.replace("text-cynTextPrimaryHover", "text-cynTextPrimary");
-      if (svg) svg.classList.remove("rotate-45");
+      icon == null ? void 0 : icon.classList.replace("rotate-90", "rotate-45");
     }
     faqCards.forEach((faq) => {
       const faqToggle = faq.querySelector(".faq-toggle");
