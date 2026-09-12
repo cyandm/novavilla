@@ -3,13 +3,15 @@
 use Cyan\Theme\Helpers\Templates;
 
 $home_page_id = get_option('page_on_front');
+$args = get_query_var('args', []);
 
-$faq_title = get_field('home_faq_title', $home_page_id);
+$faq_title = !empty($args['faq_title']) ? $args['faq_title'] : get_field('home_faq_title', $home_page_id);
 $faq_under_title = get_field('home_faq_under_title', $home_page_id);
-$faq_button = get_field('home_faq_button', $home_page_id);
+$faq_button = !empty($args['faq_button']) && is_array($args['faq_button']) ? $args['faq_button'] : get_field('home_faq_button', $home_page_id);
 $faq_button_link = get_option('phone_number_support');
+$faq_button_label = !empty($faq_button['title']) ? $faq_button['title'] : __('تماس با ما', 'novavilla');
 
-$faq_place = get_query_var('args', [])['faq_place'] ?? '';
+$faq_place = $args['faq_place'] ?? '';
 
 $faq_cats = get_terms([
     'taxonomy' => 'faq_cat',
@@ -55,9 +57,9 @@ if (!$has_faqs) {
 
         </div>
 
-        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button text-xs md:text-sm font-semibold hidden md:inline-flex">
-            <span class="flex items-center justify-center whitespace-nowrap">
-                <?php _e('تماس با ما', 'novavilla'); ?>
+        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button hidden md:inline-flex">
+            <span>
+                <?php echo esc_html($faq_button_label); ?>
             </span>
         </a>
 
@@ -100,10 +102,12 @@ if (!$has_faqs) {
 
     </div>
 
-    <div class="flex justify-center items-center md:hidden mt-3">
+    <div class="flex justify-center items-center md:hidden">
 
-        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button text-xs font-semibold w-full justify-center">
-            <?php _e('تماس با ما', 'novavilla'); ?>
+        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button w-full justify-center">
+            <span>
+                <?php echo esc_html($faq_button_label); ?>
+            </span>
         </a>
 
     </div>

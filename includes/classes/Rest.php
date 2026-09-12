@@ -155,7 +155,7 @@ class Rest
 			if (!preg_match('/^[0-9]{11}$/', $phone)) {
 				return new WP_REST_Response(['error' => __('شماره تلفن معتبر نیست.', 'novavilla')], 400);
 			}
-			if (!in_array($channel, ['whatsapp', 'telegram', 'bale'], true)) {
+			if (!in_array($channel, ['phone', 'whatsapp', 'telegram', 'bale'], true)) {
 				return new WP_REST_Response(['error' => __('راه ارتباطی معتبر نیست.', 'novavilla')], 400);
 			}
 

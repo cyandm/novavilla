@@ -136,6 +136,7 @@ class Meta
     public static function formatSessionRequestChannel($channel)
     {
         $labels = [
+            'phone' => __('تماس تلفنی', 'novavilla'),
             'whatsapp' => __('واتساپ', 'novavilla'),
             'telegram' => __('تلگرام', 'novavilla'),
             'bale' => __('بله', 'novavilla'),

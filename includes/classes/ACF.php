@@ -48,6 +48,7 @@ class ACF
 		self::forHome();
 		self::for3dStructure();
 		self::forLanding();
+		self::forLandingAds();
 
 		//Menu Items
 
@@ -124,11 +125,6 @@ class ACF
 			$acfGroup->basicFields->addTextarea("product_feature_desc_{$i}", "توضیح امکان {$i}", ['default_value' => $item['desc'], 'placeholder' => $item['desc'], 'rows' => 2, 'width' => '33']);
 			$acfGroup->basicFields->addNumber("product_feature_price_{$i}", "هزینه امکان {$i}", ['default_value' => $item['price'], 'placeholder' => $item['price'], 'width' => '33', 'append' => 'تومان']);
 		}
-
-		$acfGroup->layoutFields->addTab('product_installment_tab', 'اقساط');
-		$acfGroup->basicFields->addText('product_installment_title', 'عنوان بخش', ['default_value' => 'شرایط پیش پرداخت و اقساط', 'width' => '50']);
-		$acfGroup->basicFields->addText('product_installment_subtitle', 'زیرعنوان', ['default_value' => 'یکی از دو حالت زیر را انتخاب کنید', 'width' => '50']);
-		$acfGroup->contentFields->addImage('product_installment_image', 'عکس بخش اقساط', ['return_format' => 'url']);
 
 		$acfGroup->layoutFields->addTab('product_related_tab', 'محصولات مرتبط');
 		$acfGroup->relationshipFields->addPostObject('product_similar', 'انتخاب محصولات مرتبط (حداکثر 4 — در صورت کمتر، بقیه خودکار پر می‌شود)', ['post_type' => 'product', 'multiple' => 1, 'return_format' => 'id', 'width' => '100%']);
@@ -356,22 +352,32 @@ class ACF
 		$acfGroup->relationshipFields->addLink('product_archive_hero_button', 'دکمه', ['width' => '50']);
 
 		$acfGroup->layoutFields->addTab('product_installment_settings_tab', 'اقساط محصولات');
-		$acfGroup->contentFields->addImage('product_installment_default_image', 'عکس پیش‌فرض بخش اقساط', ['return_format' => 'url']);
+		$acfGroup->basicFields->addText('product_installment_title', 'عنوان بخش اقساط', ['default_value' => 'شرایط پیش پرداخت و اقساط']);
+		$acfGroup->contentFields->addImage('product_installment_default_image', 'عکس بخش اقساط', ['return_format' => 'url']);
 		$acfGroup->basicFields->addText('product_prepay_section_title', 'عنوان بخش پیش پرداخت', ['default_value' => 'پیش پرداخت']);
+		$acfGroup->layoutFields->addMessage('product_prepay_hint', 'راهنما', ['message' => 'فقط گزینه‌هایی که «درصد» بزرگ‌تر از صفر دارند در ماشین‌حساب نمایش داده می‌شوند. برای حذف موقت یک گزینه، درصدش را خالی یا ۰ بگذارید.']);
 		$home_prepay = [
 			1 => ['title' => 'پیش پرداخت 50 %', 'percent' => 50, 'desc' => 'مناسب پرداخت اولیه بیشتر و اقساط سبک‌تر'],
-			2 => ['title' => 'پیش پرداخت 30%', 'percent' => 30, 'desc' => 'مناسب شروع آسان‌تر با پیش پرداخت کمتر'],
+			2 => ['title' => '', 'percent' => '', 'desc' => ''],
+			3 => ['title' => '', 'percent' => '', 'desc' => ''],
 		];
 		foreach ($home_prepay as $i => $item) {
 			$acfGroup->basicFields->addText("product_prepay_title_{$i}", "عنوان پیش‌پرداخت {$i}", ['default_value' => $item['title'], 'width' => '40']);
-			$acfGroup->basicFields->addNumber("product_prepay_percent_{$i}", "درصد {$i}", ['default_value' => $item['percent'], 'min' => 1, 'max' => 99, 'width' => '20']);
+			$acfGroup->basicFields->addNumber("product_prepay_percent_{$i}", "درصد {$i} (۰ = مخفی)", ['default_value' => $item['percent'], 'min' => 0, 'max' => 99, 'width' => '20']);
 			$acfGroup->basicFields->addTextarea("product_prepay_desc_{$i}", "توضیح {$i}", ['default_value' => $item['desc'], 'rows' => 2, 'width' => '40']);
 		}
 		$acfGroup->basicFields->addText('product_period_section_title', 'عنوان بخش مدت بازپرداخت', ['default_value' => 'مدت بازپرداخت (تعداد اقساط)']);
-		$home_periods = [1 => ['label' => '3 ماه', 'months' => 3], 2 => ['label' => '6 ماه', 'months' => 6], 3 => ['label' => '12 ماه', 'months' => 12]];
+		$home_periods = [
+			1 => ['label' => '3 ماه', 'months' => 3],
+			2 => ['label' => '6 ماه', 'months' => 6],
+			3 => ['label' => '12 ماه', 'months' => 12],
+			4 => ['label' => '16 ماه', 'months' => 16],
+			5 => ['label' => '18 ماه', 'months' => 18],
+			6 => ['label' => '24 ماه', 'months' => 24],
+		];
 		foreach ($home_periods as $i => $item) {
 			$acfGroup->basicFields->addText("product_period_label_{$i}", "برچسب مدت {$i}", ['default_value' => $item['label'], 'width' => '50']);
-			$acfGroup->basicFields->addNumber("product_period_months_{$i}", "تعداد ماه {$i}", ['default_value' => $item['months'], 'min' => 1, 'width' => '50']);
+			$acfGroup->basicFields->addNumber("product_period_months_{$i}", "تعداد ماه {$i} (۰ = مخفی)", ['default_value' => $item['months'], 'min' => 0, 'width' => '50']);
 		}
 		$acfGroup->basicFields->addNumber('product_interest_rate', 'سود ماهانه (%)', ['default_value' => 3, 'min' => 0, 'step' => 0.1, 'width' => '50']);
 		$acfGroup->basicFields->addText('product_calc_section_title', 'عنوان بخش محاسبه', ['default_value' => 'محاسبه اقساط', 'width' => '50']);
@@ -505,5 +511,70 @@ class ACF
 
 		$acfGroup->setLocation('page_template', '==', 'templates/landing.php');
 		$acfGroup->register('Landing');
+	}
+
+	private static function forLandingAds()
+	{
+		$acfGroup = new AcfGroup();
+
+		$acfGroup->layoutFields->addTab('ads_hero_tab', 'هیرو');
+		$acfGroup->basicFields->addText('ads_hero_eyebrow', 'خط بالای عنوان', ['default_value' => __('خرید کانکس ویلایی و ویلای پیش ساخته', 'novavilla')]);
+		$acfGroup->basicFields->addText('ads_hero_title_before', 'عنوان (قبل از هایلایت)', ['default_value' => __('ویلای خودتان را', 'novavilla'), 'width' => '33']);
+		$acfGroup->basicFields->addText('ads_hero_title_highlight', 'عنوان هایلایت', ['default_value' => __('قسطی', 'novavilla'), 'width' => '33']);
+		$acfGroup->basicFields->addText('ads_hero_title_after', 'عنوان (بعد از هایلایت)', ['default_value' => __('بخرید.', 'novavilla'), 'width' => '34']);
+		$acfGroup->basicFields->addText('ads_hero_prepay_value', 'مقدار پیش‌پرداخت', ['default_value' => '50%', 'width' => '50']);
+		$acfGroup->basicFields->addText('ads_hero_prepay_label', 'برچسب پیش‌پرداخت', ['default_value' => __('پیش پرداخت', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('ads_hero_period_value', 'مقدار اقساط', ['default_value' => __('24 ماه', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('ads_hero_period_label', 'برچسب اقساط', ['default_value' => __('پرداخت اقساط', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('ads_hero_note', 'متن زیر عنوان', ['default_value' => __('ویلای اقساطی با شرایط قابل سفارش هست', 'novavilla')]);
+		$acfGroup->relationshipFields->addLink('ads_hero_details_link', 'لینک جزئیات شرایط پرداخت');
+		$acfGroup->contentFields->addImage('ads_hero_image', 'تصویر هیرو', ['return_format' => 'url']);
+
+		$acfGroup->layoutFields->addTab('ads_products_tab', 'محصولات');
+		$acfGroup->basicFields->addText('ads_products_title', 'عنوان بخش', ['default_value' => __('چه متراژی میخواهید؟ قیمت‌ها را ببینید', 'novavilla')]);
+		$acfGroup->basicFields->addTextarea('ads_products_note', 'نکته زیر کارت‌ها', ['rows' => 2, 'default_value' => __('قیمت نهایی، شرایط اقساط و زمان تحویل پس از تعیین مشخصات سفارش اعلام می‌شود.', 'novavilla')]);
+		$acfGroup->basicFields->addText('ads_card_prepay_label', 'برچسب ۵۰٪ قیمت پایه در کارت', ['default_value' => __('50% قیمت پایه :', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('ads_card_cta_label', 'متن دکمه زرد کارت', ['default_value' => __('قیمت روز و اقساط این مدل', 'novavilla'), 'width' => '50']);
+		$acfGroup->basicFields->addText('ads_card_details_label', 'متن جزئیات کارت', ['default_value' => __('جزئیات خرید و تحویل', 'novavilla')]);
+
+		$acfGroup->layoutFields->addTab('ads_meterage_cta_tab', 'بنر متراژ');
+		$acfGroup->basicFields->addText('ads_meterage_cta_title', 'عنوان', ['default_value' => __('متراژ دیگری میخواهید؟', 'novavilla'), 'width' => '50']);
+		$acfGroup->relationshipFields->addLink('ads_meterage_cta_button', 'دکمه', ['width' => '50']);
+
+		$acfGroup->layoutFields->addTab('ads_features_tab', 'ویژگی‌ها');
+		for ($i = 1; $i <= 3; $i++) {
+			$acfGroup->contentFields->addImage("ads_feature_image_{$i}", "آیکون/تصویر {$i}", ['return_format' => 'url', 'width' => '40']);
+			$acfGroup->basicFields->addText("ads_feature_title_{$i}", "عنوان {$i}", ['width' => '60']);
+		}
+
+		$acfGroup->layoutFields->addTab('ads_payment_tab', 'بخش پرداخت');
+		$acfGroup->basicFields->addText('ads_payment_title', 'عنوان', ['default_value' => __('نصف مبلغ را ابتدا بپردازید', 'novavilla')]);
+		$acfGroup->basicFields->addText('ads_payment_subtitle', 'زیرعنوان', ['default_value' => __('مانده را تا ۲۴ ماه تسویه کنید.', 'novavilla')]);
+		$acfGroup->basicFields->addTextarea('ads_payment_desc', 'توضیح', ['rows' => 3, 'default_value' => __('شرایط پرداخت برای هر سفارش، همراه با مبلغ کل خرید اقساطی و هزینه تأمین مالی اعلام می‌شود.', 'novavilla')]);
+
+		$acfGroup->layoutFields->addTab('ads_installment_tab', 'ماشین‌حساب اقساط');
+		$acfGroup->basicFields->addNumber('ads_installment_price', 'قیمت پایه محاسبه (خالی = ارزان‌ترین محصول)');
+
+		$acfGroup->layoutFields->addTab('ads_visit_tab', 'بازدید حضوری');
+		$acfGroup->basicFields->addText('ads_visit_title', 'عنوان', ['default_value' => __('از نزدیک ببینید؛ با جزئیات تصمیم بگیرید.', 'novavilla')]);
+		$acfGroup->basicFields->addTextarea('ads_visit_desc', 'توضیح', ['rows' => 3, 'default_value' => __('برای بازدید از نمونه‌ها، بررسی متریال و گفت‌وگو درباره زمین و طرح موردنظرتان، زمان مراجعه را هماهنگ کنید.', 'novavilla')]);
+		$acfGroup->basicFields->addText('ads_visit_list_title', 'عنوان لیست', ['default_value' => __('برای یک خرید قابل پیگیری', 'novavilla')]);
+		$acfGroup->basicFields->addTextarea('ads_visit_list', 'موارد لیست (هر خط یک مورد)', ['rows' => 4, 'default_value' => "نمونه اجرا و مشخصات همان پروژه را ببینید.\nاقلام تحویلی و هزینه‌های جانبی را مکتوب بخواهید.\nتاریخ تحویل و تعهدات خدمات را در قرارداد بررسی کنید."]);
+		$acfGroup->relationshipFields->addLink('ads_visit_button', 'دکمه هماهنگی بازدید');
+		$acfGroup->contentFields->addImage('ads_visit_image', 'تصویر', ['return_format' => 'url']);
+
+		$acfGroup->layoutFields->addTab('ads_faq_tab', 'سوالات متداول');
+		$acfGroup->basicFields->addText('ads_faq_title', 'عنوان بخش', ['default_value' => __('سوالات متداول', 'novavilla'), 'width' => '50']);
+		$acfGroup->relationshipFields->addLink('ads_faq_button', 'دکمه تماس', ['width' => '50']);
+		$acfGroup->relationshipFields->addTaxonomy('ads_faq_place', 'مکان نمایش سوالات متداول', ['taxonomy' => 'faq_place', 'field_type' => 'select', 'allow_null' => 1, 'return_format' => 'object', 'create_terms' => 1]);
+
+		$acfGroup->layoutFields->addTab('ads_bottom_cta_tab', 'بنر پایانی');
+		$acfGroup->basicFields->addText('ads_bottom_cta_title', 'عنوان', ['default_value' => __('برای زمین من چه ویلایی مناسبه؟', 'novavilla')]);
+		$acfGroup->basicFields->addText('ads_bottom_cta_subtitle', 'زیرعنوان', ['default_value' => __('برای دریافت پیشنهاد مدل، قیمت و شرایط پرداخت تماس بگیرید.', 'novavilla')]);
+		$acfGroup->relationshipFields->addLink('ads_bottom_cta_primary', 'دکمه اصلی (سفید)', ['width' => '50']);
+		$acfGroup->relationshipFields->addLink('ads_bottom_cta_secondary', 'دکمه فرعی (تیره)', ['width' => '50']);
+
+		$acfGroup->setLocation('page_template', '==', 'templates/landing-ads.php');
+		$acfGroup->register('Landing-Ads');
 	}
 }

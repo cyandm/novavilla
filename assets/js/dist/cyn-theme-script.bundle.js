@@ -1,8 +1,37 @@
 (() => {
   var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a7, b3) => {
+    for (var prop in b3 || (b3 = {}))
+      if (__hasOwnProp.call(b3, prop))
+        __defNormalProp(a7, prop, b3[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b3)) {
+        if (__propIsEnum.call(b3, prop))
+          __defNormalProp(a7, prop, b3[prop]);
+      }
+    return a7;
+  };
+  var __spreadProps = (a7, b3) => __defProps(a7, __getOwnPropDescs(b3));
+  var __objRest = (source2, exclude) => {
+    var target = {};
+    for (var prop in source2)
+      if (__hasOwnProp.call(source2, prop) && exclude.indexOf(prop) < 0)
+        target[prop] = source2[prop];
+    if (source2 != null && __getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(source2)) {
+        if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source2, prop))
+          target[prop] = source2[prop];
+      }
+    return target;
+  };
   var __esm = (fn, res, err) => function __init() {
     if (err) throw err[0];
     try {
@@ -1399,7 +1428,7 @@
             };
           }
           try {
-            if (swapSpec?.swapDelay && swapSpec.swapDelay > 0) {
+            if ((swapSpec == null ? void 0 : swapSpec.swapDelay) && swapSpec.swapDelay > 0) {
               getWindow().setTimeout(doSwap, swapSpec.swapDelay);
             } else {
               doSwap();
@@ -3416,6 +3445,7 @@
           return resolvedTarget;
         }
         function handleAjaxResponse(elt, responseInfo) {
+          var _a;
           const xhr = responseInfo.xhr;
           let target = responseInfo.target;
           const etc = responseInfo.etc;
@@ -3432,7 +3462,7 @@
               redirectPath = redirectSwapSpec.path;
               delete redirectSwapSpec.path;
             }
-            redirectSwapSpec.push = redirectSwapSpec.push ?? "true";
+            redirectSwapSpec.push = (_a = redirectSwapSpec.push) != null ? _a : "true";
             ajaxHelper("get", redirectPath, redirectSwapSpec);
             return;
           }
@@ -3712,8 +3742,14 @@
     const popupBackdrop = document.querySelector("[modal-backdrop]");
     const modals = document.querySelectorAll("[modal]");
     const discardSnapshots = /* @__PURE__ */ new WeakMap();
-    const isDiscardOnCloseEnabled = (modal) => modal?.dataset?.modalDiscardOnClose === "true";
-    const isModalDismissible = (modal) => modal?.dataset?.modalDismissible !== "false";
+    const isDiscardOnCloseEnabled = (modal) => {
+      var _a;
+      return ((_a = modal == null ? void 0 : modal.dataset) == null ? void 0 : _a.modalDiscardOnClose) === "true";
+    };
+    const isModalDismissible = (modal) => {
+      var _a;
+      return ((_a = modal == null ? void 0 : modal.dataset) == null ? void 0 : _a.modalDismissible) !== "false";
+    };
     const getDiscardableFields = (modal) => modal.querySelectorAll("input, textarea, select");
     const captureDiscardSnapshot = (modal) => {
       if (!isDiscardOnCloseEnabled(modal)) {
@@ -3739,7 +3775,7 @@
         return;
       }
       snapshot.forEach((entry) => {
-        if (!entry?.field) {
+        if (!(entry == null ? void 0 : entry.field)) {
           return;
         }
         if (typeof entry.checked === "boolean") {
@@ -6287,16 +6323,14 @@
       };
       if (Array.isArray(swiper.controller.control)) {
         swiper.controller.control.forEach((c6) => {
-          if (!c6.destroyed && c6.params.loop) c6.loopFix({
-            ...loopParams,
+          if (!c6.destroyed && c6.params.loop) c6.loopFix(__spreadProps(__spreadValues({}, loopParams), {
             slideTo: c6.params.slidesPerView === params.slidesPerView ? slideTo2 : false
-          });
+          }));
         });
       } else if (swiper.controller.control instanceof swiper.constructor && swiper.controller.control.params.loop) {
-        swiper.controller.control.loopFix({
-          ...loopParams,
+        swiper.controller.control.loopFix(__spreadProps(__spreadValues({}, loopParams), {
           slideTo: swiper.controller.control.params.slidesPerView === params.slidesPerView ? slideTo2 : false
-        });
+        }));
       }
     }
     swiper.emit("loopFix");
@@ -11754,6 +11788,7 @@
       return true;
     }
     function update2(initial, p2) {
+      var _a;
       const thumbsSwiper = swiper.thumbs.swiper;
       if (!thumbsSwiper || thumbsSwiper.destroyed) return;
       let thumbsToActivate = 1;
@@ -11779,7 +11814,7 @@
           }
         }
       }
-      if (p2?.autoScroll ?? true) {
+      if ((_a = p2 == null ? void 0 : p2.autoScroll) != null ? _a : true) {
         autoScroll(initial ? 0 : void 0);
       }
     }
@@ -13591,9 +13626,7 @@
     if (typeof propName === "string" && typeof propValue !== "undefined") {
       attrsList.push({
         name: propName,
-        value: isObject3(propValue) ? {
-          ...propValue
-        } : propValue
+        value: isObject3(propValue) ? __spreadValues({}, propValue) : propValue
       });
     }
     attrsList.forEach((attr) => {
@@ -13631,27 +13664,24 @@
     });
     extend3(params, passedParams);
     if (params.navigation) {
-      params.navigation = {
+      params.navigation = __spreadValues({
         prevEl: ".swiper-button-prev",
-        nextEl: ".swiper-button-next",
-        ...params.navigation !== true ? params.navigation : {}
-      };
+        nextEl: ".swiper-button-next"
+      }, params.navigation !== true ? params.navigation : {});
     } else if (params.navigation === false) {
       delete params.navigation;
     }
     if (params.scrollbar) {
-      params.scrollbar = {
-        el: ".swiper-scrollbar",
-        ...params.scrollbar !== true ? params.scrollbar : {}
-      };
+      params.scrollbar = __spreadValues({
+        el: ".swiper-scrollbar"
+      }, params.scrollbar !== true ? params.scrollbar : {});
     } else if (params.scrollbar === false) {
       delete params.scrollbar;
     }
     if (params.pagination) {
-      params.pagination = {
-        el: ".swiper-pagination",
-        ...params.pagination !== true ? params.pagination : {}
-      };
+      params.pagination = __spreadValues({
+        el: ".swiper-pagination"
+      }, params.pagination !== true ? params.pagination : {});
     } else if (params.pagination === false) {
       delete params.pagination;
     }
@@ -13779,11 +13809,9 @@
       this.passedParams = passedParams;
       delete this.swiperParams.init;
       this.render();
-      this.swiper = new Swiper(this.shadowRoot.querySelector(".swiper"), {
-        ...swiperParams.virtual ? {} : {
-          observer: true
-        },
-        ...swiperParams,
+      this.swiper = new Swiper(this.shadowRoot.querySelector(".swiper"), __spreadProps(__spreadValues(__spreadValues({}, swiperParams.virtual ? {} : {
+        observer: true
+      }), swiperParams), {
         touchEventsTarget: "container",
         onAny: (name, ...args) => {
           if (name === "observerUpdate") {
@@ -13797,7 +13825,7 @@
           });
           this.dispatchEvent(event2);
         }
-      });
+      }));
     }
     connectedCallback() {
       if (this.swiper && this.swiper.initialized && this.nested && this.closest("swiper-slide") && this.closest("swiper-slide").swiperLoopMoveDOM) {
@@ -13826,21 +13854,18 @@
       if (this.swiper && this.swiper.params[propName] === propValue) {
         return;
       }
-      updateSwiper({
+      updateSwiper(__spreadValues(__spreadValues(__spreadValues({
         swiper: this.swiper,
         passedParams: this.passedParams,
-        changedParams: [attrToProp(propName)],
-        ...propName === "navigation" && passedParams[propName] ? {
-          prevEl: ".swiper-button-prev",
-          nextEl: ".swiper-button-next"
-        } : {},
-        ...propName === "pagination" && passedParams[propName] ? {
-          paginationEl: ".swiper-pagination"
-        } : {},
-        ...propName === "scrollbar" && passedParams[propName] ? {
-          scrollbarEl: ".swiper-scrollbar"
-        } : {}
-      });
+        changedParams: [attrToProp(propName)]
+      }, propName === "navigation" && passedParams[propName] ? {
+        prevEl: ".swiper-button-prev",
+        nextEl: ".swiper-button-next"
+      } : {}), propName === "pagination" && passedParams[propName] ? {
+        paginationEl: ".swiper-pagination"
+      } : {}), propName === "scrollbar" && passedParams[propName] ? {
+        scrollbarEl: ".swiper-scrollbar"
+      } : {}));
     }
     attributeChangedCallback(attr, prevValue, newValue) {
       if (!(this.swiper && this.swiper.initialized)) return;
@@ -13911,8 +13936,10 @@
 
   // assets/js/functions/subMenuDesktop.js
   function SubMenuDesktop() {
-    document.querySelectorAll("#main-menu .menu-item-has-children")?.forEach((menu) => {
-      const svg = document.querySelector("div#chevron-down")?.cloneNode(true);
+    var _a;
+    (_a = document.querySelectorAll("#main-menu .menu-item-has-children")) == null ? void 0 : _a.forEach((menu) => {
+      var _a2;
+      const svg = (_a2 = document.querySelector("div#chevron-down")) == null ? void 0 : _a2.cloneNode(true);
       const link = menu.querySelector("a");
       svg.classList.remove("hidden");
       svg.classList.add("mr-1", "size-4", "stroke-2");
@@ -14001,9 +14028,9 @@
       const svg = faq.querySelector("svg");
       const q2 = faq.querySelector(".faq-q");
       const icon = faq.querySelector(".icon");
-      q2?.classList.remove("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
-      q2?.classList.add("text-cynTextPrimary");
-      icon?.classList.replace("text-cynTextPrimary", "text-cynTextPrimaryHover");
+      q2 == null ? void 0 : q2.classList.remove("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
+      q2 == null ? void 0 : q2.classList.add("text-cynTextPrimary");
+      icon == null ? void 0 : icon.classList.replace("text-cynTextPrimary", "text-cynTextPrimaryHover");
       if (svg) svg.classList.add("rotate-45");
     }
     function deActivateFaq(faq, expert) {
@@ -14011,16 +14038,16 @@
       const svg = faq.querySelector("svg");
       const q2 = faq.querySelector(".faq-q");
       const icon = faq.querySelector(".icon");
-      q2?.classList.remove("text-cynTextPrimary");
-      q2?.classList.add("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
-      icon?.classList.replace("text-cynTextPrimaryHover", "text-cynTextPrimary");
+      q2 == null ? void 0 : q2.classList.remove("text-cynTextPrimary");
+      q2 == null ? void 0 : q2.classList.add("text-cynTextPrimary/80", "md:text-cynTextPrimary/60");
+      icon == null ? void 0 : icon.classList.replace("text-cynTextPrimaryHover", "text-cynTextPrimary");
       if (svg) svg.classList.remove("rotate-45");
     }
     faqCards.forEach((faq) => {
       const faqToggle = faq.querySelector(".faq-toggle");
       const expert = faq.querySelector(".faq-expert");
       if (!expert) return;
-      faqToggle?.addEventListener("click", () => {
+      faqToggle == null ? void 0 : faqToggle.addEventListener("click", () => {
         const faqIsActive = expert.classList.contains("grid-rows-[1fr]");
         if (faqIsActive) {
           deActivateFaq(faq, expert);
@@ -14039,7 +14066,7 @@
       cover.addEventListener("click", (event2) => {
         event2.preventDefault();
         const wrap2 = cover.closest(".video-player") || cover.parentElement;
-        const videoElement = wrap2?.querySelector("video");
+        const videoElement = wrap2 == null ? void 0 : wrap2.querySelector("video");
         if (!videoElement) return;
         document.querySelectorAll(".video-player video, video.video").forEach((video) => {
           if (video === videoElement) return;
@@ -14306,7 +14333,7 @@
     }
     try {
       return !isEmpty(new URL(string).hostname);
-    } catch {
+    } catch (e10) {
       return false;
     }
   }
@@ -14347,7 +14374,7 @@
         element.hidden = true;
         element.offsetHeight;
         element.hidden = false;
-      } catch {
+      } catch (e10) {
       }
     }, delay);
   }
@@ -14583,7 +14610,7 @@
       }
       try {
         return Boolean(type && this.media.canPlayType(type).replace(/no/, ""));
-      } catch {
+      } catch (e10) {
         return false;
       }
     },
@@ -14615,7 +14642,7 @@
       });
       window.addEventListener("test", null, options);
       window.removeEventListener("test", null, options);
-    } catch {
+    } catch (e10) {
     }
     return supported;
   })();
@@ -14664,10 +14691,9 @@
     }
     const event2 = new CustomEvent(type, {
       bubbles,
-      detail: {
-        ...detail,
+      detail: __spreadProps(__spreadValues({}, detail), {
         plyr: this
-      }
+      })
     });
     element.dispatchEvent(event2);
   }
@@ -14713,8 +14739,7 @@
     }
     return window.CSS.supports(declaration);
   }
-  var standardRatios = [[1, 1], [4, 3], [3, 4], [5, 4], [4, 5], [3, 2], [2, 3], [16, 10], [10, 16], [16, 9], [9, 16], [21, 9], [9, 21], [32, 9], [9, 32]].reduce((out, [x3, y3]) => ({
-    ...out,
+  var standardRatios = [[1, 1], [4, 3], [3, 4], [5, 4], [4, 5], [3, 2], [2, 3], [16, 10], [10, 16], [16, 9], [9, 16], [21, 9], [9, 21], [32, 9], [9, 32]].reduce((out, [x3, y3]) => __spreadProps(__spreadValues({}, out), {
     [x3 / y3]: [x3, y3]
   }), {});
   function validateAspectRatio(input) {
@@ -14995,7 +15020,7 @@
         extend4(storage, object);
         try {
           window.localStorage.setItem(this.key, JSON.stringify(storage));
-        } catch {
+        } catch (e10) {
         }
       });
       this.enabled = player.config.storage.enabled;
@@ -15009,7 +15034,7 @@
         window.localStorage.setItem(test, test);
         window.localStorage.removeItem(test);
         return true;
-      } catch {
+      } catch (e10) {
         return false;
       }
     }
@@ -15026,7 +15051,7 @@
           if (responseType === "text") {
             try {
               resolve(JSON.parse(request.responseText));
-            } catch {
+            } catch (e10) {
               resolve(request.responseText);
             }
           } else {
@@ -15083,7 +15108,7 @@
             window.localStorage.setItem(`${prefix}-${id}`, JSON.stringify({
               content: result
             }));
-          } catch {
+          } catch (e10) {
           }
         }
         update2(container, result);
@@ -15179,10 +15204,9 @@
     // Create hidden text label
     createLabel(key, attr = {}) {
       const text = i18n.get(key, this.config);
-      const attributes = {
-        ...attr,
+      const attributes = __spreadProps(__spreadValues({}, attr), {
         class: [attr.class, this.config.classNames.hidden].filter(Boolean).join(" ")
-      };
+      });
       return createElement2("span", attributes, text);
     },
     // Create a badge
@@ -16234,7 +16258,7 @@
             artwork: this.config.mediaMetadata.artwork
           });
         }
-      } catch {
+      } catch (e10) {
       }
     },
     // Add markers
@@ -16295,7 +16319,7 @@
     }
     try {
       return new URL(url);
-    } catch {
+    } catch (e10) {
       return null;
     }
   }
@@ -17358,9 +17382,7 @@
     },
     // Migrate any custom properties from the media to the parent
     migrateStyles() {
-      Object.values({
-        ...this.media.style
-      }).filter((key) => !is.empty(key) && is.string(key) && key.startsWith("--plyr")).forEach((key) => {
+      Object.values(__spreadValues({}, this.media.style)).filter((key) => !is.empty(key) && is.string(key) && key.startsWith("--plyr")).forEach((key) => {
         this.elements.container.style.setProperty(key, this.media.style.getPropertyValue(key));
         this.media.style.removeProperty(key);
       });
@@ -18100,11 +18122,13 @@
     ready() {
       const player = this;
       const config = player.config.vimeo;
-      const {
+      const _a = config, {
         premium,
-        referrerPolicy,
-        ...frameParams
-      } = config;
+        referrerPolicy
+      } = _a, frameParams = __objRest(_a, [
+        "premium",
+        "referrerPolicy"
+      ]);
       let source2 = player.media.getAttribute("src");
       let hash = "";
       if (is.empty(source2)) {
@@ -18122,16 +18146,13 @@
           sidedock: false
         });
       }
-      const params = buildUrlParams({
+      const params = buildUrlParams(__spreadValues(__spreadValues({
         loop: player.config.loop.active,
         autoplay: player.autoplay,
         muted: player.muted,
         gesture: "media",
-        playsinline: player.config.playsinline,
-        // hash has to be added to iframe-URL
-        ...hashParam,
-        ...frameParams
-      });
+        playsinline: player.config.playsinline
+      }, hashParam), frameParams));
       const id = parseId$1(source2);
       const iframe = createElement2("iframe");
       const src = format(player.config.urls.vimeo.iframe, id, params);
@@ -19738,7 +19759,7 @@
       this.config = extend4({}, defaults2, _Plyr.defaults, options || {}, (() => {
         try {
           return JSON.parse(this.media.getAttribute("data-plyr-config"));
-        } catch {
+        } catch (e10) {
           return {};
         }
       })());
@@ -20380,7 +20401,7 @@
   function VideoPlyr() {
     document.querySelectorAll(".video-plyr").forEach((el) => {
       const wrap2 = el.closest(".video-player");
-      const hasCustomCover = Boolean(wrap2?.querySelector(".video-cover"));
+      const hasCustomCover = Boolean(wrap2 == null ? void 0 : wrap2.querySelector(".video-cover"));
       const player = new Plyr(el, {
         controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"],
         hideControls: true,
@@ -20469,7 +20490,8 @@
     return window.matchMedia(HOVER_MEDIA).matches;
   }
   function isExpanded() {
-    return getDock()?.dataset.expanded === "true";
+    var _a;
+    return ((_a = getDock()) == null ? void 0 : _a.dataset.expanded) === "true";
   }
   function setExpanded(expanded) {
     if (!expanded && isThemeTransitioning && pointerInsideDock) {
@@ -20522,7 +20544,8 @@
     );
   }
   function setTransitionOrigin(source2) {
-    const button = source2?.closest?.("[theme-toggle]") || getToggleButton();
+    var _a;
+    const button = ((_a = source2 == null ? void 0 : source2.closest) == null ? void 0 : _a.call(source2, "[theme-toggle]")) || getToggleButton();
     let clickX;
     let clickY;
     if (button) {
@@ -20678,10 +20701,11 @@
     );
   }
   function ensureRipple(button) {
+    var _a;
     if (button.querySelector(CLIP_SELECTOR)) {
       return;
     }
-    button.querySelector(RIPPLE_SELECTOR)?.remove();
+    (_a = button.querySelector(RIPPLE_SELECTOR)) == null ? void 0 : _a.remove();
     const clip = document.createElement("span");
     clip.className = "primary-button__clip";
     clip.setAttribute("aria-hidden", "true");
@@ -20691,8 +20715,9 @@
     button.prepend(clip);
   }
   function removePrimaryButton(button) {
+    var _a;
     button.classList.remove("primary-button");
-    button.querySelector(CLIP_SELECTOR)?.remove();
+    (_a = button.querySelector(CLIP_SELECTOR)) == null ? void 0 : _a.remove();
     delete button.dataset.primaryButtonInit;
   }
   function initPrimaryButton(button) {
@@ -20889,7 +20914,7 @@
       applyPriceToInputs();
       form.submit();
     };
-    form?.addEventListener("submit", applyPriceToInputs);
+    form == null ? void 0 : form.addEventListener("submit", applyPriceToInputs);
     minRange.addEventListener("input", () => {
       if (Number(minRange.value) > Number(maxRange.value)) {
         minRange.value = maxRange.value;
@@ -20986,7 +21011,7 @@
       });
     });
     const city = form.querySelector('input[name="city"]');
-    city?.addEventListener("change", () => {
+    city == null ? void 0 : city.addEventListener("change", () => {
       if (isDesktop()) form.submit();
     });
   }
@@ -21005,6 +21030,7 @@
     return `${trimmed} %`;
   }
   function initInstallment() {
+    var _a, _b, _c, _d;
     const root = document.querySelector("[data-product-installment]");
     if (!root) return;
     const price = Number(root.dataset.price || 0);
@@ -21018,11 +21044,11 @@
     const sumEl = root.querySelector("[data-installment-sum]");
     const monthlyEl = root.querySelector("[data-installment-monthly]");
     let percent = Number(
-      prepayBtns.find((btn) => btn.classList.contains("is-selected"))?.dataset.percent
-    ) || Number(prepayBtns[0]?.dataset.percent || 0);
+      (_a = prepayBtns.find((btn) => btn.classList.contains("is-selected"))) == null ? void 0 : _a.dataset.percent
+    ) || Number(((_b = prepayBtns[0]) == null ? void 0 : _b.dataset.percent) || 0);
     let months = Number(
-      periodBtns.find((btn) => btn.classList.contains("is-selected"))?.dataset.months
-    ) || Number(periodBtns[0]?.dataset.months || 0);
+      (_c = periodBtns.find((btn) => btn.classList.contains("is-selected"))) == null ? void 0 : _c.dataset.months
+    ) || Number(((_d = periodBtns[0]) == null ? void 0 : _d.dataset.months) || 0);
     const setSelected = (btns, active) => {
       btns.forEach((btn) => {
         const on2 = btn === active;
@@ -21082,7 +21108,7 @@
     const featuresEl = qOne("[data-price-features]");
     const totalEl = qOne("[data-price-total]");
     const productTitle = root.dataset.productTitle || "";
-    const inquiryBase = inquiryBtn?.getAttribute("href") || "";
+    const inquiryBase = (inquiryBtn == null ? void 0 : inquiryBtn.getAttribute("href")) || "";
     const basePrice = Number(root.dataset.basePrice || 0);
     const selected = /* @__PURE__ */ new Set();
     const sync = () => {
@@ -24475,14 +24501,15 @@
   var APARAT_VIEWPORT_PADDING_MOBILE = 72;
   var MOBILE_MAX_WIDTH = 767;
   function resizeFancyboxIframe(slide2) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     if (!slide2 || slide2.type !== "iframe") return;
-    const htmlEl = slide2.htmlEl || slide2.el?.querySelector?.(".f-html") || null;
+    const htmlEl = slide2.htmlEl || ((_b = (_a = slide2.el) == null ? void 0 : _a.querySelector) == null ? void 0 : _b.call(_a, ".f-html")) || null;
     if (!htmlEl) return;
     const isMobile = window.innerWidth <= MOBILE_MAX_WIDTH;
     const viewportPadding = isMobile ? APARAT_VIEWPORT_PADDING_MOBILE : APARAT_VIEWPORT_PADDING;
     const widthRatio = isMobile ? 0.96 : 0.92;
-    const viewportH = window.visualViewport?.height ?? window.innerHeight ?? 0;
-    const viewportW = window.visualViewport?.width ?? window.innerWidth ?? 0;
+    const viewportH = (_e = (_d = (_c = window.visualViewport) == null ? void 0 : _c.height) != null ? _d : window.innerHeight) != null ? _e : 0;
+    const viewportW = (_h = (_g = (_f = window.visualViewport) == null ? void 0 : _f.width) != null ? _g : window.innerWidth) != null ? _h : 0;
     const maxW = viewportW * widthRatio;
     const maxH = viewportH * 0.92 - viewportPadding;
     let width = maxW;
@@ -24511,33 +24538,37 @@
   function handleFancyboxResize() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      const instance = F.getInstance?.();
+      var _a, _b;
+      const instance = (_b = (_a = F).getInstance) == null ? void 0 : _b.call(_a);
       if (!instance) return;
       resizeFancyboxIframe(instance.getSlide());
     }, 100);
   }
   function bindFancyboxIframeResize() {
+    var _a;
     if (resizeListenerAttached) return;
     window.addEventListener("resize", handleFancyboxResize);
-    window.visualViewport?.addEventListener("resize", handleFancyboxResize);
+    (_a = window.visualViewport) == null ? void 0 : _a.addEventListener("resize", handleFancyboxResize);
     resizeListenerAttached = true;
   }
   function unbindFancyboxIframeResize() {
+    var _a;
     if (!resizeListenerAttached) return;
     window.removeEventListener("resize", handleFancyboxResize);
-    window.visualViewport?.removeEventListener("resize", handleFancyboxResize);
+    (_a = window.visualViewport) == null ? void 0 : _a.removeEventListener("resize", handleFancyboxResize);
     resizeListenerAttached = false;
   }
 
   // assets/js/modules/fancybox.js
   var plyrInstances = /* @__PURE__ */ new WeakMap();
   function handleIframeSlide(slide2) {
-    if (slide2?.type !== "iframe") return;
+    if ((slide2 == null ? void 0 : slide2.type) !== "iframe") return;
     requestAnimationFrame(() => resizeFancyboxIframe(slide2));
   }
   function initPlyrOnSlide(slide2) {
+    var _a, _b;
     if (!slide2 || slide2.type !== "html5video" && slide2.type !== "video") return;
-    const video = slide2.el?.querySelector?.("video");
+    const video = (_b = (_a = slide2.el) == null ? void 0 : _a.querySelector) == null ? void 0 : _b.call(_a, "video");
     if (!video || video.plyr) return;
     const player = new Plyr(video, {
       controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"],
@@ -24547,10 +24578,11 @@
     plyrInstances.set(slide2.el, player);
   }
   function destroyPlyrOnSlide(slide2) {
-    const el = slide2?.el;
+    var _a, _b;
+    const el = slide2 == null ? void 0 : slide2.el;
     if (!el) return;
-    const player = plyrInstances.get(el) || el.querySelector?.("video")?.plyr;
-    if (player?.destroy) player.destroy();
+    const player = plyrInstances.get(el) || ((_b = (_a = el.querySelector) == null ? void 0 : _a.call(el, "video")) == null ? void 0 : _b.plyr);
+    if (player == null ? void 0 : player.destroy) player.destroy();
     plyrInstances.delete(el);
   }
   function fancybox() {
@@ -24578,7 +24610,8 @@
           initPlyrOnSlide(slide2);
         },
         close: (fancyboxInstance) => {
-          const slide2 = fancyboxInstance.getSlide?.();
+          var _a;
+          const slide2 = (_a = fancyboxInstance.getSlide) == null ? void 0 : _a.call(fancyboxInstance);
           destroyPlyrOnSlide(slide2);
         },
         destroy: () => {
@@ -24604,14 +24637,16 @@
     const thumbsEl = root.querySelector("#product-gallery-thumbs");
     const mainEl = root.querySelector("#product-gallery-main");
     const bindThumbsSync = () => {
-      const mainSwiper = mainEl?.swiper;
-      if (!mainSwiper?.thumbs?.update || mainSwiper.__thumbsSyncBound) return;
+      var _a;
+      const mainSwiper = mainEl == null ? void 0 : mainEl.swiper;
+      if (!((_a = mainSwiper == null ? void 0 : mainSwiper.thumbs) == null ? void 0 : _a.update) || mainSwiper.__thumbsSyncBound) return;
       mainSwiper.__thumbsSyncBound = true;
       const origUpdate = mainSwiper.thumbs.update;
-      mainSwiper.thumbs.update = (initial, p2 = {}) => origUpdate(initial, { ...p2, autoScroll: false });
+      mainSwiper.thumbs.update = (initial, p2 = {}) => origUpdate(initial, __spreadProps(__spreadValues({}, p2), { autoScroll: false }));
       const scrollActiveThumb = () => {
+        var _a2;
         const thumbsSwiper = thumbsEl.swiper;
-        const slide2 = thumbsSwiper?.slides?.[mainSwiper.realIndex];
+        const slide2 = (_a2 = thumbsSwiper == null ? void 0 : thumbsSwiper.slides) == null ? void 0 : _a2[mainSwiper.realIndex];
         if (!slide2) return;
         slide2.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
       };
@@ -24632,8 +24667,9 @@
       swiper.update();
     };
     const bindThumbs = () => {
+      var _a;
       configureThumbs(thumbsEl.swiper);
-      thumbsEl.swiper?.on("breakpoint", () => configureThumbs(thumbsEl.swiper));
+      (_a = thumbsEl.swiper) == null ? void 0 : _a.on("breakpoint", () => configureThumbs(thumbsEl.swiper));
       bindThumbsSync();
     };
     if (thumbsEl) {
@@ -24693,6 +24729,335 @@
     });
   }
 
+  // assets/js/functions/landingAds.js
+  function matchesAdsAreaFilter(area, filter) {
+    if (filter === "all") return true;
+    if (!Number.isFinite(area) || area <= 0) return false;
+    if (filter === "lte40") return area <= 40;
+    if (filter === "41-80") return area >= 41 && area <= 80;
+    if (filter === "gt80") return area > 80;
+    return true;
+  }
+  function matchesAdsRoomsFilter(rooms, filter) {
+    if (filter === "all") return true;
+    if (filter === "rooms1") return rooms === 1;
+    if (filter === "rooms2") return rooms === 2;
+    if (filter === "rooms3plus") return Number.isFinite(rooms) && rooms >= 3;
+    return true;
+  }
+  function toArray2(list) {
+    return Array.prototype.slice.call(list || []);
+  }
+  function closestEl(el, selector) {
+    if (!el) return null;
+    if (el.closest) return el.closest(selector);
+    while (el && el.nodeType === 1) {
+      if (el.matches && el.matches(selector)) return el;
+      if (el.msMatchesSelector && el.msMatchesSelector(selector)) return el;
+      if (el.webkitMatchesSelector && el.webkitMatchesSelector(selector)) return el;
+      el = el.parentElement || el.parentNode;
+    }
+    return null;
+  }
+  function LandingAds() {
+    const root = document.querySelector("[data-ads-products]");
+    if (!root) return;
+    const modal = document.querySelector("[data-ads-filter-modal]");
+    const scope = modal ? [root, modal] : [root];
+    const moreBtn = root.querySelector("[data-ads-more]");
+    const moreWrap = root.querySelector("[data-ads-more-wrap]");
+    const emptyEl = root.querySelector("[data-ads-empty]");
+    const grid = root.querySelector("[data-ads-grid]");
+    const filterDot = root.querySelector("[data-ads-filter-dot]");
+    const backdrop = root.querySelector("[data-ads-card-backdrop]");
+    const perPage = Math.max(1, Number(root.getAttribute("data-ads-per-page")) || 8);
+    const filters = { area: "all", rooms: "all" };
+    let visibleLimit = perPage;
+    let backdropCloseTimer = 0;
+    let drawerOpenTimer = 0;
+    const BACKDROP_CLOSE_DELAY = 320;
+    const DRAWER_OPEN_DELAY = 40;
+    const activeClass = ["is-active", "bg-cynBorderHover", "text-black"];
+    const idleClass = ["bg-white/10", "text-cynTextPrimary"];
+    const queryAll = function(selector) {
+      var result = [];
+      scope.forEach(function(el) {
+        result = result.concat(toArray2(el.querySelectorAll(selector)));
+      });
+      return result;
+    };
+    const getItems = function() {
+      return toArray2(root.querySelectorAll("[data-ads-item]"));
+    };
+    const cards = function() {
+      return toArray2(root.querySelectorAll("[data-ads-card]"));
+    };
+    const getCardData = function(item) {
+      const card = item.querySelector("[data-area], [data-rooms]");
+      return {
+        area: Number(card && card.getAttribute("data-area")),
+        rooms: Number(card && card.getAttribute("data-rooms"))
+      };
+    };
+    const itemMatches = function(item) {
+      const data = getCardData(item);
+      return matchesAdsAreaFilter(data.area, filters.area) && matchesAdsRoomsFilter(data.rooms, filters.rooms);
+    };
+    const setGroupActive = function(groupEl, activeBtn) {
+      toArray2(groupEl.querySelectorAll("[data-ads-filter]")).forEach(function(btn) {
+        const isActive = btn === activeBtn;
+        btn.classList.toggle("is-active", isActive);
+        activeClass.forEach(function(cls) {
+          btn.classList.toggle(cls, isActive);
+        });
+        idleClass.forEach(function(cls) {
+          btn.classList.toggle(cls, !isActive);
+        });
+        btn.classList.toggle("bg-cynBorderHover", isActive);
+        btn.classList.toggle("text-black", isActive);
+        btn.classList.toggle("bg-white/10", !isActive);
+        btn.classList.toggle("text-cynTextPrimary", !isActive);
+      });
+    };
+    const syncGroup = function(group, value) {
+      filters[group] = value;
+      queryAll('[data-ads-filter-group="' + group + '"]').forEach(function(groupEl) {
+        var btn = null;
+        toArray2(groupEl.querySelectorAll("[data-ads-filter]")).forEach(function(item) {
+          if (!btn && (item.getAttribute("data-ads-filter") || "all") === value) btn = item;
+        });
+        if (btn) setGroupActive(groupEl, btn);
+      });
+      if (filterDot) filterDot.classList.toggle("hidden", filters.rooms === "all");
+    };
+    const syncExpandHeight = function(card, open) {
+      const drawer = card.querySelector("[data-ads-card-drawer]");
+      const expand = card.querySelector("[data-ads-card-expand]");
+      const frame = card.querySelector("[data-ads-card-frame]");
+      const frost = card.querySelector("[data-ads-card-frost]");
+      if (!drawer || !expand) {
+        if (frame) frame.style.bottom = "0px";
+        if (frost) frost.style.bottom = "0px";
+        return;
+      }
+      if (open) {
+        var openHeight = expand.scrollHeight;
+        drawer.style.height = openHeight + "px";
+        if (frame) frame.style.bottom = "-" + openHeight + "px";
+        if (frost) frost.style.bottom = "-" + openHeight + "px";
+        return;
+      }
+      var current = drawer.getBoundingClientRect().height;
+      if (current > 0) drawer.style.height = current + "px";
+      drawer.offsetHeight;
+      drawer.style.height = "0px";
+      if (frame) {
+        frame.style.bottom = "-" + current + "px";
+        frame.offsetHeight;
+        frame.style.bottom = "0px";
+      }
+      if (frost) {
+        frost.style.bottom = "-" + current + "px";
+        frost.offsetHeight;
+        frost.style.bottom = "0px";
+      }
+    };
+    const clearElevated = function(card) {
+      card.style.zIndex = "";
+      card.removeAttribute("data-elevated");
+      const wrap2 = closestEl(card, "[data-ads-item]");
+      if (wrap2) wrap2.style.zIndex = "";
+    };
+    const keepElevated = function(card) {
+      card.style.zIndex = "60";
+      card.setAttribute("data-elevated", "true");
+      const wrap2 = closestEl(card, "[data-ads-item]");
+      if (wrap2) wrap2.style.zIndex = "60";
+    };
+    const closeAllCards = function() {
+      window.clearTimeout(drawerOpenTimer);
+      const closing = cards().filter(function(card) {
+        return card.getAttribute("data-open") === "true" || card.getAttribute("data-elevated") === "true";
+      });
+      closing.forEach(function(card) {
+        card.setAttribute("data-open", "false");
+        syncExpandHeight(card, false);
+        keepElevated(card);
+      });
+      window.clearTimeout(backdropCloseTimer);
+      if (!closing.length) {
+        if (backdrop) backdrop.setAttribute("data-active", "false");
+        return;
+      }
+      backdropCloseTimer = window.setTimeout(function() {
+        closing.forEach(clearElevated);
+        if (backdrop) backdrop.setAttribute("data-active", "false");
+      }, BACKDROP_CLOSE_DELAY);
+    };
+    const openCard = function(card) {
+      window.clearTimeout(backdropCloseTimer);
+      window.clearTimeout(drawerOpenTimer);
+      cards().forEach(function(item) {
+        if (item === card) return;
+        item.setAttribute("data-open", "false");
+        syncExpandHeight(item, false);
+        clearElevated(item);
+      });
+      keepElevated(card);
+      if (backdrop) backdrop.setAttribute("data-active", "true");
+      drawerOpenTimer = window.setTimeout(function() {
+        card.setAttribute("data-open", "true");
+        var drawer = card.querySelector("[data-ads-card-drawer]");
+        var frame = card.querySelector("[data-ads-card-frame]");
+        var frost = card.querySelector("[data-ads-card-frost]");
+        if (drawer) {
+          drawer.style.height = "0px";
+          if (frame) frame.style.bottom = "0px";
+          if (frost) frost.style.bottom = "0px";
+          drawer.offsetHeight;
+        }
+        syncExpandHeight(card, true);
+      }, DRAWER_OPEN_DELAY);
+    };
+    const applyItemVisibility = function() {
+      const items = getItems();
+      const matching = items.filter(itemMatches);
+      const hasResults = matching.length > 0;
+      if (emptyEl) {
+        if (hasResults) {
+          emptyEl.classList.add("hidden", "opacity-0");
+        } else {
+          emptyEl.classList.remove("hidden");
+          emptyEl.classList.add("opacity-0");
+          window.requestAnimationFrame(function() {
+            emptyEl.classList.remove("opacity-0");
+          });
+        }
+      }
+      if (grid) grid.classList.toggle("hidden", !hasResults);
+      var shown = 0;
+      items.forEach(function(item) {
+        if (!itemMatches(item)) {
+          item.classList.add("hidden");
+          item.classList.remove("opacity-100", "translate-y-0");
+          item.classList.add("opacity-0", "translate-y-3");
+          return;
+        }
+        shown += 1;
+        if (shown > visibleLimit) {
+          item.classList.add("hidden");
+          item.classList.remove("opacity-100", "translate-y-0");
+          item.classList.add("opacity-0", "translate-y-3");
+          return;
+        }
+        item.classList.remove("hidden", "opacity-0", "translate-y-3");
+        item.classList.add("opacity-100", "translate-y-0");
+      });
+      if (moreWrap) moreWrap.classList.toggle("hidden", matching.length <= visibleLimit);
+    };
+    const updateView = function(mode) {
+      const animateFilter = mode === "filter";
+      const animateMore = mode === true || mode === "more";
+      if (animateFilter && grid && !grid.classList.contains("hidden")) {
+        grid.classList.add("opacity-0", "translate-y-2");
+        window.setTimeout(function() {
+          applyItemVisibility();
+          window.requestAnimationFrame(function() {
+            grid.classList.remove("opacity-0", "translate-y-2");
+          });
+        }, 180);
+        return;
+      }
+      if (animateMore) {
+        const items = getItems();
+        var shown = 0;
+        items.forEach(function(item) {
+          if (!itemMatches(item)) {
+            item.classList.add("hidden");
+            item.classList.remove("opacity-100", "translate-y-0");
+            item.classList.add("opacity-0", "translate-y-3");
+            return;
+          }
+          shown += 1;
+          if (shown > visibleLimit) {
+            item.classList.add("hidden");
+            return;
+          }
+          const wasHidden = item.classList.contains("hidden");
+          item.classList.remove("hidden");
+          if (wasHidden) {
+            item.classList.add("opacity-0", "translate-y-3");
+            item.classList.remove("opacity-100", "translate-y-0");
+            const delay = Math.max(0, shown - (visibleLimit - perPage) - 1) * 50;
+            window.setTimeout(function() {
+              window.requestAnimationFrame(function() {
+                item.classList.remove("opacity-0", "translate-y-3");
+                item.classList.add("opacity-100", "translate-y-0");
+              });
+            }, delay);
+          } else {
+            item.classList.remove("opacity-0", "translate-y-3");
+            item.classList.add("opacity-100", "translate-y-0");
+          }
+        });
+        if (emptyEl) emptyEl.classList.add("hidden", "opacity-0");
+        if (grid) grid.classList.remove("hidden");
+        if (moreWrap) moreWrap.classList.toggle("hidden", items.filter(itemMatches).length <= visibleLimit);
+        return;
+      }
+      applyItemVisibility();
+    };
+    queryAll("[data-ads-filter-group]").forEach(function(groupEl) {
+      const group = groupEl.getAttribute("data-ads-filter-group");
+      toArray2(groupEl.querySelectorAll("[data-ads-filter]")).forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          visibleLimit = perPage;
+          syncGroup(group, btn.getAttribute("data-ads-filter") || "all");
+          closeAllCards();
+          updateView("filter");
+        });
+      });
+    });
+    if (moreBtn) {
+      moreBtn.addEventListener("click", function() {
+        visibleLimit += perPage;
+        updateView(true);
+      });
+    }
+    root.addEventListener("click", function(event2) {
+      const toggle = closestEl(event2.target, "[data-ads-card-toggle]");
+      if (!toggle || !root.contains(toggle)) return;
+      event2.preventDefault();
+      event2.stopPropagation();
+      const card = closestEl(toggle, "[data-ads-card]");
+      if (!card || !card.querySelector("[data-ads-card-expand]")) return;
+      if (card.getAttribute("data-open") === "true" || card.getAttribute("data-elevated") === "true") closeAllCards();
+      else openCard(card);
+    });
+    if (backdrop) {
+      backdrop.addEventListener("click", closeAllCards);
+      backdrop.addEventListener("wheel", function(event2) {
+        window.scrollBy(0, event2.deltaY);
+      }, { passive: true });
+      var touchY = 0;
+      backdrop.addEventListener("touchstart", function(event2) {
+        if (event2.touches && event2.touches[0]) touchY = event2.touches[0].clientY;
+      }, { passive: true });
+      backdrop.addEventListener("touchmove", function(event2) {
+        if (!event2.touches || !event2.touches[0]) return;
+        var y3 = event2.touches[0].clientY;
+        window.scrollBy(0, touchY - y3);
+        touchY = y3;
+      }, { passive: true });
+    }
+    document.addEventListener("keydown", function(event2) {
+      const key = event2.key || event2.code;
+      const code = event2.keyCode || event2.which;
+      if (key === "Escape" || key === "Esc" || code === 27) closeAllCards();
+    });
+    updateView();
+  }
+
   // assets/js/index.js
   Modals();
   register();
@@ -24714,6 +25079,7 @@
   ProductSingle();
   ProductGallery();
   StatCount();
+  LandingAds();
   fancybox();
 })();
 /*! Bundled license information:

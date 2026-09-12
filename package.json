@@ -5,11 +5,11 @@
   "main": "index.php",
   "scripts": {
     "watch:css": "npx @tailwindcss/cli -i ./assets/css/style.css -o ./assets/css/dist/cyn-theme-style.css --watch",
-    "watch:js": "esbuild ./assets/js/index.js --outfile=./assets/js/dist/cyn-theme-script.bundle.js --target=es2020 --bundle --watch",
+    "watch:js": "esbuild ./assets/js/index.js --outfile=./assets/js/dist/cyn-theme-script.bundle.js --target=es2017 --bundle --watch",
     "watch": "concurrently \"npm run watch:css\" \"npm run watch:js\"",
     "start": "npm run watch",
     "build:css": "npx @tailwindcss/cli -i ./assets/css/style.css -o ./assets/css/dist/cyn-theme-style.min.css --minify",
-    "build:js": "esbuild ./assets/js/index.js --outfile=./assets/js/dist/cyn-theme-script.bundle.min.js --target=es2020 --bundle --minify --sourcemap",
+    "build:js": "esbuild ./assets/js/index.js --outfile=./assets/js/dist/cyn-theme-script.bundle.min.js --target=es2017 --bundle --minify --sourcemap",
     "build": "npm run build:css && npm run build:js"
   },
   "author": "Cyan Dm",

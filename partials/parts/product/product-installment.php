@@ -1,21 +1,27 @@
 <?php
 
 use Cyan\Theme\Helpers\Icon;
+use Cyan\Theme\Helpers\Templates;
 
 defined('ABSPATH') || exit;
 
-$title = get_field('product_installment_title') ?: __('شرایط پیش پرداخت و اقساط', 'novavilla');
-$subtitle = get_field('product_installment_subtitle') ?: __('یکی از دو حالت زیر را انتخاب کنید', 'novavilla');
-$image = get_field('product_installment_image');
-$price = (float) (get_field('product_price') ?: 0);
+$args = get_query_var('args', []);
+$wrap_container = !array_key_exists('wrap_container', $args) || !empty($args['wrap_container']);
 
 $home_id = (int) get_option('page_on_front');
+$price = (float) (get_field('product_price') ?: 0);
+if (isset($args['price']) && (float) $args['price'] > 0) $price = (float) $args['price'];
+
 if (!$home_id || $price <= 0) {
 	return;
 }
 
-$default_image = get_field('product_installment_default_image', $home_id);
-$image_url = is_string($image) && $image !== '' ? $image : (is_string($default_image) && $default_image !== '' ? $default_image : '');
+$title = get_field('product_installment_title', $home_id) ?: __('شرایط پیش پرداخت و اقساط', 'novavilla');
+$image = get_field('product_installment_default_image', $home_id);
+$image_url = '';
+if (is_array($image) && !empty($image['url'])) $image_url = (string) $image['url'];
+elseif (is_string($image) && $image !== '') $image_url = $image;
+
 $prepay_section_title = get_field('product_prepay_section_title', $home_id) ?: __('پیش پرداخت', 'novavilla');
 $period_section_title = get_field('product_period_section_title', $home_id) ?: __('مدت بازپرداخت (تعداد اقساط)', 'novavilla');
 $calc_section_title = get_field('product_calc_section_title', $home_id) ?: __('محاسبه اقساط', 'novavilla');
@@ -23,7 +29,7 @@ $interest_rate = (float) (get_field('product_interest_rate', $home_id) ?: 3);
 $note = get_field('product_installment_note', $home_id) ?: __('مبلغ نهایی با توجه به مبلغ سفارش و تعداد اقساط محاسبه می‌شود.', 'novavilla');
 
 $prepays = [];
-for ($i = 1; $i <= 2; $i++) {
+for ($i = 1; $i <= 3; $i++) {
 	$percent = (float) get_field("product_prepay_percent_{$i}", $home_id);
 	if ($percent <= 0) {
 		continue;
@@ -36,30 +42,34 @@ for ($i = 1; $i <= 2; $i++) {
 }
 
 $periods = [];
-for ($i = 1; $i <= 3; $i++) {
-	$months = (int) get_field("product_period_months_{$i}", $home_id);
-	if ($months <= 0) {
-		continue;
+$period_defaults = [
+	1 => ['months' => 3, 'label' => __('3 ماه', 'novavilla')],
+	2 => ['months' => 6, 'label' => __('6 ماه', 'novavilla')],
+	3 => ['months' => 12, 'label' => __('12 ماه', 'novavilla')],
+	4 => ['months' => 16, 'label' => __('16 ماه', 'novavilla')],
+	5 => ['months' => 18, 'label' => __('18 ماه', 'novavilla')],
+	6 => ['months' => 24, 'label' => __('24 ماه', 'novavilla')],
+];
+for ($i = 1; $i <= 6; $i++) {
+	$months_raw = get_field("product_period_months_{$i}", $home_id);
+	$label_raw = get_field("product_period_label_{$i}", $home_id);
+	if ($months_raw === null || $months_raw === false || $months_raw === '') {
+		$months = (int) ($period_defaults[$i]['months'] ?? 0);
+		$label = (string) ($label_raw ?: ($period_defaults[$i]['label'] ?? ''));
+	} else {
+		$months = (int) $months_raw;
+		if ($months <= 0) continue;
+		$label = (string) ($label_raw ?: sprintf(__('%s ماه', 'novavilla'), $months));
 	}
-	$periods[] = [
-		'months' => $months,
-		'label' => get_field("product_period_label_{$i}", $home_id) ?: sprintf(__('%s ماه', 'novavilla'), $months),
-	];
+	if ($months <= 0) continue;
+	$periods[] = ['months' => $months, 'label' => $label];
 }
 
 if (empty($prepays) || empty($periods)) {
 	return;
 }
 
-// RTL: Figma shows 30% then 50% from right; reverse ACF order (50, 30).
-$prepays = array_reverse($prepays);
 $default_prepay = $prepays[0]['percent'];
-foreach ($prepays as $prepay) {
-	if ((int) $prepay['percent'] === 30) {
-		$default_prepay = $prepay['percent'];
-		break;
-	}
-}
 $default_months = $periods[0]['months'];
 foreach ($periods as $period) {
 	if ((int) $period['months'] === 3) {
@@ -84,8 +94,8 @@ $stat_cell = 'flex flex-col gap-2 p-4 border-cynBorder dark:border-cynWhite/25 m
 $title_underline_class = 'flex items-center gap-2 pb-2 border-b border-cynBorder dark:border-white/25 w-fit';
 ?>
 
-<section class="container my-12 lg:my-20" data-product-installment data-price="<?php echo esc_attr((string) $price); ?>" data-rate="<?php echo esc_attr((string) $interest_rate); ?>" data-currency="<?php echo esc_attr($currency); ?>">
-	<div class="flex flex-col">
+<section class="<?php echo $wrap_container ? 'container my-12 lg:my-20' : 'w-full'; ?>" data-product-installment data-price="<?php echo esc_attr((string) $price); ?>" data-rate="<?php echo esc_attr((string) $interest_rate); ?>" data-currency="<?php echo esc_attr($currency); ?>">
+	<div class="flex flex-col gap-5">
 
 		<?php if ($image_url) : ?>
 			<div class="flex lg:hidden w-full items-center justify-center">
@@ -93,14 +103,7 @@ $title_underline_class = 'flex items-center gap-2 pb-2 border-b border-cynBorder
 			</div>
 		<?php endif; ?>
 
-		<div class="flex flex-col gap-2 md:gap-3 mt-5 mb-3 lg:mb-5">
-			<h2 class="text-2xl md:text-4xl font-medium text-cynTextPrimary leading-8 md:leading-14">
-				<?php echo esc_html($title); ?>
-			</h2>
-			<p class="text-sm md:text-2xl font-normal text-cynTextPrimary leading-6">
-				<?php echo esc_html($subtitle); ?>
-			</p>
-		</div>
+		<?php if (!empty($args['include_payment'])) Templates::getPart('landing-ads/payment'); ?>
 
 		<div class="flex flex-col-reverse lg:flex-row gap-3 items-stretch">
 			<div class="w-full lg:w-3/5 lg:shrink-0 rounded-3xl border border-cynBorderHover/40 bg-cynBgItem backdrop-blur-md p-4 transition-all duration-300 hover:border-cynBorderHover">
@@ -143,7 +146,7 @@ $title_underline_class = 'flex items-center gap-2 pb-2 border-b border-cynBorder
 									<?php echo esc_html($period_section_title); ?>
 								</span>
 							</div>
-							<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+							<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
 								<?php foreach ($periods as $period) :
 									$is_selected = (int) $period['months'] === (int) $default_months;
 								?>

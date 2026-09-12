@@ -23,6 +23,7 @@ import { ProductSingle } from "./functions/productSingle";
 import fancybox from "./modules/fancybox";
 import { ProductGallery } from "./functions/productGallery";
 import { StatCount } from "./functions/statCount";
+import { LandingAds } from "./functions/landingAds";
 
 Modals();
 register();
@@ -44,4 +45,5 @@ ProjectArchive();
 ProductSingle();
 ProductGallery();
 StatCount();
+LandingAds();
 fancybox();

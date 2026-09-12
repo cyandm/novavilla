@@ -11,6 +11,7 @@ $input_class = 'w-full rounded-xl border border-cynBorder dark:border-white/40 b
 $icon_wrap_class = 'size-7 shrink-0 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none text-cynBorderHover flex items-center justify-center [&_svg]:size-full [&_svg]:stroke-current [&_svg]:stroke-[1.5]';
 $channel_label_class = 'group flex items-center gap-2 rounded-xl border border-cynBorder dark:border-white/30 bg-white/8 backdrop-blur-md px-3 py-4 cursor-pointer transition-all duration-300 has-[:checked]:border-cynBorderHover';
 $channels = [
+	'phone' => __('درخواست مشاوره با تماس تلفنی', 'novavilla'),
 	'whatsapp' => __('درخواست مشاوره در واتساپ', 'novavilla'),
 	'telegram' => __('درخواست مشاوره در تلگرام', 'novavilla'),
 	'bale' => __('درخواست مشاوره در بله', 'novavilla'),
@@ -67,7 +68,7 @@ $channels = [
 							<?php Icon::print('check'); ?>
 						</i>
 					</span>
-					<input type="radio" name="channel" value="<?php echo esc_attr($value); ?>" class="sr-only" <?php checked($value, 'whatsapp'); ?> />
+					<input type="radio" name="channel" value="<?php echo esc_attr($value); ?>" class="sr-only" <?php checked($value, 'phone'); ?> />
 					<span class="text-sm md:text-base font-normal text-cynTextPrimary leading-5 group-has-[:checked]:text-cynBorderHover transition-all duration-300">
 						<?php echo esc_html($label); ?>
 					</span>
