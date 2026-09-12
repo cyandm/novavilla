@@ -57,11 +57,13 @@ if (!$has_faqs) {
 
         </div>
 
-        <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button hidden md:inline-flex">
-            <span>
-                <?php echo esc_html($faq_button_label); ?>
-            </span>
-        </a>
+        <div class="hidden md:block shrink-0">
+            <a href="<?php echo esc_url($faq_button['url'] ?? (!empty($faq_button_link) ? 'tel:' . $faq_button_link : '/contact-us')); ?>" class="primary-button">
+                <span>
+                    <?php echo esc_html($faq_button_label); ?>
+                </span>
+            </a>
+        </div>
 
     </div>
 

@@ -43,7 +43,7 @@ $total = count($product_ids);
 			</h2>
 		<?php endif; ?>
 		<div class="flex flex-wrap items-center gap-2">
-			<div class="flex flex-wrap gap-2" data-ads-filters data-ads-filter-group="area">
+			<div class="flex flex-wrap gap-1.5" data-ads-filters data-ads-filter-group="area">
 				<?php foreach ($area_filters as $i => $filter): ?>
 					<button type="button" data-ads-filter="<?php echo esc_attr($filter['key']); ?>" class="<?php echo esc_attr($btn_base . ' ' . ($i === 0 ? $btn_active : $btn_idle)); ?>">
 						<span>
@@ -110,7 +110,7 @@ $total = count($product_ids);
 				<span class="text-sm font-medium text-cynTextMuted">
 					<?php esc_html_e('متراژ', 'novavilla'); ?>
 				</span>
-				<div class="flex flex-wrap gap-2" data-ads-filters data-ads-filter-group="area">
+				<div class="flex flex-wrap gap-1.5" data-ads-filters data-ads-filter-group="area">
 					<?php foreach ($area_filters as $i => $filter): ?>
 						<button type="button" data-ads-filter="<?php echo esc_attr($filter['key']); ?>" class="<?php echo esc_attr($btn_base . ' ' . ($i === 0 ? $btn_active : $btn_idle)); ?>">
 							<span>
@@ -124,7 +124,7 @@ $total = count($product_ids);
 				<span class="text-sm font-medium text-cynTextMuted">
 					<?php esc_html_e('تعداد خواب', 'novavilla'); ?>
 				</span>
-				<div class="flex flex-wrap gap-2" data-ads-filters data-ads-filter-group="rooms">
+				<div class="flex flex-wrap gap-1.5" data-ads-filters data-ads-filter-group="rooms">
 					<?php foreach ($rooms_filters as $i => $filter): ?>
 						<button type="button" data-ads-filter="<?php echo esc_attr($filter['key']); ?>" class="<?php echo esc_attr($btn_base . ' ' . ($i === 0 ? $btn_active : $btn_idle)); ?>">
 							<span>

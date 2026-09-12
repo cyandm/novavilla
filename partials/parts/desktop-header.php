@@ -38,15 +38,15 @@ use Cyan\Theme\Helpers\Icon;
 
 		</div>
 
-		<div class="flex justify-end items-stretch gap-3">
+		<div class="flex justify-end items-stretch gap-3 min-w-0">
 			<?php if (!is_search()) : ?>
 				<?php Templates::getPart('searchbox', [
 					'id' => 'desktop-header-search',
-					'class' => 'hidden lg:flex items-center w-full max-w-[28rem]',
+					'class' => 'hidden lg:flex items-center min-w-0 w-full max-w-[12rem] xl:max-w-[18rem] 2xl:max-w-[28rem]',
 				]); ?>
 			<?php endif; ?>
 
-			<a href="tel:<?php echo get_option('phone_number'); ?>" class="primary-button !py-2.5 !ps-2.5 !pe-3.5 group">
+			<a href="tel:<?php echo get_option('phone_number'); ?>" class="primary-button shrink-0 !py-2.5 !ps-2.5 !pe-3.5 group">
 				<span class="flex items-center gap-0.5 whitespace-nowrap">
 					<i class="size-5 flex items-center justify-center [&_svg]:stroke-[1.5] [&_svg_g_path]:fill-cynTextSecondary group-hover:[&_svg_g_path]:fill-cynBlack">
 						<?php Icon::print('Phone,-Call-11'); ?>

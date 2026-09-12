@@ -19,7 +19,7 @@ $image = get_field('ads_hero_image');
 					<?php echo esc_html($eyebrow); ?>
 				</p>
 			<?php endif; ?>
-			<h1 class="text-3xl md:text-4xl font-black text-cynTextPrimary dark:text-cynWhite leading-tight md:leading-[64px]">
+			<h1 class="text-[1.625rem] md:text-4xl font-black text-cynTextPrimary dark:text-cynWhite leading-tight md:leading-[64px]">
 				<?php if ($titleBefore): ?><span><?php echo esc_html($titleBefore); ?></span><?php endif; ?>
 				<?php if ($titleHighlight): ?><span class="text-cynWhite dark:text-cynBorderHover"><?php echo esc_html($titleHighlight); ?></span><?php endif; ?>
 				<?php if ($titleAfter): ?><span><?php echo esc_html($titleAfter); ?></span><?php endif; ?>
